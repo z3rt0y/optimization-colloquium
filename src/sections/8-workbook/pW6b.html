@@ -1,0 +1,65 @@
+<article class="card taskc" id="pW6b" data-p="W6b">
+  <div class="card-head">
+    <div class="num">П6, часть 2 · тетрадь, с. 7</div>
+    <h3>Поиск шага по Армихо <span class="en">(Armijo backtracking)</span></h3>
+    <div class="meta"><span class="srcb matveeva">Матвеева files</span><button class="tag photo" type="button" data-photo="1">фото с. 6–7</button><span class="lvl l1">Colab: напрямую</span><span class="tag">№ 19</span><label class="chk known"><input type="checkbox" id="solved-W6b"> решено</label></div>
+  </div>
+  <div class="stmt"><div class="lbl">Условие</div>
+    <p>Для <span class="m">f(x) = x²</span>: начальная точка <span class="m">x = 2</span>, направление <span class="m">d = −4</span>, параметр <span class="m">c = 1/4</span>. Начни с <span class="m">α₀ = 1</span>, уменьшай шаг вдвое и остановись на первом принятом значении. Сначала запиши условие принятия шага. Таблица: попытка, шаг, левая часть условия, правая часть, принять или отклонить. Почему недостаточно проверять только уменьшение функции?</p>
+  </div>
+  <div class="qa" data-task="W6b"></div>
+  <details class="hint"><summary>Подсказка</summary><p>Условие Армихо: <span class="m">f(x + αd) ≤ f(x) + c·α·f′(x)·d</span>. Посчитай <span class="m">f′(2)·d</span> один раз, правая часть станет линейной функцией α.</p></details>
+  <details class="solution"><summary>Решение</summary><div class="sol">
+    <ol class="steps">
+      <li><span class="sn">Условие</span><div><p><span class="m">f(x + αd) ≤ f(x) + c·α·f′(x)·d</span>. Здесь <span class="m">f(2) = 4</span>, <span class="m">f′(2) = 4</span>, <span class="m">f′(2)·d = −16 &lt; 0</span> (d — направление спуска, это антиградиент). Правая часть: <span class="m">4 + ¼·α·(−16) = 4 − 4α</span>.</p></div></li>
+      <li><span class="sn">Попытка 1</span><div><p><span class="m">α = 1</span>: левая <span class="m">f(2 − 4) = f(−2) = 4</span>, правая <span class="m">4 − 4 = 0</span>. <span class="m">4 ≤ 0</span> — нет ⇒ <b>отклонить</b>.</p></div></li>
+      <li><span class="sn">Попытка 2</span><div><p><span class="m">α = 1/2</span>: левая <span class="m">f(0) = 0</span>, правая <span class="m">4 − 2 = 2</span>. <span class="m">0 ≤ 2</span> ⇒ <b>принять</b>. Третья попытка не нужна.</p></div></li>
+      <li><span class="sn">Итог</span><div><p><span class="m">x⁺ = 2 + ½·(−4) = 0</span> — ровно минимум <span class="m">x²</span>.</p></div></li>
+      <li><span class="sn">Почему мало «f уменьшилась»</span><div><p>При α = 1 точка перепрыгнула минимум: из 2 в −2, выигрыш ноль. Простое условие <span class="m">f(x⁺) &lt; f(x)</span> пропускает такие перелёты, если выигрыш хоть чуть-чуть больше нуля. Пример для <span class="m">f = x²</span>: <span class="m">xₖ = (−1)ᵏ(1 + 2⁻ᵏ)</span>. Значения <span class="m">f(xₖ)</span> строго убывают к 1, но точки прыгают между окрестностями −1 и 1 и к минимуму 0 не идут. Каждый такой шаг почти равен α ≈ 1, а выигрыш около <span class="m">2⁻ᵏ → 0</span>. Армихо требует выигрыш не меньше <span class="m">c·α·|f′(x)d|</span>: здесь это больше 1, и все эти шаги отклоняются (проверено кодом). Слишком мелкие шаги отсекает сам бэктрекинг: он начинает с α₀ и уменьшает шаг, только пока условие не выполнено.</p></div></li>
+    </ol>
+    <p><b>Ответ:</b> попытка 1 (α = 1): 4 против 0 — отклонить; попытка 2 (α = 1/2): 0 против 2 — принять; итоговая точка <span class="m">x = 0</span>.</p>
+  </div></details>
+  <section class="sec"><h4>В коде</h4>
+    <div class="codebox"><pre><code>import numpy as np
+
+
+def newton_step(grad, hess, x):
+    d = np.linalg.solve(hess(x), -grad(x))
+    return x + d
+
+
+def armijo(f, df, x, d, c=0.25, alpha=1.0, beta=0.5):
+    fx = f(x)
+    slope = df(x) * d
+    while f(x + alpha * d) &gt; fx + c * alpha * slope:
+        print("отклонить", alpha)
+        alpha = beta * alpha
+    print("принять", alpha)
+    return alpha
+
+
+def grad(p):
+    return np.array([4 * (p[0] - 3), 2 * (p[1] + 2)])
+
+
+def hess(p):
+    return np.array([[4.0, 0.0], [0.0, 2.0]])
+
+
+def f(t):
+    return t * t
+
+
+def df(t):
+    return 2 * t
+
+
+print(newton_step(grad, hess, np.array([5.0, 4.0])))
+a = armijo(f, df, 2.0, -4.0)
+print(2.0 + a * -4.0)</code></pre><div class="out"># [ 3. -2.]
+# отклонить 1.0
+# принять 0.5
+# 0.0</div></div>
+  </section>
+  <div class="widget" data-w="armijo1" id="warm1"><h4>Поиграй</h4><p class="how">Чёрная кривая — <span class="m">f(x + αd)</span> как функция шага, оранжевый пунктир — правая часть Армихо, серый — уровень f(x). Зелёная полоса на оси — шаги, которые принимаются. Запусти попытки по очереди, затем включи «только f уменьшилась» и сравни. Попробуй c ближе к 1 или <span class="m">d</span> не по антиградиенту.</p></div>
+</article>

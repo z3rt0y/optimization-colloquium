@@ -1,0 +1,61 @@
+<article class="card proof" id="t5" data-t="5">
+  <div class="card-head">
+    <div class="num">Теорема 5 · билеты 1, 12, 16</div>
+    <h3>Линейная сходимость градиентного спуска <span class="en">(linear convergence of GD)</span></h3>
+    <div class="meta"><span class="srcb baulin">Баулин files</span><span class="lvl l1">Colab: напрямую</span><span class="tag">Лекция 3, сл. 14–15 · Лекция 2, сл. 34–37</span><label class="chk known"><input type="checkbox" id="known-t5"> знаю</label></div>
+  </div>
+  <div class="exam"><div class="lbl">Формулировка · часть 2, 3 балла <span class="hint">нажми, чтобы открыть</span></div><div class="body">
+    <p>Пусть f µ-сильно выпукла и L-гладкая, шаг <span class="m">α = 1/L</span>. Тогда</p>
+    <div class="eq">f(xₖ) − f⋆ ≤ (1 − µ/L)ᵏ (f(x₀) − f⋆).</div>
+  </div></div>
+  <section class="sec"><h4>Идея</h4>
+    <p>Сильная выпуклость даёт условие PL: «градиент большой, если далеко от оптимума» (№ 16). Лемма о спуске говорит: «шаг уменьшает f пропорционально ‖∇f‖²». Вместе: каждый шаг съедает фиксированную долю <span class="m">µ/L</span> оставшейся ошибки, получается геометрическая прогрессия.</p>
+  </section>
+  <section class="sec"><h4>Доказательство</h4>
+    <div class="steps-wrap">
+      <ol class="steps">
+        <li><span class="sn">Шаг 1</span><div><p><b>Сильная выпуклость даёт нижнюю модель.</b> По определению (бонус теоремы 2) для любых y</p><div class="eq">f(y) ≥ q(y) := f(x) + ⟨∇f(x), y − x⟩ + (µ/2)‖y − x‖².</div></div></li>
+        <li><span class="sn">Шаг 2</span><div><p>q — квадратичная функция от y. Из <span class="m">∇q(y) = ∇f(x) + µ(y − x) = 0</span> находим <span class="m">y = x − ∇f(x)/µ</span> и</p><div class="eq">min<sub>y</sub> q(y) = f(x) − ‖∇f‖²/µ + ‖∇f‖²/(2µ) = f(x) − ‖∇f(x)‖²/(2µ).</div></div></li>
+        <li><span class="sn">Шаг 3</span><div><p>Берём <span class="m">y = x⋆</span>: <span class="m">f⋆ = f(x⋆) ≥ q(x⋆) ≥ min q</span>. Значит</p><div class="eq">f⋆ ≥ f(x) − ‖∇f(x)‖²/(2µ) &nbsp;⇔&nbsp; ‖∇f(x)‖² ≥ 2µ(f(x) − f⋆).</div><p>Это условие Поляка–Лоясевича.</p></div></li>
+        <li><span class="sn">Шаг 4</span><div><p><b>Убывание за шаг.</b> Из теоремы 4 при α = 1/L: <span class="m">f(xₖ₊₁) ≤ f(xₖ) − ‖∇f(xₖ)‖²/(2L)</span>.</p></div></li>
+        <li><span class="sn">Шаг 5</span><div><p><b>Комбинируем.</b> Подставляем нижнюю оценку градиента. Член стоит со знаком минус, поэтому замена ‖∇f‖² на меньшую величину только увеличивает правую часть, и неравенство сохраняется:</p><div class="eq">f(xₖ₊₁) ≤ f(xₖ) − (1/2L)·2µ(f(xₖ) − f⋆) = f(xₖ) − (µ/L)(f(xₖ) − f⋆).</div></div></li>
+        <li><span class="sn">Шаг 6</span><div><p>Вычитаем f⋆: <span class="m">f(xₖ₊₁) − f⋆ ≤ (1 − µ/L)(f(xₖ) − f⋆)</span>, и применяем это k раз. <span class="qed">■</span></p></div></li>
+      </ol>
+    </div>
+  </section>
+  <section class="sec"><h4>Что спрашивают на коллоквиуме</h4>
+    <ul>
+      <li><b>Где использована сильная выпуклость?</b> Только через PL (шаги 1–3). Поэтому теорема верна для любой L-гладкой функции с условием PL, даже невыпуклой (лекция 3, сл. 15; № 16).</li>
+      <li><b>Как множитель связан с κ?</b> <span class="m">1 − µ/L = 1 − 1/κ</span>: чем больше число обусловленности (№ 15), тем ближе множитель к 1 и тем медленнее сходимость.</li>
+      <li><b>Почему множитель в [0, 1)?</b> Всегда <span class="m">µ ≤ L</span>, так как <span class="m">µI ⪯ ∇²f ⪯ LI</span>.</li>
+      <li><b>Оценка точная?</b> Для квадратичной функции ошибка по f падает быстрее, примерно как <span class="m">(1 − µ/L)²</span> за шаг (в таблице кода ниже 0.5625 = 0.75²). Теорема даёт гарантию, а не точную скорость.</li>
+    </ul>
+  </section>
+  <section class="sec"><h4>В коде</h4>
+    <div class="codebox"><pre><code>import numpy as np
+
+q = np.diag([1.0, 4.0])
+mu = 1.0
+lip = 4.0
+x = np.array([2.0, 1.0])
+gap = 0.5 * x @ q @ x
+for i in range(5):
+    x = x - (q @ x) / lip
+    new_gap = 0.5 * x @ q @ x
+    print(i + 1, new_gap, new_gap / gap, "&lt;=", 1 - mu / lip)
+    gap = new_gap</code></pre><div class="out"># 1 1.125   0.28125 &lt;= 0.75
+# 2 0.6328  0.5625  &lt;= 0.75   ← дальше каждый шаг 0.5625 = 0.75²</div></div>
+  </section>
+  <section class="sec"><h4>Проверь на числах</h4>
+    <div class="task">
+      <p><span class="m">f = ½(x² + 4y²)</span>: µ = 1, L = 4, α = 1/4, x₀ = (2, 1). Проверь по шагам доказательства: PL в x₀, убывание из шага 4, итоговую оценку для f(x₁).</p>
+      <details><summary>Решение</summary><div class="sol">
+        <p><span class="m">f₀ = ½(4 + 4) = 4</span>, f⋆ = 0, <span class="m">∇f(x₀) = (2, 4)</span>, <span class="m">‖∇f‖² = 20</span>.</p>
+        <p>PL: <span class="m">20 ≥ 2µ(f₀ − f⋆) = 8</span> ✓.</p>
+        <p><span class="m">x₁ = (2 − 0.5, 1 − 1) = (1.5, 0)</span>, <span class="m">f₁ = 1.125</span>. Шаг 4: <span class="m">f₁ ≤ 4 − 20/8 = 1.5</span> ✓.</p>
+        <p>Итог: <span class="m">f₁ − f⋆ ≤ (1 − 1/4)·4 = 3</span> ✓, оценка выполнена с запасом.</p>
+      </div></details>
+    </div>
+  </section>
+  <div class="widget" data-w="pf5" id="wt5"><h4>Поиграй</h4><p class="how">GD с α = 1/L. Тащи старт на карте, меняй µ и L. Таблица проверяет каждое звено доказательства на каждой итерации: PL (шаг 3), убывание (шаг 4), итоговый множитель (шаг 6). Справа ошибка в логарифмической шкале против гарантии. Вторая функция неквадратичная: там µ = 1, L ≈ 5.30.</p></div>
+</article>

@@ -1,0 +1,24 @@
+<header class="hero">
+  <div>
+    <div class="eyebrow">Методы оптимизации · коллоквиум по лекциям 1–5</div>
+    <h1>24 определения <span>к&nbsp;коллоквиуму</span></h1>
+    <p class="lead">Каждое определение стоит ровно в 5 билетах из 20. Блокирующая часть требует 4 верных ответа из 6, поэтому слабых мест быть не должно. В карточке: формулировка на 0.5 балла, интуиция, тонкости, что из этого делается в коде, задачка с решением и живой график, где можно крутить все параметры. Ниже — разбор всех 7 доказательств второй части, задачи третьей части по семинару 7 и рабочая тетрадь с двумя пробными билетами.</p>
+    {{HERO_LINKS}}
+    <div class="toolbar" role="group" aria-label="Режимы просмотра">
+      <label for="ticket-sel">Билет</label>
+      <select id="ticket-sel">
+        <option value="0">все 24 определения</option>
+        <option value="1">Билет 1</option><option value="2">Билет 2</option><option value="3">Билет 3</option><option value="4">Билет 4</option><option value="5">Билет 5</option>
+        <option value="6">Билет 6</option><option value="7">Билет 7</option><option value="8">Билет 8</option><option value="9">Билет 9</option><option value="10">Билет 10</option>
+        <option value="11">Билет 11</option><option value="12">Билет 12</option><option value="13">Билет 13</option><option value="14">Билет 14</option><option value="15">Билет 15</option>
+        <option value="16">Билет 16</option><option value="17">Билет 17</option><option value="18">Билет 18</option><option value="19">Билет 19</option><option value="20">Билет 20</option>
+      </select>
+      <label class="chk"><input type="checkbox" id="opt-quiz"> Самопроверка</label>
+      <label class="chk"><input type="checkbox" id="opt-compact"> Только формулировки</label>
+      <label class="chk"><input type="checkbox" id="opt-hide"> Скрыть выученные</label>
+      <label class="sel theme" for="opt-theme">Тема <select id="opt-theme"><option value="auto">как в системе</option><option value="light">светлая</option><option value="dark">тёмная</option></select></label>
+      <span class="progress">Знаю:<span class="pg" id="pg-n"> определения <b id="prog-n">0</b>/<span id="prog-n-tot">24</span></span><span class="pg" id="pg-t"> · теоремы <b id="prog-t">0</b>/<span id="prog-t-tot">7</span></span><span class="pg" id="pg-p"> · задачи <b id="prog-p">0</b>/<span id="prog-p-tot">20</span></span></span>
+    </div>
+  </div>
+  <div class="hero-art" aria-hidden="true"><canvas id="hero-cv"></canvas></div>
+</header>

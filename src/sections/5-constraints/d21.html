@@ -1,0 +1,45 @@
+<article class="card" id="d21" data-d="21">
+  <div class="card-head">
+    <div class="num">№ 21</div>
+    <h3>Активное ограничение <span class="en">(active constraint)</span></h3>
+    <div class="meta"><span class="lvl l1">Colab: напрямую</span><span class="tag">Лекция 2 (вторая часть) · Nocedal &amp; Wright, опр. 12.1</span><span class="tag tickets"></span><label class="chk known"><input type="checkbox" id="known-21"> знаю</label></div>
+  </div>
+  <div class="exam"><div class="lbl">На коллоквиуме · 0.5 балла <span class="hint">нажми, чтобы открыть</span></div><div class="body">
+    <p>Рассмотрим задачу с ограничениями-неравенствами <span class="m">gᵢ(x) ≤ 0</span>. Ограничение i активно (active constraint) в допустимой точке x, если</p>
+    <div class="eq">gᵢ(x) = 0,</div>
+    <p>и неактивно, если <span class="m">gᵢ(x) &lt; 0</span>. Множество активных ограничений (active set) <span class="m">A(x) = {i : gᵢ(x) = 0}</span>. Ограничения-равенства <span class="m">hⱼ(x) = 0</span> в допустимой точке активны всегда.</p>
+  </div></div>
+  <section class="sec"><h4>Интуиция</h4>
+    <p>Активное ограничение — стенка, в которую ты упёрся. Неактивное — стенка где-то вдали: если чуть пошевелиться, ты её не почувствуешь. Локально важны только активные.</p>
+  </section>
+  <section class="sec"><h4>Подробнее</h4>
+    <ul>
+      <li>Неактивные ограничения можно выбросить, и x⋆ останется локальным минимумом: в малой окрестности они выполняются автоматически (по непрерывности gᵢ).</li>
+      <li>Дополняющая нежёсткость в ККТ (№ 23): <span class="m">λᵢgᵢ(x⋆) = 0</span> ⇒ у неактивных ограничений <span class="m">λᵢ = 0</span>. Ненулевые множители бывают только у активных.</li>
+      <li>Допустимые направления многогранника (№ 9) определяются только активными ограничениями: <span class="m">aᵢᵀd ≤ 0</span> для <span class="m">i ∈ A(x)</span>.</li>
+      <li>Если бы активное множество в x⋆ было известно заранее, неравенства превратились бы в равенства. На этом построены методы активного множества (active-set methods) для QP.</li>
+      <li>В численном коде «активно» проверяют с допуском: <span class="m">|gᵢ(x)| ≤ ε</span>.</li>
+    </ul>
+  </section>
+  <section class="sec"><h4>В задачах и в коде</h4>
+    <p>SVM: опорные векторы (support vectors) — ровно те объекты, у которых ограничение <span class="m">yᵢ(wᵀxᵢ + b) ≥ 1</span> активно; остальные объекты на решение не влияют. Бюджетное ограничение в портфеле активно (binding), если весь бюджет израсходован. В L-BFGS-B переменные, прижатые к границе ящика, — активные ограничения (лекция 5, сл. 22).</p>
+    <div class="codebox"><pre><code>import numpy as np
+
+a = np.array([[1.0, 1.0], [-1.0, 0.0], [0.0, -1.0]])
+b = np.array([3.0, 0.0, 0.0])
+x = np.array([2.0, 1.0])
+slack = a @ x - b
+active = np.where(np.abs(slack) &lt; 1e-9)[0]
+print(slack, active)</code></pre><div class="out"># [ 0. -2. -1.] [0]   ← активно только первое ограничение</div></div>
+  </section>
+  <section class="sec"><h4>Посчитай руками</h4>
+    <div class="task">
+      <p>Задача P (она же в № 22–24): <span class="m">min (x₁ − 3)² + (x₂ − 2)²</span> при <span class="m">g₁ = x₁ + x₂ − 3 ≤ 0</span>, <span class="m">g₂ = −x₁ ≤ 0</span>, <span class="m">g₃ = −x₂ ≤ 0</span>. Определи активные ограничения в точках <span class="m">(2, 1)</span>, <span class="m">(0, 0)</span>, <span class="m">(0, 3)</span>, <span class="m">(1, 1)</span>.</p>
+      <details><summary>Решение</summary><div class="sol">
+        <p><span class="m">(2, 1)</span>: <span class="m">g = (0, −2, −1)</span> ⇒ <span class="m">A = {1}</span>. <span class="m">(0, 0)</span>: <span class="m">g = (−3, 0, 0)</span> ⇒ <span class="m">A = {2, 3}</span>. <span class="m">(0, 3)</span>: <span class="m">g = (0, 0, −3)</span> ⇒ <span class="m">A = {1, 2}</span> (вершина). <span class="m">(1, 1)</span>: <span class="m">g = (−1, −1, −1)</span> ⇒ <span class="m">A = ∅</span>, внутренняя точка.</p>
+        <p>Точка <span class="m">(2, 1)</span> — решение задачи P; это проверяется в № 23.</p>
+      </div></details>
+    </div>
+  </section>
+  <div class="widget" data-w="active" id="w21"><h4>Поиграй</h4><p class="how">Тащи точку x: у границы она прилипает. Таблица показывает gᵢ(x) и статус каждого ограничения, активные стенки выделены. Попробуй три вершины треугольника, середину стороны и точку снаружи.</p></div>
+</article>

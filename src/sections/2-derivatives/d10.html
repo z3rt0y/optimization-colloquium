@@ -1,0 +1,50 @@
+<article class="card" id="d10" data-d="10">
+  <div class="card-head">
+    <div class="num">№ 10</div>
+    <h3>Положительно определённая и полуопределённая матрица <span class="en">(positive definite and positive semidefinite matrix)</span></h3>
+    <div class="meta"><span class="lvl l1">Colab: напрямую</span><span class="tag">Renegar §1.1 · Лекция 2, сл. 16, 26</span><span class="tag tickets"></span><label class="chk known"><input type="checkbox" id="known-10"> знаю</label></div>
+  </div>
+  <div class="exam"><div class="lbl">На коллоквиуме · 0.5 балла <span class="hint">нажми, чтобы открыть</span></div><div class="body">
+    <p>Симметричная матрица <span class="m">A ∈ ℝⁿˣⁿ</span></p>
+    <ul>
+      <li>положительно полуопределённая (positive semidefinite, <span class="m">A ⪰ 0</span>), если <span class="m">xᵀAx ≥ 0</span> для всех <span class="m">x ∈ ℝⁿ</span>;</li>
+      <li>положительно определённая (positive definite, <span class="m">A ≻ 0</span>), если <span class="m">xᵀAx &gt; 0</span> для всех <span class="m">x ≠ 0</span>.</li>
+    </ul>
+    <p>Эквивалентно (Renegar §1.1): все собственные значения <span class="m">λᵢ ≥ 0</span> (для <span class="m">⪰ 0</span>) или <span class="m">λᵢ &gt; 0</span> (для <span class="m">≻ 0</span>).</p>
+  </div></div>
+  <section class="sec"><h4>Интуиция</h4>
+    <p>Квадратичная форма <span class="m">q(x) = xᵀAx</span> — поверхность над плоскостью. <span class="m">≻ 0</span> — чаша, поднимающаяся в любом направлении; <span class="m">⪰ 0</span> — чаша с плоским жёлобом (есть направление, где форма не растёт); знаконеопределённая — седло; отрицательно определённая — купол.</p>
+  </section>
+  <section class="sec"><h4>Подробнее</h4>
+    <ul>
+      <li>Критерий Сильвестра (Sylvester's criterion): <span class="m">A ≻ 0</span> ⇔ все ведущие (угловые) главные миноры положительны. Для <span class="m">[[a, b], [b, c]]</span>: <span class="m">a &gt; 0</span> и <span class="m">ac − b² &gt; 0</span>.</li>
+      <li>Ловушка: для <span class="m">⪰ 0</span> не хватает неотрицательности ведущих миноров, нужны все главные миноры. Пример <span class="m">A = [[0, 0], [0, −1]]</span>: ведущие миноры 0 и 0, но <span class="m">xᵀAx = −x₂² &lt; 0</span> при <span class="m">x = (0, 1)</span>. В виджете есть кнопка с этим примером.</li>
+      <li><span class="m">A ≻ 0</span> ⇒ A обратима и задаёт скалярное произведение <span class="m">⟨u, v⟩<sub>A</sub> = uᵀAv</span> (Renegar §1.1). <span class="m">A ⪰ 0</span> может быть вырожденной.</li>
+      <li>Запись <span class="m">A ⪰ µI</span> означает <span class="m">λmin(A) ≥ µ</span>. На этом языке формулируются сильная выпуклость <span class="m">∇²f ⪰ µI</span> (№ 13) и гладкость <span class="m">∇²f ⪯ LI</span> (№ 14).</li>
+    </ul>
+  </section>
+  <section class="sec"><h4>В задачах и в коде</h4>
+    <p>Ковариационные матрицы и матрицы Грама ядер всегда <span class="m">⪰ 0</span>. Гессиан <span class="m">≻ 0</span> в стационарной точке гарантирует строгий минимум (№ 3). Ньютоновское направление — направление спуска, только если <span class="m">H ≻ 0</span> (№ 20). В Colab быстрее всего проверять разложением Холецкого (Cholesky): оно существует ровно для <span class="m">≻ 0</span>.</p>
+    <div class="codebox"><pre><code>import numpy as np
+
+a = np.array([[2.0, -1.0], [-1.0, 2.0]])
+print(np.linalg.eigvalsh(a))
+try:
+    np.linalg.cholesky(a)
+    print("PD")
+except np.linalg.LinAlgError:
+    print("not PD")</code></pre><div class="out"># [1. 3.]
+# PD</div></div>
+  </section>
+  <section class="sec"><h4>Посчитай руками</h4>
+    <div class="task">
+      <p>Определи знакоопределённость <span class="m">A = [[2, −1], [−1, 2]]</span>, <span class="m">B = [[1, 2], [2, 1]]</span>, <span class="m">C = [[1, 1], [1, 1]]</span>.</p>
+      <details><summary>Решение</summary><div class="sol">
+        <p>A: <span class="m">a = 2 &gt; 0</span>, <span class="m">det = 4 − 1 = 3 &gt; 0</span> ⇒ <span class="m">A ≻ 0</span> (собственные значения 1 и 3). Напрямую: <span class="m">xᵀAx = 2x₁² − 2x₁x₂ + 2x₂² = x₁² + x₂² + (x₁ − x₂)² &gt; 0</span> при <span class="m">x ≠ 0</span>.</p>
+        <p>B: <span class="m">det = 1 − 4 = −3 &lt; 0</span> ⇒ знаконеопределена (собственные значения 3 и −1). При <span class="m">x = (1, −1)</span>: <span class="m">xᵀBx = 1 − 4 + 1 = −2 &lt; 0</span>.</p>
+        <p>C: главные миноры 1, 1, 0 ≥ 0 ⇒ <span class="m">C ⪰ 0</span>; <span class="m">det = 0</span> ⇒ не <span class="m">≻ 0</span> (собственные значения 0 и 2). При <span class="m">x = (1, −1)</span> форма равна 0.</p>
+      </div></details>
+    </div>
+  </section>
+  <div class="widget" data-w="quadform" id="w10"><h4>Поиграй</h4><p class="how">Задай матрицу [[a, b], [b, c]] ползунками или кнопками. Синее — где форма положительна, оранжевое — где отрицательна, жирная линия — нулевой уровень. Справа та же поверхность в 3D, её можно вращать.</p></div>
+</article>

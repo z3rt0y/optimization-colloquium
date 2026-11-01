@@ -1,0 +1,56 @@
+<article class="card taskc mock" id="pTB" data-p="TB">
+  <div class="card-head">
+    <div class="num">Пробный билет Б · тетрадь, с. 11</div>
+    <h3>Пробный билет Б <span class="en">(mock ticket B)</span></h3>
+    <div class="meta"><span class="srcb matveeva">Матвеева files</span><button class="tag photo" type="button" data-photo="3">фото с. 10–11</button><span class="tag">20 мин письменно + 5 мин защиты в паре</span><label class="chk known"><input type="checkbox" id="solved-TB"> сдан</label></div>
+  </div>
+  <p class="k-mut">Альтернативный вариант или повторная попытка после разбора билета А. Решения пиши на отдельном листе.</p>
+  <div class="widget" data-w="timer" id="wtB"><h4>Таймер</h4></div>
+  <section class="sec"><h4>Часть 1 · шесть определений</h4>
+    <p>Дай точные определения: глобальный минимум; градиент через линейное приближение; сильная выпуклость; число обусловленности; лагранжиан; двойственная функция и двойственная задача.</p>
+    <ol class="defcheck" data-defs="4,5,13,15,22,24" data-id="TB"></ol>
+  </section>
+  <section class="sec"><h4>Часть 2 · теорема с доказательством</h4>
+    <p>Сформулируй и докажи достаточность условий ККТ для глобального минимума выпуклой задачи. Назови роль каждого условия.</p>
+    <details class="plan"><summary>План ответа для самопроверки</summary>
+      <ol>
+        <li>Условия: f, gᵢ выпуклы, hⱼ аффинны, <span class="m">(x⋆, λ⋆, ν⋆)</span> удовлетворяет ККТ. Обозначим <span class="m">ℒ(x) := ℒ(x, λ⋆, ν⋆)</span>.</li>
+        <li><b>Двойственная допустимость</b> <span class="m">λ⋆ ≥ 0</span> вместе с выпуклостью gᵢ и аффинностью hⱼ делает ℒ(x) выпуклой по x.</li>
+        <li><b>Стационарность</b> <span class="m">∇ℒ(x⋆) = 0</span> плюс выпуклость ⇒ x⋆ — глобальный минимум ℒ (критерий 1-го порядка, теорема 1): <span class="m">ℒ(x) ≥ ℒ(x⋆)</span>.</li>
+        <li>Для любого допустимого x: <span class="m">λᵢ⋆gᵢ(x) ≤ 0</span> (здесь снова нужна <b>двойственная допустимость</b>) и <span class="m">νⱼ⋆hⱼ(x) = 0</span> ⇒ <span class="m">f(x) ≥ ℒ(x)</span>.</li>
+        <li><b>Дополняющая нежёсткость</b> <span class="m">λᵢ⋆gᵢ(x⋆) = 0</span> и <b>прямая допустимость</b> <span class="m">hⱼ(x⋆) = 0</span> ⇒ <span class="m">ℒ(x⋆) = f(x⋆)</span>. Прямая допустимость ещё и гарантирует, что x⋆ — кандидат.</li>
+        <li>Цепочка: <span class="m">f(x) ≥ ℒ(x) ≥ ℒ(x⋆) = f(x⋆)</span> для любого допустимого x ⇒ x⋆ — глобальный минимум.</li>
+      </ol>
+      <p><a href="#t7">Полное доказательство по шагам: теорема 7</a></p>
+    </details>
+  </section>
+  <div class="stmt"><div class="lbl">Задача 1</div>
+    <p class="eqc"><span class="m">f(x, y) = 2x² − 2xy + 2y² − 6x + 6y</span></p>
+    <p>Найди стационарные точки и определи их тип с обоснованием. Уточни глобальность и единственность. Дополнительно: чему равны µ, L, κ и стандартный шаг? <button class="btn small" type="button" data-load="wq2:TB1">Открыть в калькуляторе</button></p>
+  </div>
+  <div class="qa" data-task="TB1"></div>
+  <details class="solution"><summary>Решение задачи 1</summary><div class="sol">
+    <ol class="steps">
+      <li><span class="sn">Градиент</span><div><p><span class="m">∇f = (4x − 2y − 6, &nbsp;−2x + 4y + 6)</span>.</p></div></li>
+      <li><span class="sn">Система</span><div><p><span class="m">4x − 2y = 6</span>, <span class="m">−2x + 4y = −6</span>. Складываем: <span class="m">2x + 2y = 0</span> ⇒ <span class="m">y = −x</span> ⇒ <span class="m">6x = 6</span> ⇒ <span class="m">x⋆ = (1, −1)</span>.</p></div></li>
+      <li><span class="sn">Гессиан</span><div><p><span class="m">H = [[4, −2], [−2, 4]]</span>: <span class="m">Δ₁ = 4 &gt; 0</span>, <span class="m">det = 12 &gt; 0</span> ⇒ <span class="m">H ≻ 0</span>. <span class="m">λ = 2</span> (вектор (1, 1)) и <span class="m">6</span> (вектор (1, −1)).</p></div></li>
+      <li><span class="sn">Тип</span><div><p>Строгий минимум; глобальный и единственный (f сильно выпукла).</p></div></li>
+      <li><span class="sn">Значение</span><div><p><span class="m">f(1, −1) = 2 + 2 + 2 − 6 − 6 = −6</span>. Проверка: <span class="m">∇f(1, −1) = (4 + 2 − 6, −2 − 4 + 6) = (0, 0)</span> ✓.</p></div></li>
+      <li><span class="sn">µ, L, κ</span><div><p><span class="m">µ = 2</span>, <span class="m">L = 6</span>, <span class="m">κ = 3</span>; стандартный шаг <span class="m">1/6</span>, безопасно <span class="m">0 &lt; α &lt; 1/3</span>.</p></div></li>
+    </ol>
+  </div></details>
+  <div class="stmt"><div class="lbl">Задача 2</div>
+    <p class="eqc"><span class="m">f(x, y) = x² + xy + y², &nbsp; x₀ = (6, 0), &nbsp; α = 1/3</span></p>
+    <p>Выполни три шага, укажи градиенты и значения функции. Найди L и проверь шаг. Объясни поведение через собственные направления. <button class="btn small" type="button" data-load="wg2:TB2">Открыть в калькуляторе</button></p>
+  </div>
+  <div class="qa" data-task="TB2"></div>
+  <details class="solution"><summary>Решение задачи 2</summary><div class="sol">
+    <ol class="steps">
+      <li><span class="sn">Данные</span><div><p><span class="m">∇f = (2x + y, &nbsp;x + 2y)</span>, <span class="m">H = [[2, 1], [1, 2]]</span>, <span class="m">λ = 1</span> (вектор (1, −1)) и <span class="m">3</span> (вектор (1, 1)). <span class="m">L = 3</span>, <span class="m">2/L = 2/3 &gt; α = 1/3</span> ⇒ шаг безопасен; это <span class="m">α = 1/L</span>.</p></div></li>
+      <li><span class="sn">k = 0</span><div><p><span class="m">x₀ = (6, 0)</span>, <span class="m">∇f = (12, 6)</span>, <span class="m">f = 36</span>; <span class="m">x₁ = (6 − 4, 0 − 2) = (2, −2)</span>.</p></div></li>
+      <li><span class="sn">k = 1</span><div><p><span class="m">∇f(2, −2) = (2, −2)</span>, <span class="m">f(x₁) = 4</span>; <span class="m">x₂ = (4/3, −4/3)</span>.</p></div></li>
+      <li><span class="sn">k = 2</span><div><p><span class="m">∇f(x₂) = (4/3, −4/3)</span>, <span class="m">f(x₂) = 16/9 ≈ 1.7778</span>; <span class="m">x₃ = (8/9, −8/9)</span>, <span class="m">f(x₃) = 64/81 ≈ 0.7901</span>.</p></div></li>
+      <li><span class="sn">Поведение</span><div><p><span class="m">x₀ = 3·(1, 1) + 3·(1, −1)</span>. Компонента вдоль (1, 1) (λ = 3) умножается на <span class="m">1 − 3·(1/3) = 0</span> и исчезает за первый шаг: x₁ уже лежит на прямой y = −x. Компонента вдоль (1, −1) (λ = 1) умножается на <span class="m">2/3</span>: <span class="m">xₖ = 3·(2/3)ᵏ·(1, −1)</span>. После первого шага f убывает в 9/4 раза: <span class="m">f = 9·(4/9)ᵏ</span>, то есть 4, 16/9, 64/81. Колебаний нет: оба множителя ≥ 0.</p></div></li>
+    </ol>
+  </div></details>
+</article>

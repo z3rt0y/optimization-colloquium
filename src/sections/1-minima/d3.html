@@ -1,0 +1,46 @@
+<article class="card" id="d3" data-d="3">
+  <div class="card-head">
+    <div class="num">№ 3</div>
+    <h3>Строгий локальный минимум <span class="en">(strict local minimum)</span></h3>
+    <div class="meta"><span class="lvl l2">Colab: для проверки</span><span class="tag">Лекция 1, сл. 12, 19</span><span class="tag tickets"></span><label class="chk known"><input type="checkbox" id="known-3"> знаю</label></div>
+  </div>
+  <div class="exam"><div class="lbl">На коллоквиуме · 0.5 балла <span class="hint">нажми, чтобы открыть</span></div><div class="body">
+    <p>Точка <span class="m">x* ∈ Ω</span> — строгий локальный минимум (strict local minimum), если существует <span class="m">ε &gt; 0</span> такое, что</p>
+    <div class="eq">f(x) &gt; f(x*) для всех x ∈ Ω, x ≠ x*, ‖x − x*‖ &lt; ε.</div>
+    <p>То есть в определении локального минимума нестрогое <span class="m">≥</span> заменено на строгое <span class="m">&gt;</span> для всех точек окрестности, кроме самой x*.</p>
+  </div></div>
+  <section class="sec"><h4>Интуиция</h4>
+    <p>Дно ямки — единственная точка. У нестрогого минимума дно плоское: плато или жёлоб, и рядом есть точки с тем же значением.</p>
+  </section>
+  <section class="sec"><h4>Подробнее</h4>
+    <ul>
+      <li>Достаточное условие 2-го порядка (second-order sufficient condition, теорема билетов 3, 8, 15; лекция 1, сл. 19): если <span class="m">∇f(x*) = 0</span> и <span class="m">∇²f(x*) ≻ 0</span> (№ 10), то x* — строгий локальный минимум.</li>
+      <li>Это условие не необходимое: у <span class="m">x⁴</span> в нуле строгий минимум, хотя <span class="m">f″(0) = 0</span>.</li>
+      <li>Нестрогие примеры: константа; <span class="m">max(0, |x| − 1)²</span> — минимум в каждой точке <span class="m">[−1, 1]</span>; <span class="m">f(x, y) = x²</span> — минимумы на всей прямой <span class="m">x = 0</span> (этот пример есть в лекции 2 про условие PL, № 16).</li>
+      <li>Строго выпуклая функция (№ 13) имеет не более одного минимизатора (Renegar §1.4), и он автоматически строгий.</li>
+    </ul>
+  </section>
+  <section class="sec"><h4>В задачах и в коде</h4>
+    <p>Строгость означает, что решение единственное хотя бы локально. Пример — линейная регрессия с коллинеарными признаками: <span class="m">XᵀX</span> вырождена, минимумы образуют прямую, коэффициенты неидентифицируемы. Ridge-регуляризация добавляет <span class="m">λI</span> к гессиану и делает минимум строгим. В Colab это видно по собственным значениям гессиана:</p>
+    <div class="codebox"><pre><code>import numpy as np
+
+rng = np.random.default_rng(0)
+a = rng.normal(size=100)
+x = np.column_stack([a, 2 * a])
+h = x.T @ x / len(x)
+print(np.linalg.eigvalsh(h))
+lam = 0.1
+print(np.linalg.eigvalsh(h + lam * np.eye(2)))</code></pre><div class="out"># [0.     4.6614]   ← нулевое собственное значение: минимум нестрогий
+# [0.1    4.7614]   ← после ridge все &gt; 0: минимум строгий</div></div>
+  </section>
+  <section class="sec"><h4>Посчитай руками</h4>
+    <div class="task">
+      <p>1) <span class="m">f(x, y) = x² + xy + y² − 3x</span>. Найди стационарную точку и проверь достаточное условие. 2) <span class="m">f(x, y) = (x − y)²</span>. Строгий ли у неё минимум?</p>
+      <details><summary>Решение</summary><div class="sol">
+        <p>1) <span class="m">∇f = (2x + y − 3, x + 2y) = 0</span> ⇒ <span class="m">x = −2y</span>, <span class="m">−4y + y = 3</span> ⇒ <span class="m">y = −1, x = 2</span>. <span class="m">∇²f = [[2, 1], [1, 2]]</span>, собственные значения 1 и 3 &gt; 0 ⇒ <span class="m">∇²f ≻ 0</span> ⇒ <span class="m">(2, −1)</span> — строгий локальный минимум, <span class="m">f = 4 − 2 + 1 − 6 = −3</span>.</p>
+        <p>2) <span class="m">∇f = (2(x − y), −2(x − y)) = 0</span> на всей прямой <span class="m">x = y</span>, там же <span class="m">f = 0</span>. Гессиан <span class="m">[[2, −2], [−2, 2]]</span> имеет собственные значения 0 и 4, то есть только <span class="m">⪰ 0</span>. Каждая точка прямой — минимум, но нестрогий: вдоль прямой f не растёт.</p>
+      </div></details>
+    </div>
+  </section>
+  <div class="widget" data-w="minima" data-preset="plateau" id="w3"><h4>Поиграй</h4><p class="how">Здесь функция с плоским дном. Поставь x* внутрь отрезка [−1, 1]: минимум локальный, но нестрогий. Переключи функцию на «x⁴»: в нуле минимум строгий, хотя f″(0) = 0.</p></div>
+</article>

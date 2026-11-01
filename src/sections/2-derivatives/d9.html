@@ -1,0 +1,45 @@
+<article class="card" id="d9" data-d="9">
+  <div class="card-head">
+    <div class="num">№ 9</div>
+    <h3>Допустимое направление <span class="en">(feasible direction)</span></h3>
+    <div class="meta"><span class="lvl l2">Colab: для проверки</span><span class="tag">Лекция 1, сл. 16–18</span><span class="tag tickets"></span><label class="chk known"><input type="checkbox" id="known-9"> знаю</label></div>
+  </div>
+  <div class="exam"><div class="lbl">На коллоквиуме · 0.5 балла <span class="hint">нажми, чтобы открыть</span></div><div class="body">
+    <p>Вектор <span class="m">d ∈ ℝⁿ</span>, <span class="m">d ≠ 0</span>, — допустимое направление (feasible direction) в точке <span class="m">x ∈ Ω</span>, если существует <span class="m">t₀ &gt; 0</span> такое, что</p>
+    <div class="eq">x + t·d ∈ Ω для всех t ∈ [0, t₀].</div>
+  </div></div>
+  <section class="sec"><h4>Интуиция</h4>
+    <p>Из x можно сделать хоть маленький шаг вдоль d и не вылететь из Ω. Во внутренней точке допустимы все направления, у ровной стенки — примерно половина (внутрь и вдоль стенки), в углу ещё меньше.</p>
+  </section>
+  <section class="sec"><h4>Подробнее</h4>
+    <ul>
+      <li>Многогранник <span class="m">Ω = {x : aᵢᵀx ≤ bᵢ}</span>: d допустимо ⇔ <span class="m">aᵢᵀd ≤ 0</span> для всех активных ограничений (<span class="m">aᵢᵀx = bᵢ</span>, № 21). Неактивные на малых t не мешают.</li>
+      <li>У кривой границы всё иначе: в круге касательное направление недопустимо, потому что <span class="m">x + td</span> выходит из круга при любом <span class="m">t &gt; 0</span>. Допустимы только направления, строго смотрящие внутрь.</li>
+      <li>Необходимое условие 1-го порядка (лекция 1, сл. 17): если x* — локальный минимум f на Ω, то <span class="m">∇f(x*)ᵀd ≥ 0</span> для всех допустимых d. Иначе говоря, из минимума нельзя спуститься, не нарушив ограничений. Во внутренней точке отсюда <span class="m">∇f(x*) = 0</span>.</li>
+      <li>Если Ω выпукло (№ 11), то <span class="m">y − x</span> допустимо для любого <span class="m">y ∈ Ω, y ≠ x</span>. Для выпуклой f условие <span class="m">⟨∇f(x*), y − x*⟩ ≥ 0 ∀ y ∈ Ω</span> становится критерием глобального минимума.</li>
+    </ul>
+  </section>
+  <section class="sec"><h4>В задачах и в коде</h4>
+    <p>Методы с простыми ограничениями (проекция на «ящик», L-BFGS-B из лекции 5, сл. 22) на каждом шаге определяют, какие переменные упёрлись в границу, и запрещают направления наружу. На ящике это одна проверка:</p>
+    <div class="codebox"><pre><code>import numpy as np
+
+lo = np.array([0.0, 0.0])
+hi = np.array([1.0, 1.0])
+x = np.array([1.0, 0.5])
+d = np.array([-1.0, 1.0])
+at_hi = np.isclose(x, hi)
+at_lo = np.isclose(x, lo)
+feasible = np.all(d[at_hi] &lt;= 0) and np.all(d[at_lo] &gt;= 0)
+print(feasible)</code></pre><div class="out"># True</div></div>
+  </section>
+  <section class="sec"><h4>Посчитай руками</h4>
+    <div class="task">
+      <p>1) <span class="m">Ω = [0, 1]²</span>, <span class="m">x = (1, 0.5)</span>. Какие из <span class="m">d₁ = (−1, 1)</span>, <span class="m">d₂ = (1, 0)</span>, <span class="m">d₃ = (0, 1)</span> допустимы? 2) Ω — единичный круг, <span class="m">x = (1, 0)</span>. Допустимы ли <span class="m">d = (0, 1)</span> и <span class="m">d = (−1, 1)</span>?</p>
+      <details><summary>Решение</summary><div class="sol">
+        <p>1) Активно ограничение <span class="m">x₁ ≤ 1</span>, его нормаль <span class="m">a = (1, 0)</span>. <span class="m">d₁</span>: <span class="m">aᵀd = −1 ≤ 0</span>, допустимо; <span class="m">x + td = (1 − t, 0.5 + t) ∈ Ω</span> при <span class="m">t ≤ 0.5</span>, <span class="m">t₀ = 0.5</span>. <span class="m">d₂</span>: <span class="m">aᵀd = 1 &gt; 0</span>, недопустимо: <span class="m">(1 + t, 0.5) ∉ Ω</span> ни при каком <span class="m">t &gt; 0</span>. <span class="m">d₃</span>: <span class="m">aᵀd = 0</span>, допустимо (движение вдоль стенки), <span class="m">t₀ = 0.5</span>.</p>
+        <p>2) <span class="m">d = (0, 1)</span>: <span class="m">‖(1, t)‖² = 1 + t² &gt; 1</span> при любом <span class="m">t &gt; 0</span> — недопустимо, хотя это касательная. <span class="m">d = (−1, 1)</span>: <span class="m">‖(1 − t, t)‖² = 1 − 2t + 2t² ≤ 1 ⇔ t ≤ 1</span> — допустимо, <span class="m">t₀ = 1</span>.</p>
+      </div></details>
+    </div>
+  </section>
+  <div class="widget" data-w="feasible" id="w9"><h4>Поиграй</h4><p class="how">Тащи точку x (у границы она прилипает) и конец стрелки d. Кольцо вокруг точки показывает все направления: зелёные допустимы, красные нет. Сравни угол прямоугольника, ровную стенку и край круга.</p></div>
+</article>

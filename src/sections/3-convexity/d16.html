@@ -1,0 +1,43 @@
+<article class="card" id="d16" data-d="16">
+  <div class="card-head">
+    <div class="num">№ 16</div>
+    <h3>Условие Поляка–Лоясевича <span class="en">(Polyak–Łojasiewicz condition)</span></h3>
+    <div class="meta"><span class="lvl l2">Colab: для проверки</span><span class="tag">Лекция 2, сл. 33–38 · Лекция 3, сл. 15</span><span class="tag tickets"></span><label class="chk known"><input type="checkbox" id="known-16"> знаю</label></div>
+  </div>
+  <div class="exam"><div class="lbl">На коллоквиуме · 0.5 балла <span class="hint">нажми, чтобы открыть</span></div><div class="body">
+    <p>Дифференцируемая f удовлетворяет условию Поляка–Лоясевича (Polyak–Łojasiewicz, PL) с константой <span class="m">µ &gt; 0</span>, если</p>
+    <div class="eq">½‖∇f(x)‖² ≥ µ (f(x) − f⋆) для всех x, &nbsp; где f⋆ = inf f.</div>
+  </div></div>
+  <section class="sec"><h4>Интуиция</h4>
+    <p>Если ты далеко от оптимального значения, градиент обязан быть большим. Значит, нет плоских плато и «ложных» стационарных точек: <span class="m">∇f(x) = 0</span> сразу даёт <span class="m">f(x) = f⋆</span>. При этом PL ничего не требует от формы множества минимумов: это может быть прямая, кривая, несколько кусков.</p>
+  </section>
+  <section class="sec"><h4>Подробнее</h4>
+    <ul>
+      <li>µ-сильная выпуклость ⇒ PL с тем же µ (доказательство в 4 шага, лекция 2, сл. 34–37: минимизируем по y нижнюю квадратичную модель).</li>
+      <li>PL строго слабее (лекция 2, сл. 38): <span class="m">f(x, y) = x²</span> удовлетворяет PL с <span class="m">µ = 2</span>, но <span class="m">∇²f = diag(2, 0)</span> вырожден, и минимумов целая прямая <span class="m">(0, y)</span>.</li>
+      <li>PL не требует выпуклости: <span class="m">f(x) = x² + 3sin²x</span> невыпукла (<span class="m">f″(π/2) = 2 − 6 = −4 &lt; 0</span>), но удовлетворяет PL; численно <span class="m">µ ≈ 0.175</span>.</li>
+      <li>Теорема (лекция 3, сл. 15): для L-гладкой f с условием PL GD с <span class="m">α = 1/L</span> сходится линейно, <span class="m">f(xₖ) − f⋆ ≤ (1 − µ/L)ᵏ (f(x₀) − f⋆)</span>. Выпуклость в доказательстве не используется.</li>
+    </ul>
+  </section>
+  <section class="sec"><h4>В задачах и в коде</h4>
+    <p>Недоопределённый МНК (признаков больше, чем объектов): решений бесконечно много, <span class="m">XᵀX</span> вырождена, сильной выпуклости нет, а PL выполнено с µ, равным наименьшему ненулевому собственному значению <span class="m">XᵀX/N</span>. Поэтому GD и там сходится линейно. Есть работы, где локальным условием PL объясняют быструю сходимость обучения широких нейросетей. Константу в 1D можно оценить на сетке:</p>
+    <div class="codebox"><pre><code>import numpy as np
+
+xs = np.linspace(-20, 20, 2000001)
+xs = xs[np.abs(xs) &gt; 1e-6]
+f = xs**2 + 3 * np.sin(xs)**2
+g = 2 * xs + 3 * np.sin(2 * xs)
+print((0.5 * g**2 / f).min())</code></pre><div class="out"># 0.1755</div></div>
+  </section>
+  <section class="sec"><h4>Посчитай руками</h4>
+    <div class="task">
+      <p>1) Найди наибольшую PL-константу для <span class="m">f(x) = 3x²</span>. 2) Проверь PL для <span class="m">f(x, y) = x²</span>. 3) Почему <span class="m">x⁴</span> не удовлетворяет PL?</p>
+      <details><summary>Решение</summary><div class="sol">
+        <p>1) <span class="m">f⋆ = 0</span>; <span class="m">½(6x)² = 18x² ≥ µ·3x² ⇔ µ ≤ 6</span> ⇒ <span class="m">µ = 6</span> (совпадает с <span class="m">f″ = 6</span>).</p>
+        <p>2) <span class="m">∇f = (2x, 0)</span>, <span class="m">½‖∇f‖² = 2x² = 2(f − f⋆)</span> ⇒ <span class="m">µ = 2</span>.</p>
+        <p>3) <span class="m">½(4x³)²/x⁴ = 8x² → 0</span> при <span class="m">x → 0</span>, никакое <span class="m">µ &gt; 0</span> не подходит. Около минимума градиент слишком мал, и GD на <span class="m">x⁴</span> сходится сублинейно.</p>
+      </div></details>
+    </div>
+  </section>
+  <div class="widget" data-w="pl" id="w16"><h4>Поиграй</h4><p class="how">Сверху функция и итерации GD с α = 1/L (запусти «Пуск»). Снизу отношение ½f′²/(f − f⋆): PL с константой µ выполнено там, где кривая выше линии µ. Для невыпуклой x² + 3sin²x отношение нигде не падает до нуля, и GD сходится линейно.</p></div>
+</article>

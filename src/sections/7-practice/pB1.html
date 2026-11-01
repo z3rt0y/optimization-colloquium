@@ -1,0 +1,24 @@
+<article class="card taskc" id="pB1" data-p="B1">
+  <div class="card-head">
+    <div class="num">B1 · у доски</div>
+    <h3>Три шага градиентного спуска на квадратичной функции <span class="en">(three steps of GD)</span></h3>
+    <div class="meta"><span class="srcb baulin">Баулин files</span><span class="tag">задача 3.2</span><button class="btn small" type="button" data-load="wg:B1">Открыть в калькуляторе</button><label class="chk known"><input type="checkbox" id="solved-B1"> решено</label></div>
+  </div>
+  <div class="stmt"><div class="lbl">Условие</div>
+    <p>Пусть <span class="m">f(x, y) = x² − xy + y²</span>. Из <span class="m">x₀ = (6, 0)</span> сделай три шага градиентного спуска с <span class="m">α = 0.3333</span> (то есть 1/3). Запиши градиенты, <span class="m">x₁, x₂, x₃</span> и значения f. Найди L и проверь, что <span class="m">α &lt; 2/L</span>.</p>
+  </div>
+  <div class="qa" data-task="B1"></div>
+  <details class="hint"><summary>Подсказка</summary><p><span class="m">∇f = Qx</span>, <span class="m">Q = [[2a, b], [b, 2c]]</span>; шаг <span class="m">x⁺ = (I − αQ)x</span>.</p></details>
+  <details class="solution"><summary>Решение</summary><div class="sol">
+    <ol class="steps">
+      <li><span class="sn">1</span><div><p><span class="m">Q = [[2, −1], [−1, 2]]</span>, <span class="m">∇f = (2x − y, −x + 2y)</span>. При <span class="m">α = 1/3</span>: <span class="m">I − αQ = [[1/3, 1/3], [1/3, 1/3]]</span>, то есть <span class="m">x⁺ = ((x + y)/3, (x + y)/3)</span>.</p></div></li>
+      <li><span class="sn">k = 0</span><div><p><span class="m">∇f(6, 0) = (12, −6)</span>; <span class="m">x₁ = (6 − 4, 0 + 2) = (2, 2)</span>; <span class="m">f(x₁) = 4 − 4 + 4 = 4</span>.</p></div></li>
+      <li><span class="sn">k = 1</span><div><p><span class="m">∇f(2, 2) = (2, 2)</span>; <span class="m">x₂ = (4/3, 4/3) ≈ (1.3333, 1.3333)</span>; <span class="m">f(x₂) = 16/9 ≈ 1.7778</span>.</p></div></li>
+      <li><span class="sn">k = 2</span><div><p><span class="m">∇f(x₂) = (4/3, 4/3)</span>; <span class="m">x₃ = (8/9, 8/9) ≈ (0.8889, 0.8889)</span>; <span class="m">f(x₃) = 64/81 ≈ 0.7901</span>. Значения f: 36 → 4 → 1.7778 → 0.7901.</p></div></li>
+      <li><span class="sn">L</span><div><p><span class="m">λ² − 4λ + 3 = 0</span> ⇒ λ = 1 и 3 ⇒ <span class="m">L = 3</span>, <span class="m">2/L ≈ 0.6667 &gt; α</span> ⇒ шаг безопасен. Более того, <span class="m">α = 1/3 = 1/L</span>.</p></div></li>
+      <li><span class="sn">Почему так</span><div><p>Разложим старт по собственным векторам: <span class="m">x₀ = 3·(1, 1) + 3·(1, −1)</span>. Компонента с λ = 3 умножается на <span class="m">1 − 3α = 0</span> и исчезает за первый шаг, поэтому x₁ лежит на диагонали. Компонента с λ = 1 каждый шаг умножается на <span class="m">1 − α = 2/3</span>: <span class="m">x₃ = 3·(2/3)³·(1, 1) = (8/9, 8/9)</span> ✓. Отношение <span class="m">‖x₃‖/‖x₀‖ = (8√2/9)/6 ≈ 0.2095</span>.</p></div></li>
+    </ol>
+    <p><b>Ответ:</b> <span class="m">f(x₁) = 4</span>, <span class="m">f(x₃) ≈ 0.7901</span>; <span class="m">L = 3</span>, условие <span class="m">α &lt; 2/L</span> выполнено.</p>
+    <p class="k-mut">Если взять α = 0.3333 буквально, числа разойдутся в 4-м знаке (f(x₁) ≈ 4.0004). На листе пиши α = 1/3.</p>
+  </div></details>
+</article>

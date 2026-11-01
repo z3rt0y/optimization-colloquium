@@ -1,0 +1,22 @@
+<article class="card taskc" id="pA1" data-p="A1">
+  <div class="card-head">
+    <div class="num">A1 · у доски</div>
+    <h3>Стационарная точка и тип квадратичной формы <span class="en">(stationary point and type)</span></h3>
+    <div class="meta"><span class="srcb baulin">Баулин files</span><span class="tag">задача 3.1</span><button class="btn small" type="button" data-load="wq:A1">Открыть в калькуляторе</button><label class="chk known"><input type="checkbox" id="solved-A1"> решено</label></div>
+  </div>
+  <div class="stmt"><div class="lbl">Условие</div>
+    <p>Для <span class="m">f(x, y) = 2x² + 2xy + 3y² − 8x − 2y</span> найди стационарную точку и её тип. Затем найди µ и L как наименьшее и наибольшее собственные значения гессиана.</p>
+  </div>
+  <div class="qa" data-task="A1"></div>
+  <details class="hint"><summary>Подсказка</summary><p>Для <span class="m">f = ax² + bxy + cy² + dx + ey</span> градиент <span class="m">(2ax + by + d, bx + 2cy + e)</span>, гессиан <span class="m">[[2a, b], [b, 2c]]</span>.</p></details>
+  <details class="solution"><summary>Решение</summary><div class="sol">
+    <ol class="steps">
+      <li><span class="sn">1</span><div><p><span class="m">∇f = (4x + 2y − 8, 2x + 6y − 2)</span>, <span class="m">H = [[4, 2], [2, 6]]</span>.</p></div></li>
+      <li><span class="sn">2</span><div><p>Система <span class="m">∇f = 0</span>: <span class="m">4x + 2y = 8</span>, <span class="m">2x + 6y = 2</span>. <span class="m">det H = 24 − 4 = 20 ≠ 0</span> ⇒ решение единственное. Из второго <span class="m">x = 1 − 3y</span>; подставляем: <span class="m">4 − 12y + 2y = 8 ⇒ y = −0.4</span>, <span class="m">x = 2.2</span>. Проверка: <span class="m">∇f(2.2, −0.4) = (8.8 − 0.8 − 8, 4.4 − 2.4 − 2) = (0, 0)</span> ✓, <span class="m">f(x⋆) = −8.4</span>.</p></div></li>
+      <li><span class="sn">3</span><div><p><span class="m">λ² − 10λ + 20 = 0 ⇒ λ = 5 ± √5</span>: <span class="m">λmin ≈ 2.7639</span>, <span class="m">λmax ≈ 7.2361</span>. Оба положительны ⇒ строгий минимум. Он глобальный: f строго выпукла (№ 13).</p></div></li>
+      <li><span class="sn">4</span><div><p><span class="m">µ ≈ 2.7639</span>, <span class="m">L ≈ 7.2361</span>, <span class="m">κ = (5 + √5)/(5 − √5) ≈ 2.618</span>. GD с лучшим постоянным шагом <span class="m">2/(L + µ)</span> сжимает ошибку в <span class="m">(κ − 1)/(κ + 1) = 1/√5 ≈ 0.4472</span> раза за шаг (№ 15).</p></div></li>
+    </ol>
+    <p><b>Ответ:</b> минимум в <span class="m">(2.2, −0.4)</span>; <span class="m">µ ≈ 2.7639</span>, <span class="m">L ≈ 7.2361</span>.</p>
+    <p class="k-mut">Приём: сначала посчитай det и tr, они дают оба λ через <span class="m">λ² − tr·λ + det = 0</span>.</p>
+  </div></details>
+</article>

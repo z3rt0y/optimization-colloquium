@@ -1,0 +1,46 @@
+<article class="card" id="d7" data-d="7">
+  <div class="card-head">
+    <div class="num">№ 7</div>
+    <h3>Гессиан <span class="en">(Hessian)</span></h3>
+    <div class="meta"><span class="lvl l1">Colab: напрямую</span><span class="tag">Лекция 1, сл. 13–14 · Лекция 5, сл. 2 · Renegar §1.3</span><span class="tag tickets"></span><label class="chk known"><input type="checkbox" id="known-7"> знаю</label></div>
+  </div>
+  <div class="exam"><div class="lbl">На коллоквиуме · 0.5 балла <span class="hint">нажми, чтобы открыть</span></div><div class="body">
+    <p>Гессиан (Hessian) дважды дифференцируемой функции <span class="m">f: ℝⁿ → ℝ</span> — матрица вторых частных производных</p>
+    <div class="eq">∇²f(x) = [ ∂²f / ∂xᵢ∂xⱼ ]<sub>i, j = 1..n</sub>.</div>
+    <p>Эквивалентно (Renegar §1.3), это линейный оператор <span class="m">H(x)</span>, для которого <span class="m">∇f(x + h) = ∇f(x) + H(x)h + o(‖h‖)</span>: «производная градиента». Для <span class="m">f ∈ C²</span> гессиан симметричен.</p>
+  </div></div>
+  <section class="sec"><h4>Интуиция</h4>
+    <p>Градиент говорит, куда наклонена поверхность; гессиан — как этот наклон меняется, то есть кривизну. Собственные векторы гессиана — главные направления изгиба, собственные значения — сила изгиба вдоль них: плюс — чаша, минус — купол.</p>
+  </section>
+  <section class="sec"><h4>Подробнее</h4>
+    <ul>
+      <li>Квадратичная модель (quadratic model, лекция 5, сл. 2): <span class="m">f(x + p) = f(x) + ∇f(x)ᵀp + ½pᵀ∇²f(x)p + o(‖p‖²)</span>. Её минимизирует метод Ньютона (№ 20).</li>
+      <li>Знакоопределённость гессиана (№ 10) классифицирует стационарные точки (№ 8) и выпуклость (№ 12, 13): <span class="m">∇²f ⪰ 0</span> всюду ⇔ f выпукла (Renegar, Prop. 1.4.1).</li>
+      <li>У квадратичной <span class="m">f(x) = ½xᵀQx − bᵀx</span> гессиан постоянен: <span class="m">∇²f = Q</span>. Его крайние собственные значения — это L и µ (№ 14, 13), их отношение — число обусловленности (№ 15).</li>
+    </ul>
+  </section>
+  <section class="sec"><h4>В задачах и в коде</h4>
+    <p>Для МНК <span class="m">f(w) = (1/2N)‖Xw − y‖²</span> гессиан равен <span class="m">XᵀX/N</span> (лекция 4, сл. 19). Если признаки в разных масштабах, его собственные значения различаются на порядки, и градиентный спуск ползёт. Стандартизация признаков это лечит:</p>
+    <div class="codebox"><pre><code>import numpy as np
+
+rng = np.random.default_rng(0)
+x = np.column_stack([rng.normal(0, 1, 500), rng.normal(0, 100, 500)])
+h = x.T @ x / len(x)
+print(np.linalg.eigvalsh(h))
+xs = (x - x.mean(axis=0)) / x.std(axis=0)
+hs = xs.T @ xs / len(xs)
+print(np.linalg.eigvalsh(hs))</code></pre><div class="out"># [   1.0281 8845.9929]   ← κ ≈ 8600
+# [0.9947 1.0053]         ← после стандартизации κ ≈ 1</div></div>
+  </section>
+  <section class="sec"><h4>Посчитай руками</h4>
+    <div class="task">
+      <p>Упражнение лекции 1, сл. 14: найди определитель гессиана <span class="m">f(x) = 3x₁² + 2x₁x₂² + 4x₂²</span> в точке <span class="m">(1, 1)</span>.</p>
+      <details><summary>Решение</summary><div class="sol">
+        <p><span class="m">∂²f/∂x₁² = 6</span>, <span class="m">∂²f/∂x₁∂x₂ = 4x₂</span>, <span class="m">∂²f/∂x₂² = 4x₁ + 8</span>.</p>
+        <p>В точке (1, 1): <span class="m">∇²f = [[6, 4], [4, 12]]</span>, <span class="m">det = 72 − 16 = 56</span>.</p>
+        <p>Дополнительно: след 18, собственные значения <span class="m">9 ± √(81 − 56) = 9 ± 5</span>, то есть 4 и 14. Оба положительны, поэтому в этой точке гессиан <span class="m">≻ 0</span>.</p>
+      </div></details>
+    </div>
+  </section>
+  <div class="widget" data-w="hessian" id="w7"><h4>Поиграй</h4><p class="how">Тащи точку: справа гессиан, его собственные значения и вывод о кривизне. Цветные отрезки в точке — собственные направления (синий — изгиб вверх, оранжевый — вниз). Пунктир — линии уровня квадратичной модели: рядом с точкой они повторяют настоящие.</p></div>
+</article>

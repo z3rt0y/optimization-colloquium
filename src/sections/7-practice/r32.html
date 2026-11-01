@@ -1,0 +1,44 @@
+<article class="card recipe" id="r32" data-p="r32">
+  <div class="card-head">
+    <div class="num">Рецепт · задача 3.2</div>
+    <h3>Как сделать три шага GD на квадратичной функции <span class="en">(gradient descent on a quadratic)</span></h3>
+    <div class="meta"><span class="srcb baulin">Баулин files</span><span class="lvl l1">Colab: напрямую</span><span class="tag">семинар 7, блок B</span></div>
+  </div>
+  <div class="exam"><div class="lbl">Алгоритм <span class="hint">нажми, чтобы открыть</span></div><div class="body">
+    <ol>
+      <li><b>Запиши f = ½xᵀQx.</b> Если <span class="m">f = ax² + bxy + cy²</span>, то <span class="m">Q = [[2a, b], [b, 2c]]</span> (это гессиан).</li>
+      <li><b>Шаг.</b> <span class="m">∇f(x) = Qx</span>, <span class="m">xₖ₊₁ = xₖ − αQxₖ = (I − αQ)xₖ</span>. Удобно один раз посчитать матрицу <span class="m">I − αQ</span> и умножать на неё.</li>
+      <li><b>Три раза:</b> на каждом шаге запиши <span class="m">∇f(xₖ)</span>, <span class="m">xₖ₊₁</span>, <span class="m">f(xₖ₊₁)</span>. Значение f проверяй подстановкой в исходную формулу.</li>
+      <li><b>Проверка шага.</b> <span class="m">L = λmax(Q)</span>, нужно строго <span class="m">0 &lt; α &lt; 2/L</span>. В собственном базисе каждая компонента умножается на <span class="m">1 − αλᵢ</span>: <span class="m">|·| &lt; 1</span> — сходимость, <span class="m">= 1</span> — колебания, <span class="m">&gt; 1</span> — разлёт.</li>
+    </ol>
+  </div></div>
+  <section class="sec"><h4>Что полезно знать</h4>
+    <ul>
+      <li><b>Ловушка с ½:</b> <span class="m">f = x² − xy + y²</span> ⇒ <span class="m">Q = [[2, −1], [−1, 2]]</span>, а не <span class="m">[[1, −½], [−½, 1]]</span>.</li>
+      <li><span class="m">α = 1/L</span> обнуляет самую крутую компоненту за один шаг (B1, B2). Дальше скорость задаёт пологая компонента: множитель <span class="m">1 − µ/L = 1 − 1/κ</span>.</li>
+      <li>Знак <span class="m">α − 2/L</span> решает, будет ли разлёт. Величина <span class="m">α − 1/L</span> решает, какая ось задаёт скорость.</li>
+      <li>Сколько шагов нужно, чтобы уменьшить ошибку в 10 раз: при лучшем шаге <span class="m">2/(L + µ)</span> для <span class="m">κ = 1, 10, 100</span> это 1, 12 и 116 шагов (так на сайте); при <span class="m">α = 1/L</span> — 1, 22 и 230.</li>
+    </ul>
+  </section>
+  <section class="sec"><h4>В коде</h4>
+    <div class="codebox"><pre><code>import numpy as np
+
+
+def gd_steps(a, b, c, x0, alpha, n=3):
+    q = np.array([[2 * a, b], [b, 2 * c]], dtype=float)
+    x = np.array(x0, dtype=float)
+    for i in range(n):
+        g = q @ x
+        x = x - alpha * g
+        print(i + 1, g, x, 0.5 * x @ q @ x)
+    lip = np.linalg.eigvalsh(q).max()
+    print("L =", lip, "2/L =", 2 / lip, "безопасно:", alpha &lt; 2 / lip)
+
+
+gd_steps(1, -1, 1, [6, 0], 1 / 3)</code></pre><div class="out"># 1 [12. -6.] [2. 2.] 4.0
+# 2 [2. 2.] [1.333 1.333] 1.778
+# 3 [1.333 1.333] [0.889 0.889] 0.790
+# L = 3.0 2/L = 0.667 безопасно: True</div></div>
+  </section>
+  <div class="widget" data-w="gd3" id="wg"><h4>Калькулятор задачи 3.2</h4><p class="how">Задай f = ax² + bxy + cy², старт и шаг α (кнопки ставят 1/L, 2/(L + µ), 2/L). Таблица — готовое оформление для листа. Старт можно таскать по карте. Справа f(xₖ) в логарифмической шкале: убывает, стоит или растёт.</p></div>
+</article>

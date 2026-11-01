@@ -1,0 +1,102 @@
+<details class="cheat" id="cheat">
+  <summary><span class="cs-sum-t">Шпаргалка: всё одной цепочкой</span><span class="k-mut">28 понятий, дерево «что от чего» и формулы · <span class="cs-when-closed">нажми, чтобы открыть</span><span class="cs-when-open">нажми, чтобы свернуть</span></span></summary>
+  <div class="cheat-body">
+    <p class="cs-lead">Каждое следующее понятие получается из предыдущего одной заменой или одним вопросом. Нумерация здесь своя, в порядке вывода; номер карточки (№) стоит рядом. Нажатие на название переносит к карточке, браузерная кнопка «назад» возвращает сюда.</p>
+
+    <h3>Дерево: что от чего</h3>
+    <div class="cs-ctl" role="radiogroup" aria-label="Что делает клик по понятию в дереве">
+      <span>Клик по понятию:</span>
+      <label class="chk"><input type="radio" name="csmode" value="go" checked> перейти к карточке</label>
+      <label class="chk"><input type="radio" name="csmode" value="rel"> показать связи</label>
+    </div>
+    <p class="cs-scrollhint k-mut">Дерево шире экрана — листай его вбок.</p>
+    <div class="cs-tree-wrap"><svg id="cs-svg" viewBox="0 0 1000 925" role="img" aria-label="Дерево вывода понятий: от задачи оптимизации до метода Ньютона"></svg></div>
+    <div class="cs-info" id="cs-info" aria-live="polite">Наведи на понятие (на телефоне включи «показать связи» и нажми): оранжевым подсветится, из чего оно выводится, синим — что из него следует.</div>
+    <div class="legend-row"><span><span class="sw m"></span>основная линия вывода</span><span><span class="sw dash m"></span>дополнительная связь (видна при выделении)</span><span><span class="sw dash" style="border-top-color:var(--c-violet)"></span>связка GD ↔ Ньютон</span><span><span class="sw o"></span>откуда</span><span><span class="sw a"></span>куда ведёт</span></div>
+
+    <h3>Блок 1 · что ищем</h3>
+    <div class="tbl-wrap"><table class="tbl cs-tbl">
+      <tr><th>№</th><th>Понятие</th><th>Формула</th><th>Откуда</th></tr>
+      <tr><td>1</td><td><a href="#d1">Задача</a> <span class="en">(optimization problem)</span> <span class="cs-x">№ 1</span></td><td class="m">min<sub>x∈Ω</sub> f(x), &nbsp;Ω = {gᵢ(x) ≤ 0, hⱼ(x) = 0}</td><td>старт: x — решение, f — цель, Ω — допустимые точки</td></tr>
+      <tr><td>2</td><td><a href="#d4">Глобальный минимум</a> <span class="en">(global min)</span> <span class="cs-x">№ 4</span></td><td class="m">f(x) ≥ f(x⋆) &nbsp;∀x ∈ Ω</td><td>«лучшая точка» буквально</td></tr>
+      <tr><td>3</td><td><a href="#d2">Локальный минимум</a> <span class="en">(local min)</span> <span class="cs-x">№ 2</span></td><td class="m">∃ε &gt; 0: f(x) ≥ f(x⋆) &nbsp;∀x ∈ Ω ∩ B<sub>ε</sub>(x⋆)</td><td>из 2: «все x» заменили на «близкие x»; <span class="m">B<sub>ε</sub>(x⋆) = {x : ‖x − x⋆‖ &lt; ε}</span> — шар</td></tr>
+      <tr><td>4</td><td><a href="#d3">Строгий локальный минимум</a> <span class="en">(strict local min)</span> <span class="cs-x">№ 3</span></td><td class="m">то же, но f(x) &gt; f(x⋆) при x ≠ x⋆</td><td>из 3: ≥ → &gt; и выкинули саму точку</td></tr>
+    </table></div>
+
+    <h3>Блок 2 · первый порядок: наклон</h3>
+    <div class="tbl-wrap"><table class="tbl cs-tbl">
+      <tr><th>№</th><th>Понятие</th><th>Формула</th><th>Откуда</th></tr>
+      <tr><td>5</td><td><a href="#d5">Градиент</a> <span class="en">(gradient)</span> <span class="cs-x">№ 5</span></td><td class="m">f(x + h) = f(x) + ⟨∇f(x), h⟩ + o(‖h‖)</td><td>обобщили школьное <span class="m">f(x + h) ≈ f(x) + f′(x)h</span> на n переменных; <span class="m">⟨g, h⟩ = gᵀh = Σ gᵢhᵢ</span></td></tr>
+      <tr><td>6</td><td><a href="#d5">Линейное приближение</a> <span class="en">(first-order approximation)</span> <span class="cs-x">№ 5</span></td><td class="m">f(y) ≈ f(x) + ∇f(x)ᵀ(y − x)</td><td>в 5 подставили h = y − x и выкинули o</td></tr>
+      <tr><td>7</td><td><a href="#d6">Производная по направлению</a> <span class="en">(directional derivative)</span> <span class="cs-x">№ 6</span></td><td class="m">∂f/∂d (x) = lim<sub>t→0⁺</sub> (f(x + td) − f(x))/t = ∇f(x)ᵀd</td><td>в 5 подставили h = td и поделили на t</td></tr>
+      <tr><td>8</td><td><a href="#d17">Направление спуска</a> <span class="en">(descent direction)</span> <span class="cs-x">№ 17</span></td><td class="m">∇f(x)ᵀd &lt; 0</td><td>знак числа из 7. Тогда <span class="m">f(x + αd) = f(x) + α∇fᵀd + o(α) &lt; f(x)</span> при малых α</td></tr>
+      <tr><td>9</td><td><a href="#d9">Допустимое направление</a> <span class="en">(feasible direction)</span> <span class="cs-x">№ 9</span></td><td class="m">x + td ∈ Ω &nbsp;∀t ∈ [0, t₀]</td><td>то же, что 8, но условие на Ω, а не на f</td></tr>
+      <tr><td>10</td><td><a href="#d8">Стационарная точка</a> <span class="en">(stationary point)</span> <span class="cs-x">№ 8</span></td><td class="m">∇f(x⋆) = 0</td><td>в минимуме (при Ω = ℝⁿ) нет направления спуска: если ∇f ≠ 0, то d = −∇f даёт спуск. Значит ∇f = 0</td></tr>
+    </table></div>
+
+    <h3>Блок 3 · второй порядок: изгиб</h3>
+    <div class="tbl-wrap"><table class="tbl cs-tbl">
+      <tr><th>№</th><th>Понятие</th><th>Формула</th><th>Откуда</th></tr>
+      <tr><td>11</td><td><a href="#d7">Гессиан</a> <span class="en">(Hessian)</span> <span class="cs-x">№ 7</span></td><td class="m">∇f(x + h) = ∇f(x) + H(x)h + o(‖h‖), &nbsp;Hᵢⱼ = ∂²f/∂xᵢ∂xⱼ</td><td>повторили 5 для ∇f вместо f. Выход — вектор, поэтому вместо числа ⟨g, h⟩ стоит матрица: Hh</td></tr>
+      <tr><td>12</td><td><a href="#d7">Кривизна по направлению</a> <span class="en">(curvature along d)</span> <span class="cs-x">№ 7 · <a href="#t2">Т2</a></span></td><td class="m">φ(t) = f(x + td), &nbsp;φ″(0) = dᵀHd</td><td>7, продифференцированное ещё раз; dᵀHd — квадратичная форма (quadratic form)</td></tr>
+      <tr><td>13</td><td><a href="#d10">PD / PSD</a> <span class="en">(positive (semi)definite)</span> <span class="cs-x">№ 10</span></td><td class="m">H ≻ 0: dᵀHd &gt; 0 ∀d ≠ 0 ⇔ λᵢ &gt; 0; &nbsp;H ⪰ 0: ≥ 0 ⇔ λᵢ ≥ 0</td><td>знак кривизны из 12 во всех направлениях; <span class="m">min<sub>‖d‖=1</sub> dᵀHd = λmin</span></td></tr>
+      <tr><td>14</td><td><a href="#d7">Приближение 2-го порядка</a> <span class="en">(second-order approximation)</span> <span class="cs-x">№ 7</span></td><td class="m">f(x + h) ≈ f(x) + ∇fᵀh + ½hᵀHh</td><td>5 + поправка на изгиб из 12</td></tr>
+      <tr><td>15</td><td><a href="#d8">Тип точки, седло</a> <span class="en">(saddle point)</span> <span class="cs-x">№ 8 · <a href="#t3">Т3</a></span></td><td class="m">при ∇f = 0 остаётся ½hᵀHh: H ≻ 0 — min, H ≺ 0 — max, λ разных знаков — седло</td><td>подставили 10 в 14. Если H вырожден, тест молчит (<a href="#pW2">П2</a>)</td></tr>
+    </table></div>
+
+    <h3>Блок 4 · выпуклость: когда локальный = глобальный</h3>
+    <div class="tbl-wrap"><table class="tbl cs-tbl">
+      <tr><th>№</th><th>Понятие</th><th>Формула</th><th>Откуда</th></tr>
+      <tr><td>16</td><td><a href="#d11">Выпуклая комбинация</a> <span class="en">(convex combination)</span> <span class="cs-x">№ 11</span></td><td class="m">Σ θᵢxᵢ, &nbsp;θᵢ ≥ 0, &nbsp;Σ θᵢ = 1</td><td>взвешенное среднее, центр масс</td></tr>
+      <tr><td>17</td><td><a href="#d11">Выпуклое множество</a> <span class="en">(convex set)</span> <span class="cs-x">№ 11</span></td><td class="m">(1 − t)x + ty ∈ C &nbsp;∀x, y ∈ C, t ∈ [0, 1]</td><td>16 при m = 2: θ = (1 − t, t)</td></tr>
+      <tr><td>18</td><td><a href="#d12">Выпуклая функция</a> <span class="en">(convex function)</span> <span class="cs-x">№ 12 · <a href="#t1">Т1</a> · <a href="#t2">Т2</a></span></td><td class="m">f((1 − t)x + ty) ≤ (1 − t)f(x) + tf(y)</td><td>та же комбинация: слева в аргументе, справа в значениях; график под хордой. Для f ∈ C²: ⇔ H ⪰ 0 везде (связь с 13). Итог: любой локальный min — глобальный</td></tr>
+      <tr><td>19</td><td><a href="#d13">Строго выпуклая</a> <span class="en">(strictly convex)</span> <span class="cs-x">№ 13</span></td><td class="m">то же с &lt; при x ≠ y, t ∈ (0, 1)</td><td>из 18, как 4 из 3. Минимум (если есть) единственный</td></tr>
+      <tr><td>20</td><td><a href="#d13">µ-сильно выпуклая</a> <span class="en">(µ-strongly convex)</span> <span class="cs-x">№ 13</span></td><td class="m">f((1 − t)x + ty) ≤ (1 − t)f(x) + tf(y) − (µ/2)t(1 − t)‖x − y‖²</td><td>в 18 добавили запас, ровно как у параболы (µ/2)‖x‖². ⇔ H ⪰ µI ⇔ λmin(H) ≥ µ. Касательная форма (при t → 0): <span class="m">f(y) ≥ f(x) + ∇fᵀ(y − x) + (µ/2)‖y − x‖²</span></td></tr>
+    </table></div>
+
+    <h3>Блок 5 · кривизна сверху и PL</h3>
+    <div class="tbl-wrap"><table class="tbl cs-tbl">
+      <tr><th>№</th><th>Понятие</th><th>Формула</th><th>Откуда</th></tr>
+      <tr><td>21</td><td><a href="#d14">L-гладкость</a> <span class="en">(L-smooth)</span> <span class="cs-x">№ 14 · <a href="#t4">Т4</a></span></td><td class="m">‖∇f(x) − ∇f(y)‖ ≤ L‖x − y‖</td><td>зеркало 20: там изгиб снизу ≥ µ, тут сверху ≤ L. Для f ∈ C²: ⇔ ‖H‖ ≤ L, то есть −LI ⪯ H ⪯ LI; для выпуклой f это H ⪯ LI (λmax ≤ L). Следствие (лемма о спуске): <span class="m">f(y) ≤ f(x) + ∇fᵀ(y − x) + (L/2)‖y − x‖²</span><div class="fixnote cs-fix"><b>Уточнено.</b> Для невыпуклой f одного λmax ≤ L мало: нужно L = max|λ| (см. <a href="#pW8">П8, запись 5</a>).</div></td></tr>
+      <tr><td>22</td><td><a href="#d15">Число обусловленности</a> <span class="en">(condition number)</span> <span class="cs-x">№ 15</span></td><td class="m">κ = L/µ ≥ 1</td><td>отношение верхней границы к нижней; для квадратичной λmax/λmin = cond(Q)</td></tr>
+      <tr><td>23</td><td><a href="#d16">Условие PL</a> <span class="en">(Polyak–Łojasiewicz)</span> <span class="cs-x">№ 16</span></td><td class="m">½‖∇f(x)‖² ≥ µ(f(x) − f⋆)</td><td>в касательной форме 20 минимизируем правую часть по y: y = x − (1/µ)∇f, получаем <span class="m">f⋆ ≥ f(x) − ‖∇f‖²/(2µ)</span>. Объявили это определением и выкинули выпуклость</td></tr>
+    </table></div>
+
+    <h3>Блок 6 · алгоритмы</h3>
+    <div class="tbl-wrap"><table class="tbl cs-tbl">
+      <tr><th>№</th><th>Понятие</th><th>Формула</th><th>Откуда</th></tr>
+      <tr><td>24</td><td><a href="#d18">Градиентный спуск</a> <span class="en">(gradient descent, GD)</span> <span class="cs-x">№ 18 · <a href="#t4">Т4</a></span></td><td class="m">xₖ₊₁ = xₖ − α∇f(xₖ)</td><td>d = −∇f из 8 (лучшее направление). Подставили в оценку из 21: <span class="m">fₖ₊₁ ≤ fₖ − α(1 − Lα/2)‖∇f‖²</span>, значит нужно α &lt; 2/L. При α = 1/L убывание ‖∇f‖²/(2L)</td></tr>
+      <tr><td>25</td><td><a href="#t5">Скорость GD</a> <span class="en">(linear convergence)</span> <span class="cs-x">Т5</span></td><td class="m">fₖ − f⋆ ≤ (1 − µ/L)ᵏ(f₀ − f⋆) &nbsp;при α = 1/L</td><td>в 24 подставили PL (23); 1 − µ/L = 1 − 1/κ (связь с 22)</td></tr>
+      <tr><td>26</td><td><a href="#d19">Условие Армихо</a> <span class="en">(Armijo condition)</span> <span class="cs-x">№ 19 · <a href="#w19b">3D</a></span></td><td class="m">f(x + αd) ≤ f(x) + cα∇fᵀd, &nbsp;c ∈ (0, 1)</td><td>L не знаем, поэтому гарантию из 24 не вычисляем, а проверяем. Для GD правая часть f(x) − cα‖∇f‖², где c играет роль 1 − Lα/2</td></tr>
+      <tr><td>27</td><td><a href="#d19">Бэктрекинг</a> <span class="en">(backtracking)</span> <span class="cs-x">№ 19</span></td><td class="m">пока 26 нарушено: α ← βα, &nbsp;β ∈ (0, 1)</td><td>конечен по той же причине, что 8: o(α) проигрывает главному члену</td></tr>
+      <tr><td>28</td><td><a href="#d20">Метод Ньютона</a> <span class="en">(Newton's method)</span> <span class="cs-x">№ 20 · <a href="#t6">Т6</a></span></td><td class="m">H·p<sub>N</sub> = −∇f</td><td>минимизируем 14 по h: ∇f + Hh = 0. Нужно H ≻ 0 (13)</td></tr>
+    </table></div>
+    <div class="bonus"><b>Связка 24 и 28 — красивый момент для ответа.</b> GD — это тоже минимизация параболы, только в 14 вместо настоящего H подставили LI из 21: минимум <span class="m">f(x) + ∇fᵀp + (L/2)‖p‖²</span> даёт <span class="m">p = −(1/L)∇f</span>. Ньютон берёт настоящий H, поэтому не боится оврагов (большого κ).</div>
+    <p class="k-mut">В цепочку не вошли ограничения: <a href="#d21">активное ограничение (№ 21)</a>, <a href="#d22">лагранжиан (№ 22)</a>, <a href="#d23">условия ККТ (№ 23)</a>, <a href="#d24">двойственность (№ 24)</a>, теорема <a href="#t7">Т7</a>.</p>
+
+    <h3>Одно и то же под разными именами</h3>
+    <div class="tbl-wrap"><table class="tbl cs-tbl2">
+      <tr><th>Запись</th><th>Это то же самое, что</th></tr>
+      <tr><td class="m">⟨g, h⟩</td><td class="m">gᵀh = Σ gᵢhᵢ</td></tr>
+      <tr><td>h в формуле 5</td><td><span class="m">y − x</span> (касательная), <span class="m">td</span> (направление), <span class="m">αd</span> (шаг)</td></tr>
+      <tr><td>t в 17</td><td><span class="m">θ = (1 − t, t)</span> из 16</td></tr>
+      <tr><td class="m">dᵀHd</td><td><span class="m">φ″(0)</span>, кривизна вдоль d, квадратичная форма</td></tr>
+      <tr><td class="m">µ</td><td>нижняя граница кривизны; для квадратичной λmin</td></tr>
+      <tr><td class="m">L</td><td>верхняя граница кривизны; для квадратичной max|λ| (для выпуклой это λmax)</td></tr>
+      <tr><td class="m">f(x) − f⋆</td><td>ошибка по значению, высота над дном</td></tr>
+      <tr><td class="m">−∇f</td><td>направление наискорейшего спуска (steepest descent)</td></tr>
+    </table></div>
+
+    <h3>Мнемоника: четыре «параболы» через одну точку</h3>
+    <p class="m cs-eq">f(y) &nbsp;сравниваем с&nbsp; f(x) + ∇fᵀ(y − x) + □ &nbsp;(□ — добавка)</p>
+    <div class="tbl-wrap"><table class="tbl cs-tbl2">
+      <tr><th>Добавка □</th><th>Знак</th><th>Что это</th></tr>
+      <tr><td class="m">0</td><td class="m">f ≥</td><td><a href="#d12">выпуклость</a>: график над касательной</td></tr>
+      <tr><td class="m">(µ/2)‖y − x‖²</td><td class="m">f ≥</td><td><a href="#d13">сильная выпуклость</a>: над нижней параболой</td></tr>
+      <tr><td class="m">(L/2)‖y − x‖²</td><td class="m">f ≤</td><td><a href="#d14">L-гладкость</a>: под верхней параболой</td></tr>
+      <tr><td class="m">½(y − x)ᵀH(y − x)</td><td class="m">f ≈</td><td>2-й порядок, на нём стоит <a href="#d20">Ньютон</a></td></tr>
+    </table></div>
+    <p><b>Итог:</b> хорошая функция зажата между двумя параболами, <span class="m">µI ⪯ H ⪯ LI</span>. Из нижней получаются PL и единственность минимума, из верхней — шаг 1/L, а их отношение κ задаёт скорость.</p>
+    <p><button class="btn small" type="button" id="cs-close">Свернуть шпаргалку ↑</button></p>
+  </div>
+</details>

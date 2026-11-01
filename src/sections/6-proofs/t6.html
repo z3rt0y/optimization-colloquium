@@ -1,0 +1,61 @@
+<article class="card proof" id="t6" data-t="6">
+  <div class="card-head">
+    <div class="num">Теорема 6 · билеты 5, 10</div>
+    <h3>Локальная квадратичная сходимость метода Ньютона <span class="en">(local quadratic convergence of Newton's method)</span></h3>
+    <div class="meta"><span class="srcb baulin">Баулин files</span><span class="lvl l1">Colab: напрямую</span><span class="tag">Лекция 5, сл. 6–7 · Renegar §1.6</span><label class="chk known"><input type="checkbox" id="known-t6"> знаю</label></div>
+  </div>
+  <div class="exam"><div class="lbl">Формулировка · часть 2, 3 балла <span class="hint">нажми, чтобы открыть</span></div><div class="body">
+    <p>Пусть <span class="m">∇f(x⋆) = 0</span>, <span class="m">∇²f(x⋆) ≻ 0</span> и гессиан M-липшицев. Тогда вблизи x⋆ для шага <span class="m">x⁺ = x − H(x)⁻¹∇f(x)</span></p>
+    <div class="eq">‖x⁺ − x⋆‖ ≤ (M / 2m) ‖x − x⋆‖²,</div>
+    <p>где m &gt; 0 — нижняя граница <span class="m">λmin(H(x))</span> в этой окрестности.</p>
+  </div></div>
+  <section class="sec"><h4>Идея</h4>
+    <p>Метод Ньютона точен для квадратичной функции (№ 20): там гессиан постоянен. Значит, вся ошибка нового шага возникает из-за того, что гессиан меняется вдоль отрезка от x⋆ до x. Изменение гессиана пропорционально ‖e‖ (липшицевость), длина отрезка тоже ‖e‖, отсюда ‖e‖².</p>
+    <p>Обозначения: <span class="m">e = x − x⋆</span> (текущая ошибка), <span class="m">e⁺ = x⁺ − x⋆</span>, <span class="m">H(·) = ∇²f(·)</span>.</p>
+  </section>
+  <section class="sec"><h4>Доказательство</h4>
+    <div class="steps-wrap">
+      <ol class="steps">
+        <li><span class="sn">Шаг 1</span><div><p><b>Градиент через гессиан.</b> Так как <span class="m">∇f(x⋆) = 0</span>, по формуле Ньютона–Лейбница вдоль отрезка от x⋆ до x:</p><div class="eq">∇f(x) = ∇f(x) − ∇f(x⋆) = ∫₀¹ H(x⋆ + te) e dt.</div></div></li>
+        <li><span class="sn">Шаг 2</span><div><p><b>Новая ошибка.</b> <span class="m">e⁺ = x − H(x)⁻¹∇f(x) − x⋆ = e − H(x)⁻¹∇f(x)</span>. Запишем <span class="m">e = H(x)⁻¹∫₀¹H(x)e dt</span> и вынесем <span class="m">H(x)⁻¹</span>:</p><div class="eq">e⁺ = H(x)⁻¹ ∫₀¹ [H(x) − H(x⋆ + te)] e dt.</div><p>Смысл: ошибка возникает только потому, что гессиан в x отличается от гессианов на отрезке. Для квадратичной функции скобка равна нулю, и Ньютон сходится за один шаг.</p></div></li>
+        <li><span class="sn">Шаг 3</span><div><p><b>Оценка H(x)⁻¹.</b> <span class="m">H(x⋆) ≻ 0</span> и H непрерывен, поэтому (как в шаге 2 теоремы 3) в окрестности <span class="m">λmin(H(x)) ≥ m &gt; 0</span> и <span class="m">‖H(x)⁻¹‖ = 1/λmin ≤ 1/m</span>.</p></div></li>
+        <li><span class="sn">Шаг 4</span><div><p><b>Разность гессианов.</b> <span class="m">x − (x⋆ + te) = (1 − t)e</span>, поэтому по липшицевости <span class="m">‖H(x) − H(x⋆ + te)‖ ≤ M(1 − t)‖e‖</span>.</p></div></li>
+        <li><span class="sn">Шаг 5</span><div><p><b>Собираем:</b></p><div class="eq">‖e⁺‖ ≤ (1/m) ∫₀¹ M(1 − t)‖e‖·‖e‖ dt = (M/m)‖e‖² ∫₀¹(1 − t) dt = (M/2m)‖e‖². &nbsp;■</div></div></li>
+      </ol>
+    </div>
+  </section>
+  <section class="sec"><h4>Что спрашивают на коллоквиуме</h4>
+    <ul>
+      <li><b>Почему сходимость «квадратичная»?</b> Если <span class="m">q = (M/2m)‖e₀‖ &lt; 1</span>, то <span class="m">(M/2m)‖eₖ₊₁‖ ≤ ((M/2m)‖eₖ‖)²</span>, откуда <span class="m">(M/2m)‖eₖ‖ ≤ q^(2ᵏ)</span>: показатель удваивается, число верных знаков примерно удваивается на каждом шаге.</li>
+      <li><b>Почему «локальная»?</b> Вдали от x⋆ гессиан может быть не положительно определён, и шаг уводит в сторону (√(1 + x²) из x₀ = 1.1, № 20). На практике используют демпфирование (№ 19).</li>
+      <li><b>Чем отличается от GD?</b> У GD ошибка умножается на число меньше 1 (линейная сходимость), у Ньютона — на величину, пропорциональную самой ошибке.</li>
+      <li><b>Откуда ½?</b> Из <span class="m">∫₀¹(1 − t)dt = ½</span>.</li>
+    </ul>
+  </section>
+  <section class="sec"><h4>В коде</h4>
+    <p>Квадратичная сходимость видна по отношению <span class="m">eₖ₊₁/eₖ²</span>: оно стабилизируется (здесь около <span class="m">f‴/(2f″) = ½</span> в x⋆).</p>
+    <div class="codebox"><pre><code>import numpy as np
+
+x = 0.0
+x_star = np.log(2)
+for i in range(5):
+    e = x - x_star
+    x = x - (np.exp(x) - 2) / np.exp(x)
+    e_new = x - x_star
+    print(i, e, e_new, e_new / e**2)</code></pre><div class="out"># 0 -0.693   0.307    0.639
+# 1  0.307   0.0426   0.453
+# 2  0.0426  8.95e-04 0.493
+# 3  8.95e-04 4.00e-07 0.4999</div></div>
+  </section>
+  <section class="sec"><h4>Проверь на числах</h4>
+    <div class="task">
+      <p><span class="m">f = eˣ − 2x</span>, <span class="m">x⋆ = ln 2 ≈ 0.6931</span>, <span class="m">x₀ = 0</span>. (а) Найди e₀ и e₁. (б) Возьми m и M на отрезке [0, ln 2] и проверь оценку. (в) Проверь формулу шага 2 в одномерном виде: <span class="m">e⁺ = (1/f″(x))∫ от x⋆ до x (f″(x) − f″(s)) ds</span>.</p>
+      <details><summary>Решение</summary><div class="sol">
+        <p>(а) <span class="m">e₀ = −ln 2 ≈ −0.6931</span>; <span class="m">x₁ = 0 − (1 − 2)/1 = 1</span>, <span class="m">e₁ ≈ 0.3069</span>.</p>
+        <p>(б) <span class="m">f″ = f‴ = eˣ</span>. На [0, ln 2]: <span class="m">m = e⁰ = 1</span>, <span class="m">M = max f‴ = e^(ln 2) = 2</span>. Оценка: <span class="m">(2/2)·0.6931² ≈ 0.4805 ≥ 0.3069</span> ✓.</p>
+        <p>(в) <span class="m">∫ от ln 2 до 0 (1 − eˢ) ds = [s − eˢ] от ln 2 до 0 = (0 − 1) − (ln 2 − 2) = 1 − ln 2 ≈ 0.3069</span>, делим на <span class="m">f″(0) = 1</span>: получилось ровно e₁ ✓.</p>
+      </div></details>
+    </div>
+  </section>
+  <div class="widget" data-w="pf6" id="wt6"><h4>Поиграй</h4><p class="how">Слева f″ на отрезке от x⋆ до текущего x: закрашенная площадь между прямой f″(x) и кривой — это интеграл шага 2, а новая ошибка e⁺ равна площади, делённой на f″(x). Делай шаги: площадь быстро исчезает. Справа log₁₀|eₖ| и оценка (M/2m)eₖ₋₁². В таблице m и M считаются на текущем отрезке.</p></div>
+</article>

@@ -1,0 +1,48 @@
+<article class="card" id="d6" data-d="6">
+  <div class="card-head">
+    <div class="num">№ 6</div>
+    <h3>Производная по направлению <span class="en">(directional derivative)</span></h3>
+    <div class="meta"><span class="lvl l1">Colab: напрямую</span><span class="tag">Лекция 1, сл. 16 · Лекция 3, сл. 4, 18</span><span class="tag tickets"></span><label class="chk known"><input type="checkbox" id="known-6"> знаю</label></div>
+  </div>
+  <div class="exam"><div class="lbl">На коллоквиуме · 0.5 балла <span class="hint">нажми, чтобы открыть</span></div><div class="body">
+    <p>Пусть d — допустимое направление в точке <span class="m">x ∈ Ω</span> (№ 9). Производная f по направлению d (directional derivative):</p>
+    <div class="eq">∂f/∂d (x) = lim<sub>t→0+</sub> (f(x + td) − f(x)) / t.</div>
+    <p>Если f дифференцируема, то <span class="m">∂f/∂d (x) = ⟨∇f(x), d⟩ = dᵀ∇f(x)</span>. При <span class="m">‖d‖ = 1</span> это скорость роста f в направлении d.</p>
+  </div></div>
+  <section class="sec"><h4>Интуиция</h4>
+    <p>Идёшь по поверхности строго в направлении d и меряешь крутизну подъёма под ногами. По градиенту подъём самый крутой, вдоль линии уровня крутизна нулевая, против градиента — самый крутой спуск.</p>
+  </section>
+  <section class="sec"><h4>Подробнее</h4>
+    <ul>
+      <li>Неравенство Коши–Буняковского (Cauchy–Schwarz) для <span class="m">‖d‖ = 1</span>: <span class="m">−‖∇f‖ ≤ ⟨∇f, d⟩ ≤ ‖∇f‖</span>, максимум при <span class="m">d = ∇f/‖∇f‖</span> (лекция 3, сл. 4). Как функция угла θ между d и ∇f это <span class="m">‖∇f‖·cos θ</span>: правый график виджета.</li>
+      <li>Предел односторонний (<span class="m">t → 0+</span>), поэтому производная по направлению бывает и у недифференцируемых функций: у <span class="m">f(x) = |x|</span> в нуле <span class="m">∂f/∂d = |d|</span>. Формула <span class="m">⟨∇f, d⟩</span> там неприменима: градиента нет.</li>
+      <li>d не обязан быть единичным: при замене d на cd (c &gt; 0) производная умножается на c.</li>
+      <li>Вторая производная вдоль направления: <span class="m">d²/dt² f(x + td) |<sub>t=0</sub> = dᵀ∇²f(x)d</span> (Renegar, Prop. 1.4.2). На этом построено доказательство критерия выпуклости 2-го порядка.</li>
+    </ul>
+  </section>
+  <section class="sec"><h4>В задачах и в коде</h4>
+    <p>В линейном поиске (№ 19) изучают функцию одной переменной <span class="m">φ(α) = f(x + αd)</span>; её наклон в нуле <span class="m">φ′(0) = ∇f(x)ᵀd</span>. Прямой режим автоматического дифференцирования (forward-mode AD, лекция 3, сл. 18) за один проход вычисляет произведение якобиана на вектор, то есть ровно производную по направлению.</p>
+    <div class="codebox"><pre><code>import numpy as np
+
+def f(x):
+    return x[0]**2 * x[1] + x[1]**3
+
+x = np.array([1.0, 2.0])
+d = np.array([3.0, 4.0]) / 5
+grad = np.array([2 * x[0] * x[1], x[0]**2 + 3 * x[1]**2])
+print(grad @ d)
+for t in [1e-1, 1e-3, 1e-5]:
+    print(t, (f(x + t * d) - f(x)) / t)</code></pre><div class="out"># 12.8
+# 0.1 13.36   0.001 12.8055   1e-05 12.80006   ← разность сходится к ⟨∇f, d⟩</div></div>
+  </section>
+  <section class="sec"><h4>Посчитай руками</h4>
+    <div class="task">
+      <p><span class="m">f(x, y) = x²y + y³</span>, точка <span class="m">(1, 2)</span>, направление <span class="m">d = (3, 4)/5</span>. Найди <span class="m">∂f/∂d</span> и максимальную скорость роста f в этой точке.</p>
+      <details><summary>Решение</summary><div class="sol">
+        <p><span class="m">∇f = (2xy, x² + 3y²) = (4, 13)</span>. <span class="m">∂f/∂d = (4·3 + 13·4)/5 = 64/5 = 12.8</span>.</p>
+        <p>Максимум по единичным направлениям равен <span class="m">‖∇f‖ = √(16 + 169) = √185 ≈ 13.60</span> и достигается при <span class="m">d = (4, 13)/√185</span>. Проверка разностью при <span class="m">t = 0.001</span> даёт ≈ 12.806.</p>
+      </div></details>
+    </div>
+  </section>
+  <div class="widget" data-w="dirderiv" id="w6"><h4>Поиграй</h4><p class="how">Тащи точку и конец зелёной стрелки d. Оранжевая стрелка — градиент. Справа производная по направлению как функция угла: максимум там, где d совпадает с ∇f, ноль — вдоль линии уровня.</p></div>
+</article>

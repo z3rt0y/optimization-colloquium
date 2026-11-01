@@ -1,0 +1,23 @@
+<article class="card taskc" id="pW5" data-p="W5">
+  <div class="card-head">
+    <div class="num">П5 · тетрадь, с. 6</div>
+    <h3>Сначала предскажи поведение <span class="en">(error multipliers 1 − αλ)</span></h3>
+    <div class="meta"><span class="srcb matveeva">Матвеева files</span><button class="tag photo" type="button" data-photo="1">фото с. 6–7</button><span class="lvl l1">Colab: напрямую</span><span class="tag">№ 18, теорема 4</span><label class="chk known"><input type="checkbox" id="solved-W5"> решено</label></div>
+  </div>
+  <div class="stmt"><div class="lbl">Условие</div>
+    <p>Для <span class="m">f(x, y) = x² + 3y²</span> сравни четыре шага <span class="m">α = 1/6, 1/4, 1/3, 2/5</span>. Найди множители ошибок и укажи, гарантирована ли сходимость из любой начальной точки. Что изменится в двух последних строках, если <span class="m">y₀ = 0</span>?</p>
+  </div>
+  <div class="qa" data-task="W5"></div>
+  <details class="hint"><summary>Подсказка</summary><p><span class="m">H = diag(2, 6)</span>, поэтому <span class="m">xₖ₊₁ = (1 − 2α)xₖ</span>, <span class="m">yₖ₊₁ = (1 − 6α)yₖ</span>. Сходимость из любой точки ⇔ оба множителя по модулю меньше 1.</p></details>
+  <details class="solution"><summary>Решение</summary><div class="sol">
+    <p><span class="m">λ = 2</span> и <span class="m">6</span>, <span class="m">L = 6</span>, <span class="m">2/L = 1/3</span>.</p>
+    <div class="tbl-wrap"><table class="tbl"><tr><th>α</th><th>по x: 1 − 2α</th><th>по y: 1 − 6α</th><th>поведение</th><th>из любой точки</th></tr>
+      <tr><td>1/6</td><td>2/3</td><td>0</td><td>y попадает в 0 за один шаг, x монотонно убывает ×2/3</td><td>да</td></tr>
+      <tr><td>1/4</td><td>1/2</td><td>−1/2</td><td>x монотонно, y колеблется вокруг 0 и затухает; это <span class="m">2/(L + µ)</span>, оба множителя по модулю равны — оптимальный постоянный шаг</td><td>да</td></tr>
+      <tr><td>1/3</td><td>1/3</td><td>−1</td><td>y колеблется без затухания: <span class="m">y, −y, y, …</span> (граница <span class="m">α = 2/L</span>)</td><td>нет</td></tr>
+      <tr><td>2/5</td><td>1/5</td><td>−7/5</td><td>y колеблется и растёт в 1.4 раза за шаг — расходимость</td><td>нет</td></tr>
+    </table></div>
+    <p><b>Если y₀ = 0.</b> Тогда <span class="m">yₖ = (1 − 6α)ᵏ·0 = 0</span> на каждом шаге, и всё решает множитель по x: 1/3 и 1/5. В обеих последних строках метод сойдётся к (0, 0). Но это частный старт, а не гарантия: при <span class="m">α = 2/5</span> любая малая погрешность по y (хотя бы округление) будет расти в 1.4 раза за шаг. Сходимость «из любой точки» по-прежнему есть только при <span class="m">α &lt; 2/L</span>.</p>
+  </div></details>
+  <div class="widget" data-w="mult" id="wmul"><h4>Поиграй</h4><p class="how">Слева оба множителя как функции шага: пока линия внутри зелёной полосы |·| &lt; 1, ошибка по этой координате сжимается. Справа ошибки первых восьми шагов со старта (1, 1). Нажимай шаги из задачи, двигай ползунок, поставь галочку «y₀ = 0» и сравни последние строки таблицы.</p></div>
+</article>

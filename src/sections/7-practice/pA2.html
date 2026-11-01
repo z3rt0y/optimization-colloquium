@@ -1,0 +1,21 @@
+<article class="card taskc" id="pA2" data-p="A2">
+  <div class="card-head">
+    <div class="num">A2 · самостоятельно, 8 минут</div>
+    <h3>Стационарная точка другой квадратичной функции <span class="en">(stationary point of another quadratic)</span></h3>
+    <div class="meta"><span class="srcb baulin">Баулин files</span><span class="tag">задача 3.1</span><button class="btn small" type="button" data-load="wq:A2">Открыть в калькуляторе</button><label class="chk known"><input type="checkbox" id="solved-A2"> решено</label></div>
+  </div>
+  <div class="stmt"><div class="lbl">Условие</div>
+    <p>Для <span class="m">f(x, y) = 4x² − 2xy + y² − 6x + 4y</span> найди стационарную точку, её тип, µ и L.</p>
+  </div>
+  <div class="qa" data-task="A2"></div>
+  <details class="hint"><summary>Подсказка</summary><p>Градиент <span class="m">(8x − 2y − 6, −2x + 2y + 4)</span>, гессиан <span class="m">[[8, −2], [−2, 2]]</span>.</p></details>
+  <details class="solution"><summary>Решение</summary><div class="sol">
+    <ol class="steps">
+      <li><span class="sn">1</span><div><p><span class="m">H = [[8, −2], [−2, 2]]</span>, <span class="m">det = 16 − 4 = 12 &gt; 0</span>, <span class="m">tr = 10 &gt; 0</span> ⇒ оба λ положительны ⇒ минимум (ещё до вычисления λ).</p></div></li>
+      <li><span class="sn">2</span><div><p>Система: <span class="m">8x − 2y = 6</span>, <span class="m">−2x + 2y = −4</span>. Сложим: <span class="m">6x = 2 ⇒ x = 1/3 ≈ 0.3333</span>; из второго <span class="m">y = x − 2 = −5/3 ≈ −1.6667</span>. Проверка ✓, <span class="m">f(x⋆) = −13/3 ≈ −4.3333</span>.</p></div></li>
+      <li><span class="sn">3</span><div><p><span class="m">λ² − 10λ + 12 = 0 ⇒ λ = 5 ± √13</span>: <span class="m">µ ≈ 1.3944</span>, <span class="m">L ≈ 8.6056</span>, <span class="m">κ ≈ 6.1713</span>; лучший шаг GD сжимает ошибку в <span class="m">(κ − 1)/(κ + 1) = √13/5 ≈ 0.7211</span> раза.</p></div></li>
+    </ol>
+    <p><b>Ответ:</b> минимум в <span class="m">(1/3, −5/3) ≈ (0.3333, −1.6667)</span>; <span class="m">µ ≈ 1.3944</span>, <span class="m">L ≈ 8.6056</span>.</p>
+    <p class="k-mut">Приём: положительные след и определитель дают два положительных λ без их вычисления.</p>
+  </div></details>
+</article>

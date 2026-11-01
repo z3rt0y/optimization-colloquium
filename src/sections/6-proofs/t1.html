@@ -1,0 +1,51 @@
+<article class="card proof" id="t1" data-t="1">
+  <div class="card-head">
+    <div class="num">Теорема 1 · билеты 4, 11, 14</div>
+    <h3>Критерий выпуклости первого порядка <span class="en">(first-order convexity criterion)</span></h3>
+    <div class="meta"><span class="srcb baulin">Баулин files</span><span class="lvl l2">Colab: для проверки</span><span class="tag">Лекция 2, сл. 11–15 · proofs.pdf §1</span><label class="chk known"><input type="checkbox" id="known-t1"> знаю</label></div>
+  </div>
+  <div class="exam"><div class="lbl">Формулировка · часть 2, 3 балла <span class="hint">нажми, чтобы открыть</span></div><div class="body">
+    <p>Пусть f дифференцируема на открытом выпуклом множестве C. Тогда</p>
+    <div class="eq">f выпукла &nbsp;⇔&nbsp; f(y) ≥ f(x) + ⟨∇f(x), y − x⟩ &nbsp;для всех x, y ∈ C.</div>
+  </div></div>
+  <section class="sec"><h4>Идея</h4>
+    <p>Касательная плоскость в любой точке лежит не выше графика: выпуклая функция всюду выше своих линейных приближений (№ 5). Для оптимизации это значит, что одна точка и градиент в ней дают нижнюю оценку f сразу на всём C. Если <span class="m">∇f(x⋆) = 0</span>, то <span class="m">f(y) ≥ f(x⋆)</span> для всех y: стационарная точка выпуклой функции — глобальный минимум.</p>
+  </section>
+  <section class="sec"><h4>Доказательство</h4>
+    <div class="steps-wrap">
+      <ol class="steps">
+        <li class="part">(⇒) Из определения выпуклости следует неравенство</li>
+        <li><span class="sn">Шаг 1</span><div><p>Возьмём точку на отрезке <span class="m">z<sub>t</sub> = x + t(y − x) = (1 − t)x + ty</span>, <span class="m">t ∈ (0, 1]</span>. По определению выпуклости (№ 12)</p><div class="eq">f(z<sub>t</sub>) ≤ (1 − t)f(x) + t f(y).</div></div></li>
+        <li><span class="sn">Шаг 2</span><div><p>Вычтем f(x) из обеих частей: <span class="m">f(z<sub>t</sub>) − f(x) ≤ t(f(y) − f(x))</span>. Разделим на <span class="m">t &gt; 0</span>, знак сохраняется:</p><div class="eq">[f(x + t(y − x)) − f(x)] / t ≤ f(y) − f(x).</div></div></li>
+        <li><span class="sn">Шаг 3</span><div><p>Слева разностное отношение вдоль направления <span class="m">d = y − x</span>. При <span class="m">t ↓ 0</span> оно стремится к производной по направлению (№ 6), которая для дифференцируемой функции равна <span class="m">⟨∇f(x), y − x⟩</span>. Правая часть от t не зависит, нестрогое неравенство в пределе сохраняется:</p><div class="eq">⟨∇f(x), y − x⟩ ≤ f(y) − f(x).</div></div></li>
+        <li class="part">(⇐) Из неравенства следует выпуклость</li>
+        <li><span class="sn">Шаг 4</span><div><p>Фиксируем x, y, <span class="m">t ∈ [0, 1]</span> и положим <span class="m">z = (1 − t)x + ty</span>. Запишем неравенство дважды, оба раза с касательной в точке z:</p><div class="eq">f(x) ≥ f(z) + ⟨∇f(z), x − z⟩, &nbsp;&nbsp; f(y) ≥ f(z) + ⟨∇f(z), y − z⟩.</div></div></li>
+        <li><span class="sn">Шаг 5</span><div><p>Умножим первое на <span class="m">(1 − t) ≥ 0</span>, второе на <span class="m">t ≥ 0</span> и сложим:</p><div class="eq">(1 − t)f(x) + t f(y) ≥ f(z) + ⟨∇f(z), (1 − t)(x − z) + t(y − z)⟩.</div></div></li>
+        <li><span class="sn">Шаг 6</span><div><p>Ключевой момент: вектор в скалярном произведении равен нулю,</p><div class="eq">(1 − t)(x − z) + t(y − z) = (1 − t)x + ty − z = 0.</div><p>Остаётся <span class="m">(1 − t)f(x) + t f(y) ≥ f(z)</span>, а это определение выпуклости. <span class="qed">■</span></p></div></li>
+      </ol>
+    </div>
+  </section>
+  <section class="sec"><h4>Что спрашивают на коллоквиуме</h4>
+    <ul>
+      <li><b>Почему касательную берут именно в z?</b> Тогда при сложении линейные члены взаимно уничтожаются (шаг 6). С касательной в x или в y так не получится.</li>
+      <li><b>Зачем множители неотрицательны?</b> Неравенства можно складывать с весами <span class="m">1 − t, t ≥ 0</span>; отрицательный множитель перевернул бы знак.</li>
+      <li><b>Где нужна выпуклость C?</b> Точки <span class="m">z<sub>t</sub></span> и z должны лежать в C, иначе f(z) не определено. Открытость C нужна, чтобы градиент существовал в каждой точке, включая z.</li>
+      <li><b>Типичная ошибка:</b> в шаге 3 написать строгое неравенство. В пределе строгое неравенство становится нестрогим.</li>
+    </ul>
+  </section>
+  <section class="sec"><h4>Опирается на и нужно для</h4>
+    <p>Опирается на определения <a href="#d12">№ 12</a> (выпуклая функция) и <a href="#d6">№ 6</a> (производная по направлению). Используется в <a href="#t2">теореме 2</a> (в обе стороны) и в шаге 2 <a href="#t7">теоремы 7</a>.</p>
+  </section>
+  <section class="sec"><h4>Проверь на числах</h4>
+    <div class="task">
+      <p>f = eˣ, x = 0, y = 1. (а) Проверь неравенство критерия. (б) Посчитай разностное отношение шага 2 при t = 1, 0.5, 0.1 и убедись, что оно лежит между <span class="m">f′(x)(y − x)</span> и <span class="m">f(y) − f(x)</span>. (в) Для (⇐) возьми t = 0.4 и проверь, что <span class="m">(1 − t)T(x) + tT(y) = f(z)</span>, где T — касательная в z. (г) Почему sin x на <span class="m">[0, π]</span> не выпукла?</p>
+      <details><summary>Решение</summary><div class="sol">
+        <p>(а) <span class="m">f(1) = e ≈ 2.718 ≥ f(0) + f′(0)·1 = 2</span> ✓.</p>
+        <p>(б) <span class="m">Q(t) = (eᵗ − 1)/t</span>: Q(1) ≈ 1.718, Q(0.5) ≈ 1.297, Q(0.1) ≈ 1.052. Все между <span class="m">f′(0)·1 = 1</span> и <span class="m">f(1) − f(0) ≈ 1.718</span>, и при t → 0 стремятся к 1.</p>
+        <p>(в) z = 0.4, f(z) = e⁰·⁴ ≈ 1.4918. <span class="m">T(x) = e⁰·⁴(1 − 0.4) ≈ 0.8951</span>, <span class="m">T(y) = e⁰·⁴(1 + 0.6) ≈ 2.3869</span>. <span class="m">0.6·0.8951 + 0.4·2.3869 ≈ 1.4918 = f(z)</span> ✓: касательная линейна, поэтому взвешенная сумма её значений равна значению в z. Хорда: <span class="m">0.6·1 + 0.4·e ≈ 1.6873 ≥ 1.4918</span> ✓.</p>
+        <p>(г) x = 0, y = π: <span class="m">f(π) = 0</span>, а <span class="m">f(0) + cos 0·π = π</span>. Неравенство <span class="m">0 ≥ π</span> ложно ⇒ не выпукла.</p>
+      </div></details>
+    </div>
+  </section>
+  <div class="widget" data-w="pf1" id="wt1"><h4>Поиграй</h4><p class="how">Режим (⇒): тащи точки x и y, двигай t или запусти «t → 0». Зелёная секущая наклоном даёт разностное отношение Q(t); нижний график показывает, как Q(t) спускается к ⟨∇f(x), y − x⟩. Режим (⇐): касательная в z и два неравенства шага 4. Выбери невыпуклую функцию, чтобы увидеть, где ломается цепочка.</p></div>
+</article>

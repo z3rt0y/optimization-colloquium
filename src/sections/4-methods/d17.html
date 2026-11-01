@@ -1,0 +1,43 @@
+<article class="card" id="d17" data-d="17">
+  <div class="card-head">
+    <div class="num">№ 17</div>
+    <h3>Направление спуска <span class="en">(descent direction)</span></h3>
+    <div class="meta"><span class="lvl l1">Colab: напрямую</span><span class="tag">Лекция 3, сл. 3–4 · Лекция 5, сл. 8–9</span><span class="tag tickets"></span><label class="chk known"><input type="checkbox" id="known-17"> знаю</label></div>
+  </div>
+  <div class="exam"><div class="lbl">На коллоквиуме · 0.5 балла <span class="hint">нажми, чтобы открыть</span></div><div class="body">
+    <p>Вектор d — (строгое) направление спуска (descent direction) функции f в точке x, если</p>
+    <div class="eq">∇f(x)ᵀd &lt; 0.</div>
+    <p>Тогда для дифференцируемой f: <span class="m">f(x + αd) &lt; f(x)</span> при всех достаточно малых <span class="m">α &gt; 0</span>.</p>
+  </div></div>
+  <section class="sec"><h4>Интуиция</h4>
+    <p>Направление образует с антиградиентом острый угол (меньше 90°): шагнёшь немного — функция уменьшится. Это не обязательно сам антиградиент, подходит любое направление «в нижнюю полуплоскость».</p>
+  </section>
+  <section class="sec"><h4>Подробнее</h4>
+    <ul>
+      <li>Почему так: <span class="m">f(x + αd) = f(x) + α∇f(x)ᵀd + o(α)</span>; при малом α главный член <span class="m">α∇fᵀd &lt; 0</span> перевешивает <span class="m">o(α)</span>.</li>
+      <li>Примеры: <span class="m">−∇f(x)</span> (наискорейший спуск, steepest descent, в евклидовой норме); <span class="m">−M⁻¹∇f(x)</span> для любой <span class="m">M ≻ 0</span> (предобусловленный GD, Ньютон при <span class="m">H ≻ 0</span>, BFGS при <span class="m">G ≻ 0</span>); <span class="m">−∂ᵢf(x)·eᵢ</span> (покоординатный спуск, лекция 4).</li>
+      <li>Ньютоновское направление при знаконеопределённом гессиане может вести вверх: в примере лекции 5, сл. 9 <span class="m">∇fᵀp<sub>N</sub> = 0.6125 &gt; 0</span>. Линейный поиск такое направление не исправит.</li>
+      <li>Если <span class="m">∇f(x) = 0</span>, направлений спуска первого порядка нет.</li>
+    </ul>
+  </section>
+  <section class="sec"><h4>В задачах и в коде</h4>
+    <p>Все методы линейного поиска строятся по шаблону лекции 3: выбрать направление <span class="m">dₖ</span>, потом шаг <span class="m">αₖ</span>, потом проверить остановку. Правило Армихо (№ 19) имеет смысл только для направления спуска, поэтому знак <span class="m">∇fᵀd</span> проверяют до линейного поиска.</p>
+    <div class="codebox"><pre><code>import numpy as np
+
+grad = np.array([2.0, 8.0])
+for d in [np.array([-1.0, 0.0]), np.array([1.0, -1.0]), np.array([-1.0, 1.0])]:
+    slope = grad @ d
+    print(d, slope, slope &lt; 0)</code></pre><div class="out"># [-1.  0.] -2.0 True
+# [ 1. -1.] -6.0 True
+# [-1.  1.]  6.0 False</div></div>
+  </section>
+  <section class="sec"><h4>Посчитай руками</h4>
+    <div class="task">
+      <p><span class="m">f(x, y) = x² + 4y²</span>, точка <span class="m">(1, 1)</span>. Какие из <span class="m">d₁ = (−1, 0)</span>, <span class="m">d₂ = (1, −1)</span>, <span class="m">d₃ = (−1, 1)</span> — направления спуска?</p>
+      <details><summary>Решение</summary><div class="sol">
+        <p><span class="m">∇f = (2x, 8y) = (2, 8)</span>. <span class="m">d₁</span>: <span class="m">−2 &lt; 0</span> ✓. <span class="m">d₂</span>: <span class="m">2 − 8 = −6 &lt; 0</span> ✓, хотя x при этом растёт; проверка: <span class="m">f(1.1, 0.9) = 1.21 + 3.24 = 4.45 &lt; f(1, 1) = 5</span>. <span class="m">d₃</span>: <span class="m">−2 + 8 = 6 &gt; 0</span> ✗, это направление подъёма.</p>
+      </div></details>
+    </div>
+  </section>
+  <div class="widget" data-w="descentdir" id="w17"><h4>Поиграй</h4><p class="how">Тащи точку и конец стрелки d. Зелёный полукруг — все направления спуска (угол с −∇f меньше 90°), граница — касательная к линии уровня. Справа функция вдоль луча φ(α) = f(x + αd) и её наклон в нуле.</p></div>
+</article>

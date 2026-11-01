@@ -1,0 +1,50 @@
+<article class="card taskc" id="pW7" data-p="W7">
+  <div class="card-head">
+    <div class="num">П7 · тетрадь, с. 8</div>
+    <h3>Ограничения и двойственность <span class="en">(KKT conditions and the dual problem)</span></h3>
+    <div class="meta"><span class="srcb matveeva">Матвеева files</span><button class="tag photo" type="button" data-photo="2">фото с. 8–9</button><span class="lvl l2">Colab: для проверки</span><span class="tag">№ 21–24, теорема 7</span><label class="chk known"><input type="checkbox" id="solved-W7"> решено</label></div>
+  </div>
+  <div class="stmt"><div class="lbl">Условие</div>
+    <p class="eqc"><span class="m">min (x − 3)² &nbsp;при&nbsp; x ≤ 1</span></p>
+    <p>Приведи ограничение к виду <span class="m">g(x) ≤ 0</span>. Запиши лагранжиан и все четыре группы ККТ. Проверь активный и неактивный случаи. Обоснуй глобальность найденного решения.</p>
+    <p><b>Двойственная задача.</b> При фиксированном множителе минимизируй лагранжиан по всем вещественным x. Найди <span class="m">q(λ)</span>, реши двойственную задачу и сравни оптимальные значения.</p>
+    <p><b>Дополнительно.</b> Замени ограничение на <span class="m">x ≤ 4</span>. Как изменятся решение, активность и множитель? Может ли активное ограничение в другой задаче иметь нулевой множитель? Приведи пример.</p>
+  </div>
+  <div class="qa" data-task="W7"></div>
+  <details class="hint"><summary>Подсказка</summary><p>Дополняющая нежёсткость <span class="m">λ·g(x) = 0</span> даёт ровно два случая: <span class="m">λ = 0</span> (неактивный) или <span class="m">g(x) = 0</span> (активный). Проверь в каждом остальные условия.</p></details>
+  <details class="solution"><summary>Решение по строкам тетради</summary><div class="sol">
+    <ol class="steps">
+      <li><span class="sn">Ограничение, ℒ</span><div><p><span class="m">g(x) = x − 1 ≤ 0</span>; <span class="m">ℒ(x, λ) = (x − 3)² + λ(x − 1)</span>.</p></div></li>
+      <li><span class="sn">Группы ККТ</span><div>
+        <div class="tbl-wrap"><table class="tbl"><tr><th>Группа ККТ</th><th>Условие для этой задачи</th></tr>
+          <tr><td>Стационарность</td><td class="m">2(x − 3) + λ = 0</td></tr>
+          <tr><td>Прямая допустимость</td><td class="m">x − 1 ≤ 0</td></tr>
+          <tr><td>Двойственная допустимость</td><td class="m">λ ≥ 0</td></tr>
+          <tr><td>Дополняющая нежёсткость</td><td class="m">λ(x − 1) = 0</td></tr></table></div></div></li>
+      <li><span class="sn">Неактивный</span><div><p><span class="m">λ = 0</span> ⇒ <span class="m">x = 3</span>, но <span class="m">3 − 1 = 2 &gt; 0</span>: недопустимо ⇒ случай отпадает.</p></div></li>
+      <li><span class="sn">Активный</span><div><p><span class="m">x = 1</span> ⇒ <span class="m">2(1 − 3) + λ = 0</span> ⇒ <span class="m">λ = 4 ≥ 0</span> ✓. Точка ККТ: <span class="m">(x⋆, λ⋆) = (1, 4)</span>, <span class="m">f⋆ = 4</span>.</p></div></li>
+      <li><span class="sn">Глобаль­ность</span><div><p>f выпукла (<span class="m">f″ = 2 &gt; 0</span>), g аффинна ⇒ задача выпуклая ⇒ точка ККТ — глобальный минимум (теорема 7). Проверка напрямую: на луче <span class="m">x ≤ 1</span> функция <span class="m">(x − 3)²</span> убывает, минимум на правом конце.</p></div></li>
+      <li><span class="sn">q(λ)</span><div><p>При фиксированном λ ℒ — парабола по x: <span class="m">2(x − 3) + λ = 0</span> ⇒ <span class="m">x(λ) = 3 − λ/2</span>. Подставляем: <span class="m">q(λ) = (λ/2)² + λ(2 − λ/2) = 2λ − λ²/4</span>.</p></div></li>
+      <li><span class="sn">Двойственная</span><div><p><span class="m">max 2λ − λ²/4</span> при <span class="m">λ ≥ 0</span>: <span class="m">q′ = 2 − λ/2 = 0</span> ⇒ <span class="m">λ⋆ = 4</span>, <span class="m">d⋆ = 8 − 4 = 4 = p⋆</span>. Зазор ноль — сильная двойственность (strong duality); условие Слейтера выполнено, например <span class="m">x = 0</span> строго допустима. И <span class="m">x(λ⋆) = 1 = x⋆</span>.</p></div></li>
+      <li><span class="sn">x ≤ 4</span><div><p><span class="m">g = x − 4</span>. Неактивный случай: <span class="m">λ = 0</span> ⇒ <span class="m">x = 3 ≤ 4</span> ✓. Значит <span class="m">x⋆ = 3</span>, ограничение неактивно, <span class="m">λ⋆ = 0</span>, <span class="m">f⋆ = 0</span>. Двойственная: <span class="m">q(λ) = −λ²/4 − λ</span>, максимум при <span class="m">λ = 0</span>, <span class="m">d⋆ = 0 = p⋆</span>.</p></div></li>
+      <li><span class="sn">Нулевой множитель</span><div><p>Да. <span class="m">min (x − 1)²</span> при <span class="m">x ≤ 1</span>: <span class="m">x⋆ = 1</span>, <span class="m">g(x⋆) = 0</span> — ограничение активно, но стационарность <span class="m">2(1 − 1) + λ = 0</span> даёт <span class="m">λ⋆ = 0</span>. Ограничение проходит ровно через безусловный минимум: если его убрать, решение не изменится. Дополняющая нежёсткость требует <span class="m">λg = 0</span>, а не «ровно один из двух равен нулю».</p></div></li>
+    </ol>
+    <p><b>Ответ:</b> <span class="m">x⋆ = 1</span>, <span class="m">λ⋆ = 4</span>, <span class="m">f⋆ = 4</span>, ограничение активно; <span class="m">q(λ) = 2λ − λ²/4</span>, <span class="m">d⋆ = 4 = p⋆</span>. При <span class="m">x ≤ 4</span>: <span class="m">x⋆ = 3</span>, <span class="m">λ⋆ = 0</span>, ограничение неактивно.</p>
+    <p class="k-mut">Смысл λ⋆ = 4 — цена ограничения (sensitivity). Если ослабить его до <span class="m">x ≤ 1 + ε</span>, оптимум станет <span class="m">(2 − ε)² = 4 − 4ε + ε²</span>, то есть уменьшится примерно на <span class="m">λ⋆·ε</span>.</p>
+  </div></details>
+  <section class="sec"><h4>В коде</h4>
+    <div class="codebox"><pre><code>import numpy as np
+
+x = np.linspace(-5, 1, 60001)
+fx = (x - 3) ** 2
+i = np.argmin(fx)
+print("p* =", fx[i], "при x =", x[i])
+
+lam = np.linspace(0, 8, 8001)
+q = 2 * lam - lam ** 2 / 4
+j = np.argmax(q)
+print("d* =", q[j], "при λ =", lam[j])</code></pre><div class="out"># p* = 4.0 при x = 1.0
+# d* = 4.0 при λ = 4.0</div></div>
+  </section>
+  <div class="widget" data-w="kkt1" id="wkkt1"><h4>Поиграй</h4><p class="how">Слева f, лагранжиан и допустимая зона; синяя точка — минимум ℒ по всем x при текущем λ. Справа двойственная функция: при любом λ она не выше p⋆, а максимум касается p⋆. Двигай λ к λ⋆ и смотри, как минимум ℒ приходит в x⋆. Кнопки загружают задачу, дополнительный вопрос и пример с нулевым множителем.</p></div>
+</article>

@@ -1,0 +1,20 @@
+<article class="card taskc" id="pB3" data-p="B3">
+  <div class="card-head">
+    <div class="num">B3 · у доски</div>
+    <h3>Три шага на границе α = 2/L <span class="en">(three steps on the border)</span></h3>
+    <div class="meta"><span class="srcb baulin">Баулин files</span><span class="tag">задача 3.2</span><button class="btn small" type="button" data-load="wg:B3">Открыть в калькуляторе</button><label class="chk known"><input type="checkbox" id="solved-B3"> решено</label></div>
+  </div>
+  <div class="stmt"><div class="lbl">Условие</div>
+    <p>Пусть <span class="m">f(x, y) = x² + y²</span>. Из <span class="m">x₀ = (2, 1)</span> сделай три шага градиентного спуска с <span class="m">α = 1</span> (это ровно 2/L). Запиши <span class="m">x₁, x₂, x₃</span>, значения f и опиши, как ведут себя итерации.</p>
+  </div>
+  <div class="qa" data-task="B3"></div>
+  <details class="hint"><summary>Подсказка</summary><p><span class="m">∇f = (2x, 2y)</span>, поэтому <span class="m">x⁺ = (1 − 2α)x</span> покоординатно.</p></details>
+  <details class="solution"><summary>Решение</summary><div class="sol">
+    <ol class="steps">
+      <li><span class="sn">1</span><div><p><span class="m">Q = 2I</span>, <span class="m">L = 2</span>, <span class="m">2/L = 1 = α</span>. Множитель на каждой координате <span class="m">1 − 2α = −1</span>.</p></div></li>
+      <li><span class="sn">2</span><div><p><span class="m">∇f(x₀) = (4, 2)</span>, <span class="m">x₁ = (−2, −1)</span>, <span class="m">f = 5</span>: знак сменился, длина та же. <span class="m">x₂ = (2, 1)</span>, <span class="m">x₃ = (−2, −1)</span>, f = 5 на каждом шаге, <span class="m">‖xₖ‖ = √5 ≈ 2.2361</span>.</p></div></li>
+      <li><span class="sn">3</span><div><p>Это граница <span class="m">|1 − αL| = 1</span>: метод не расходится, но и не сходится, качается между x₀ и −x₀. Вывод: в условии нужно строгое <span class="m">α &lt; 2/L</span>, а не ≤ (теорема 4: скобка <span class="m">1 − Lα/2</span> обнуляется).</p></div></li>
+    </ol>
+    <p><b>Ответ:</b> <span class="m">f(x₁) = f(x₂) = f(x₃) = 5</span>, <span class="m">‖x₃‖/‖x₀‖ = 1</span>; итерации колеблются с постоянной амплитудой.</p>
+  </div></details>
+</article>

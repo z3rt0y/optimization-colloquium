@@ -1,0 +1,26 @@
+<article class="card taskc" id="pW4" data-p="W4">
+  <div class="card-head">
+    <div class="num">П4 · тетрадь, с. 6</div>
+    <h3>Спуск со смешанным членом <span class="en">(GD with a cross term, eigen-directions)</span></h3>
+    <div class="meta"><span class="srcb matveeva">Матвеева files</span><button class="tag photo" type="button" data-photo="1">фото с. 6–7</button><span class="lvl l1">Colab: напрямую</span><span class="tag">тип задачи 3.2</span><button class="btn small" type="button" data-load="wg2:P4">Открыть в калькуляторе</button><label class="chk known"><input type="checkbox" id="solved-W4"> решено</label></div>
+  </div>
+  <div class="stmt"><div class="lbl">Условие</div>
+    <p class="eqc"><span class="m">f(x, y) = x² + xy + y², &nbsp; x₀ = (0, 6), &nbsp; α = 1/2</span></p>
+    <p>Выполни три шага. Найди L, проверь шаг и объясни поведение через собственные направления гессиана. Почему здесь нельзя считать, что каждая обычная координата независимо умножается на <span class="m">1 − αλ</span>?</p>
+  </div>
+  <div class="qa" data-task="W4"></div>
+  <details class="hint"><summary>Подсказка</summary><p>Запиши шаг как <span class="m">x⁺ = (I − αH)x</span> и посмотри на матрицу <span class="m">I − ½H</span>. Собственные векторы H здесь <span class="m">(1, 1)</span> и <span class="m">(1, −1)</span>.</p></details>
+  <details class="solution"><summary>Решение</summary><div class="sol">
+    <ol class="steps">
+      <li><span class="sn">Градиент, гессиан</span><div><p><span class="m">∇f = (2x + y, &nbsp;x + 2y)</span>, <span class="m">H = [[2, 1], [1, 2]]</span>.</p></div></li>
+      <li><span class="sn">λ и векторы</span><div><p><span class="m">λ² − 4λ + 3 = 0</span> ⇒ <span class="m">λ = 1</span> (вектор <span class="m">(1, −1)</span>) и <span class="m">λ = 3</span> (вектор <span class="m">(1, 1)</span>). <span class="m">L = 3</span>, <span class="m">2/L = 2/3 &gt; α = 1/2</span> ⇒ шаг безопасен.</p></div></li>
+      <li><span class="sn">Матрица шага</span><div><p><span class="m">I − ½H = [[0, −½], [−½, 0]]</span>, то есть <span class="m">x⁺ = −y/2</span>, <span class="m">y⁺ = −x/2</span>. Новое x зависит от старого y — координаты связаны.</p></div></li>
+      <li><span class="sn">k = 0</span><div><p><span class="m">∇f(0, 6) = (6, 12)</span>, <span class="m">f = 36</span>; <span class="m">x₁ = (0 − 3, 6 − 6) = (−3, 0)</span>.</p></div></li>
+      <li><span class="sn">k = 1</span><div><p><span class="m">∇f(−3, 0) = (−6, −3)</span>, <span class="m">f(x₁) = 9</span>; <span class="m">x₂ = (−3 + 3, 0 + 1.5) = (0, 1.5)</span>.</p></div></li>
+      <li><span class="sn">k = 2</span><div><p><span class="m">∇f(0, 1.5) = (1.5, 3)</span>, <span class="m">f(x₂) = 2.25</span>; <span class="m">x₃ = (−0.75, 0)</span>, <span class="m">f(x₃) = 0.5625</span>.</p></div></li>
+      <li><span class="sn">Собственный базис</span><div><p><span class="m">x₀ = 3·(1, 1) − 3·(1, −1)</span>. Компонента вдоль <span class="m">(1, 1)</span> (λ = 3) за шаг умножается на <span class="m">1 − 3/2 = −1/2</span>: меняет знак и уменьшается вдвое. Компонента вдоль <span class="m">(1, −1)</span> (λ = 1) умножается на <span class="m">1 − 1/2 = 1/2</span>. Проверка: <span class="m">x₁ = −1.5·(1, 1) − 1.5·(1, −1) = (−3, 0)</span> ✓. Оба множителя по модулю 1/2, поэтому f падает ровно в 4 раза за шаг: 36 → 9 → 2.25 → 0.5625. Колебание вдоль (1, 1) видно в координатах: точки прыгают между осями.</p></div></li>
+      <li><span class="sn">Почему не по координатам</span><div><p>Формула <span class="m">1 − αλ</span> работает для координат в собственном базисе H. Здесь H недиагональна: член xy связывает x и y. Если подставить в эту формулу диагональный элемент <span class="m">H₁₁ = 2</span>, получится <span class="m">1 − ½·2 = 0</span> и «ответ» <span class="m">x₁ = (0, 0)</span>. Это неверно, на самом деле <span class="m">x₁ = (−3, 0)</span>.</p></div></li>
+    </ol>
+    <p><b>Ответ:</b> <span class="m">x₁ = (−3, 0)</span>, <span class="m">x₂ = (0, 1.5)</span>, <span class="m">x₃ = (−0.75, 0)</span>; <span class="m">f = 36, 9, 2.25, 0.5625</span>; <span class="m">L = 3</span>, шаг безопасен; множители −1/2 вдоль (1, 1) и 1/2 вдоль (1, −1).</p>
+  </div></details>
+</article>

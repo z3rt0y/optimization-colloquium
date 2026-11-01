@@ -1,0 +1,45 @@
+<article class="card recipe" id="r31" data-p="r31">
+  <div class="card-head">
+    <div class="num">Рецепт · задача 3.1</div>
+    <h3>Как найти стационарную точку и её тип <span class="en">(stationary point of a quadratic form)</span></h3>
+    <div class="meta"><span class="srcb baulin">Баулин files</span><span class="lvl l1">Colab: напрямую</span><span class="tag">семинар 7, блок A</span></div>
+  </div>
+  <div class="exam"><div class="lbl">Алгоритм для f(x, y) = ax² + bxy + cy² + dx + ey <span class="hint">нажми, чтобы открыть</span></div><div class="body">
+    <ol>
+      <li><b>Градиент и гессиан.</b> <span class="m">∇f = (2ax + by + d, &nbsp;bx + 2cy + e)</span>, гессиан постоянный: <span class="m">H = [[2a, b], [b, 2c]]</span>.</li>
+      <li><b>Стационарная точка.</b> Решаем <span class="m">Hx⋆ = −(d, e)</span>. При <span class="m">det H ≠ 0</span> решение единственное. Проверка подстановкой: <span class="m">∇f(x⋆) = 0</span>.</li>
+      <li><b>Собственные значения.</b> <span class="m">λ² − (tr H)λ + det H = 0</span>, где <span class="m">tr H = 2a + 2c</span>, <span class="m">det H = 4ac − b²</span>.</li>
+      <li><b>Тип.</b> <span class="m">det &lt; 0</span> ⇒ седло (сразу, без λ). <span class="m">det &gt; 0, tr &gt; 0</span> ⇒ минимум. <span class="m">det &gt; 0, tr &lt; 0</span> ⇒ максимум. <span class="m">det = 0</span> ⇒ вырожденный случай.</li>
+      <li><b>Константы.</b> Для минимума <span class="m">µ = λmin</span>, <span class="m">L = λmax</span>, <span class="m">κ = L/µ</span>. Для седла µ и κ не определены.</li>
+    </ol>
+  </div></div>
+  <section class="sec"><h4>Ловушки</h4>
+    <ul>
+      <li>На диагонали H стоят <b>2a и 2c</b>, а вне диагонали <b>b</b> (не 2b и не b/2): <span class="m">∂²(bxy)/∂x∂y = b</span>.</li>
+      <li>Правая часть системы — <b>минус</b> линейные коэффициенты: <span class="m">Hx⋆ = −(d, e)</span>, потому что <span class="m">∇f(0) = (d, e)</span>.</li>
+      <li>Знак det решает почти всё: для типа не обязательно считать λ, но µ и L требуют корней квадратного уравнения.</li>
+    </ul>
+  </section>
+  <section class="sec"><h4>В коде</h4>
+    <p>Функция, которую семинар предлагает написать для самопроверки (задание H3):</p>
+    <div class="codebox"><pre><code>import numpy as np
+
+
+def stationary(a, b, c, d, e):
+    h = np.array([[2 * a, b], [b, 2 * c]], dtype=float)
+    x_star = np.linalg.solve(h, -np.array([d, e], dtype=float))
+    lam = np.linalg.eigvalsh(h)
+    if lam[0] &gt; 0:
+        kind = "минимум"
+    elif lam[1] &lt; 0:
+        kind = "максимум"
+    else:
+        kind = "седло"
+    return {"x_star": x_star, "lam": lam, "kind": kind}
+
+
+res = stationary(2, 2, 3, -8, -2)
+print(res["x_star"], res["lam"], res["kind"])</code></pre><div class="out"># [ 2.2 -0.4] [2.76393202 7.23606798] минимум</div></div>
+  </section>
+  <div class="widget" data-w="qform" id="wq"><h4>Калькулятор задачи 3.1</h4><p class="how">Введи коэффициенты или выбери задачу. Калькулятор пишет решение по шагам, как его надо оформить на листе. На карте: звезда — минимум, ромб — седло, стрелки — собственные направления. Синюю пробную точку можно таскать: в ней показан градиент.</p></div>
+</article>

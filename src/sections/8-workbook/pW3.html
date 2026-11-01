@@ -1,0 +1,52 @@
+<article class="card taskc" id="pW3" data-p="W3">
+  <div class="card-head">
+    <div class="num">П3 · тетрадь, с. 5</div>
+    <h3>Спуск со сдвинутым минимумом <span class="en">(GD with a shifted minimum)</span></h3>
+    <div class="meta"><span class="srcb matveeva">Матвеева files</span><button class="tag photo" type="button" data-photo="0">фото с. 4–5</button><span class="lvl l1">Colab: напрямую</span><span class="tag">тип задачи 3.2</span><button class="btn small" type="button" data-load="wg2:P3">Открыть в калькуляторе</button><label class="chk known"><input type="checkbox" id="solved-W3"> решено</label></div>
+  </div>
+  <div class="stmt"><div class="lbl">Условие</div>
+    <p class="eqc"><span class="m">f(x, y) = 2(x − 2)² + (y + 1)², &nbsp; x₀ = (6, 7), &nbsp; α = 1/4</span></p>
+    <p>Выполни три шага градиентного спуска. Запиши градиент, гессиан, точку минимума, µ и L. Проверь выбранный шаг. До вычислений предположи, какая координата может попасть в оптимальное значение за один шаг. Затем объясни поведение: вокруг каких значений движутся координаты, какие множители у ошибок <span class="m">xₖ − x⋆</span> и <span class="m">yₖ − y⋆</span>, есть ли колебания, почему значение функции уменьшается.</p>
+  </div>
+  <div class="qa" data-task="W3"></div>
+  <details class="hint"><summary>Подсказка</summary><p>Гессиан диагональный, поэтому ошибки по координатам не связаны: <span class="m">eₖ₊₁ = (1 − αλ)·eₖ</span>, где λ = 4 по x и λ = 2 по y.</p></details>
+  <details class="solution"><summary>Решение по строкам тетради</summary><div class="sol">
+    <ol class="steps">
+      <li><span class="sn">Градиент</span><div><p><span class="m">∇f = (4(x − 2), &nbsp;2(y + 1))</span>.</p></div></li>
+      <li><span class="sn">Гессиан</span><div><p><span class="m">H = diag(4, 2)</span>, постоянный.</p></div></li>
+      <li><span class="sn">Минимум, шаг</span><div><p><span class="m">x⋆ = (2, −1)</span>, <span class="m">f⋆ = 0</span>; <span class="m">µ = 2</span>, <span class="m">L = 4</span>. Проверка шага: <span class="m">α = 1/4 &lt; 2/L = 1/2</span> — строгое неравенство выполнено; более того, <span class="m">α = 1/L</span>.</p></div></li>
+      <li><span class="sn">Прогноз</span><div><p>Множители <span class="m">1 − 4α = 0</span> по x и <span class="m">1 − 2α = 1/2</span> по y. Координата x попадёт в <span class="m">x⋆ = 2</span> за первый шаг, ошибка по y будет делиться пополам.</p></div></li>
+      <li><span class="sn">k = 0</span><div><p><span class="m">x₀ = (6, 7)</span>, <span class="m">∇f(x₀) = (16, 16)</span>, <span class="m">f(x₀) = 2·16 + 64 = 96</span>.</p></div></li>
+      <li><span class="sn">Первый переход</span><div><p><span class="m">x₁ = (6 − ¼·16, &nbsp;7 − ¼·16) = (2, 3)</span>; <span class="m">∇f(x₁) = (0, 8)</span>, <span class="m">f(x₁) = 16</span>.</p></div></li>
+      <li><span class="sn">Второй переход</span><div><p><span class="m">x₂ = (2, 3 − 2) = (2, 1)</span>; <span class="m">∇f(x₂) = (0, 4)</span>, <span class="m">f(x₂) = 4</span>.</p></div></li>
+      <li><span class="sn">Третий переход</span><div><p><span class="m">x₃ = (2, 1 − 1) = (2, 0)</span>; <span class="m">f(x₃) = 1</span> (градиент в x₃ не требуется).</p></div></li>
+      <li><span class="sn">Поведение</span><div><p>Координаты движутся к <span class="m">x⋆ = (2, −1)</span>. Ошибка <span class="m">xₖ − 2</span>: 4, 0, 0, 0 (множитель 0). Ошибка <span class="m">yₖ + 1</span>: 8, 4, 2, 1 (множитель 1/2). Колебаний нет: оба множителя ≥ 0, знак ошибки не меняется. Значение <span class="m">f = 2(x − 2)² + (y + 1)²</span> квадратично по ошибке, поэтому после первого шага оно падает в <span class="m">(1/2)² = 4</span> раза: 16 → 4 → 1.</p></div></li>
+    </ol>
+    <p><b>Ответ:</b> <span class="m">x₁ = (2, 3)</span>, <span class="m">x₂ = (2, 1)</span>, <span class="m">x₃ = (2, 0)</span>; <span class="m">f = 96, 16, 4, 1</span>; <span class="m">µ = 2</span>, <span class="m">L = 4</span>, шаг безопасен.</p>
+    <div class="bonus"><b>Самопроверка из тетради:</b>
+      <ul class="selfcheck"><li>вычислены три новые точки;</li><li>все компоненты каждого градиента взяты в одной старой точке;</li><li>значение функции посчитано отдельно от координат;</li><li>проверка шага содержит строгое неравенство <span class="m">α &lt; 2/L</span>.</li></ul>
+    </div>
+  </div></details>
+  <section class="sec"><h4>В коде</h4>
+    <p>Шаги GD для квадратичной функции со сдвинутым минимумом: <span class="m">∇f(x) = H(x − x⋆)</span>, <span class="m">f(x) = ½(x − x⋆)ᵀH(x − x⋆)</span>.</p>
+    <div class="codebox"><pre><code>import numpy as np
+
+
+def gd_steps(h, x_star, x0, alpha, n):
+    x = np.array(x0, dtype=float)
+    for k in range(n + 1):
+        e = x - x_star
+        grad = h @ e
+        f = 0.5 * e @ h @ e
+        print(k, x, grad, f)
+        x = x - alpha * grad
+
+
+h = np.array([[4.0, 0.0], [0.0, 2.0]])
+gd_steps(h, np.array([2.0, -1.0]), [6, 7], 0.25, 3)</code></pre><div class="out"># 0 [6. 7.] [16. 16.] 96.0
+# 1 [2. 3.] [0. 8.] 16.0
+# 2 [2. 1.] [0. 4.] 4.0
+# 3 [2. 0.] [0. 2.] 1.0</div></div>
+  </section>
+  <div class="widget" data-w="gd3" data-set="wb" id="wg2"><h4>Калькулятор шагов GD для тетради</h4><p class="how">Функция <span class="m">a(x − p)² + b(x − p)(y − q) + c(y − q)²</span>, минимум в <span class="m">(p, q)</span>. Кнопки загружают П3, П4, задачи 2 пробных билетов и два случая из П8. Таблица — готовое оформление для листа, включая ошибки <span class="m">xₖ − x⋆</span>. Старт можно таскать по карте.</p></div>
+</article>

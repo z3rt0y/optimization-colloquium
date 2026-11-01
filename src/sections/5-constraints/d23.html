@@ -1,0 +1,51 @@
+<article class="card" id="d23" data-d="23">
+  <div class="card-head">
+    <div class="num">№ 23</div>
+    <h3>Условия Каруша–Куна–Таккера <span class="en">(Karush–Kuhn–Tucker (KKT) conditions)</span></h3>
+    <div class="meta"><span class="lvl l1">Colab: напрямую</span><span class="tag">Лекция 2 (вторая часть) · B&amp;V §5.5.3 · N&amp;W гл. 12</span><span class="tag tickets"></span><label class="chk known"><input type="checkbox" id="known-23"> знаю</label></div>
+  </div>
+  <div class="exam"><div class="lbl">На коллоквиуме · 0.5 балла <span class="hint">нажми, чтобы открыть</span></div><div class="body">
+    <p>Для задачи <span class="m">min f(x)</span> при <span class="m">gᵢ(x) ≤ 0</span>, <span class="m">hⱼ(x) = 0</span> с дифференцируемыми f, gᵢ, hⱼ тройка <span class="m">(x⋆, λ⋆, ν⋆)</span> удовлетворяет условиям ККТ (KKT conditions), если:</p>
+    <ol>
+      <li>стационарность (stationarity): <span class="m">∇f(x⋆) + Σᵢ λᵢ⋆∇gᵢ(x⋆) + Σⱼ νⱼ⋆∇hⱼ(x⋆) = 0</span>;</li>
+      <li>допустимость прямой задачи (primal feasibility): <span class="m">gᵢ(x⋆) ≤ 0</span>, <span class="m">hⱼ(x⋆) = 0</span>;</li>
+      <li>допустимость двойственной задачи (dual feasibility): <span class="m">λᵢ⋆ ≥ 0</span>;</li>
+      <li>дополняющая нежёсткость (complementary slackness): <span class="m">λᵢ⋆ gᵢ(x⋆) = 0</span> для всех i.</li>
+    </ol>
+  </div></div>
+  <section class="sec"><h4>Интуиция</h4>
+    <p>Равновесие сил. Целевая функция тянет x в сторону <span class="m">−∇f</span>, активные стенки отталкивают внутрь с силами <span class="m">−λᵢ∇gᵢ</span> (<span class="m">∇gᵢ</span> смотрит наружу), и в оптимуме силы уравновешены: <span class="m">−∇f − Σλᵢ∇gᵢ = 0</span>. Стенка может только толкать (<span class="m">λ ≥ 0</span>), и толкает лишь та, которой касаешься (<span class="m">λᵢ = 0</span> у неактивных).</p>
+  </section>
+  <section class="sec"><h4>Подробнее</h4>
+    <ul>
+      <li>Достаточность (теорема билетов 6, 7, 9): если f и gᵢ выпуклы, hⱼ аффинны и <span class="m">(x⋆, λ⋆, ν⋆)</span> удовлетворяет ККТ, то x⋆ — глобальный минимум. Идея: x⋆ минимизирует выпуклую по x функцию <span class="m">L(·, λ⋆, ν⋆)</span>, а на допустимых x выполнено <span class="m">L ≤ f</span> и <span class="m">L(x⋆, λ⋆, ν⋆) = f(x⋆)</span>.</li>
+      <li>Необходимость требует условий регулярности (constraint qualification): LICQ — градиенты активных ограничений линейно независимы; для выпуклых задач — условие Слейтера (Slater: существует строго допустимая точка). Тогда в любом локальном минимуме найдутся множители, удовлетворяющие ККТ.</li>
+      <li>Без выпуклости ККТ дают только список кандидатов, как условие <span class="m">∇f = 0</span> в безусловной задаче.</li>
+      <li>Отрицательный множитель — сигнал, что от этой стенки выгодно отойти внутрь и точка не оптимальна.</li>
+      <li>Без ограничений ККТ сводятся к <span class="m">∇f(x⋆) = 0</span>.</li>
+    </ul>
+  </section>
+  <section class="sec"><h4>В задачах и в коде</h4>
+    <p>Аналитические решения (water-filling, проекция на симплекс), опорные векторы SVM, проверка ответа солвера. cvxpy возвращает множители в <code>constraint.dual_value</code>, так что ККТ можно проверить руками (если пакета нет в Colab: <code>pip install cvxpy</code>):</p>
+    <div class="codebox"><pre><code>import numpy as np
+import cvxpy as cp
+
+x = cp.Variable(2)
+constraints = [x[0] + x[1] &lt;= 3, x &gt;= 0]
+target = np.array([3.0, 2.0])
+prob = cp.Problem(cp.Minimize(cp.sum_squares(x - target)), constraints)
+prob.solve()
+print(x.value, prob.value, constraints[0].dual_value, constraints[1].dual_value)</code></pre><div class="out"># [2. 1.] 2.0 2.0 [0. 0.]   ← λ₁ = 2, у неактивных x ≥ 0 множители 0</div></div>
+  </section>
+  <section class="sec"><h4>Посчитай руками</h4>
+    <div class="task">
+      <p>Проверь ККТ для задачи P (№ 21) в точках <span class="m">(2, 1)</span> и <span class="m">(0, 0)</span>.</p>
+      <details><summary>Решение</summary><div class="sol">
+        <p><span class="m">∇f = (2(x₁ − 3), 2(x₂ − 2))</span>, <span class="m">∇g₁ = (1, 1)</span>, <span class="m">∇g₂ = (−1, 0)</span>, <span class="m">∇g₃ = (0, −1)</span>.</p>
+        <p>Точка <span class="m">(2, 1)</span>: активно только g₁ ⇒ <span class="m">λ₂ = λ₃ = 0</span>. Стационарность: <span class="m">(−2, −2) + λ₁(1, 1) = 0 ⇒ λ₁ = 2 ≥ 0</span> ✓. Допустимость ✓, дополняющая нежёсткость <span class="m">λ₁g₁ = 2·0 = 0</span> ✓. Задача выпуклая ⇒ по теореме достаточности <span class="m">(2, 1)</span> — глобальный минимум, <span class="m">f⋆ = 2</span>.</p>
+        <p>Точка <span class="m">(0, 0)</span>: активны g₂, g₃, <span class="m">λ₁ = 0</span>. <span class="m">(−6, −4) + λ₂(−1, 0) + λ₃(0, −1) = 0 ⇒ λ₂ = −6, λ₃ = −4 &lt; 0</span> ✗. Двойственная допустимость нарушена: обе стенки «тянут», а не толкают, значит от них выгодно отойти внутрь.</p>
+      </div></details>
+    </div>
+  </section>
+  <div class="widget" data-w="kkt" id="w23"><h4>Поиграй</h4><p class="how">Режим «оптимум»: тащи оранжевый центр цели, решение x⋆ и множители пересчитываются; оранжевая стрелка −∇f уравновешена фиолетовыми силами стенок −λᵢ∇gᵢ. Режим «проверить точку»: ставь любую точку и смотри, какое из четырёх условий нарушено.</p></div>
+</article>

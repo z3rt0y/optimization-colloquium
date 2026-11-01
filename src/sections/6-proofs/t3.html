@@ -1,0 +1,58 @@
+<article class="card proof" id="t3" data-t="3">
+  <div class="card-head">
+    <div class="num">Теорема 3 · билеты 3, 8, 15</div>
+    <h3>Достаточное условие минимума второго порядка <span class="en">(second-order sufficient condition)</span></h3>
+    <div class="meta"><span class="srcb baulin">Баулин files</span><span class="lvl l2">Colab: для проверки</span><span class="tag">Лекция 1, сл. 19 · proofs.pdf §3</span><label class="chk known"><input type="checkbox" id="known-t3"> знаю</label></div>
+  </div>
+  <div class="exam"><div class="lbl">Формулировка · часть 2, 3 балла <span class="hint">нажми, чтобы открыть</span></div><div class="body">
+    <p>Если <span class="m">f ∈ C²</span>, <span class="m">∇f(x⋆) = 0</span> и <span class="m">∇²f(x⋆) ≻ 0</span>, то x⋆ — строгий локальный минимум.</p>
+  </div></div>
+  <section class="sec"><h4>Идея</h4>
+    <p>В стационарной точке линейный член формулы Тейлора равен нулю, поведение задаёт квадратичная форма <span class="m">½hᵀ∇²f h</span>. Она положительна в x⋆, а по непрерывности остаётся положительной и рядом. Вся тонкость в слове «рядом»: остаток Тейлора вычисляется не в x⋆, а в промежуточной точке ξ.</p>
+  </section>
+  <section class="sec"><h4>Доказательство</h4>
+    <div class="steps-wrap">
+      <ol class="steps">
+        <li><span class="sn">Шаг 1</span><div><p><b>Число m.</b> Пусть <span class="m">m = λmin(∇²f(x⋆)) &gt; 0</span>. Для симметричной матрицы <span class="m">hᵀAh ≥ λmin(A)‖h‖²</span> (в собственном базисе <span class="m">hᵀAh = Σλᵢcᵢ² ≥ λmin Σcᵢ²</span>), поэтому <span class="m">hᵀ∇²f(x⋆)h ≥ m‖h‖²</span>.</p></div></li>
+        <li><span class="sn">Шаг 2</span><div><p><b>Переносим оценку в окрестность.</b> Гессиан непрерывен, а λmin непрерывно зависит от элементов матрицы. Поэтому найдётся <span class="m">r &gt; 0</span> такое, что при <span class="m">‖x − x⋆‖ &lt; r</span></p><div class="eq">hᵀ∇²f(x)h ≥ (m/2)‖h‖² &nbsp;для всех h.</div><p>Можно взять любое число строго меньше m, половина для удобства.</p></div></li>
+        <li><span class="sn">Шаг 3</span><div><p><b>Тейлор с остатком в форме Лагранжа.</b> Для <span class="m">0 &lt; ‖h‖ &lt; r</span> найдётся ξ на отрезке <span class="m">[x⋆, x⋆ + h]</span>:</p><div class="eq">f(x⋆ + h) = f(x⋆) + ∇f(x⋆)ᵀh + ½hᵀ∇²f(ξ)h, &nbsp; где ∇f(x⋆)ᵀh = 0.</div><p>Это одномерная формула Лагранжа для <span class="m">φ(t) = f(x⋆ + th)</span> на <span class="m">[0, 1]</span>.</p></div></li>
+        <li><span class="sn">Шаг 4</span><div><p>ξ лежит на отрезке, поэтому <span class="m">‖ξ − x⋆‖ ≤ ‖h‖ &lt; r</span>, и к ней применима оценка шага 2:</p><div class="eq">f(x⋆ + h) − f(x⋆) ≥ ½ · (m/2)‖h‖² = (m/4)‖h‖² &gt; 0.</div><p>Строгое неравенство при всех h ≠ 0 из шара — это строгий локальный минимум (№ 3). <span class="qed">■</span></p></div></li>
+      </ol>
+    </div>
+  </section>
+  <section class="sec"><h4>Что спрашивают на коллоквиуме</h4>
+    <ul>
+      <li><b>Почему нельзя сразу подставить ∇²f(x⋆)?</b> Остаток вычисляется в неизвестной точке ξ, а не в x⋆, поэтому и нужен шаг 2.</li>
+      <li><b>Хватит ли ∇²f ⪰ 0?</b> Нет: у <span class="m">f(x) = x³</span> в нуле <span class="m">f′ = f″ = 0</span>, а минимума нет.</li>
+      <li><b>Это условие необходимое?</b> Нет: у <span class="m">x⁴</span> строгий минимум в нуле, хотя <span class="m">f″(0) = 0</span>.</li>
+      <li><b>Минимум глобальный?</b> Только локальный: у <span class="m">x² + 2y² − x³</span> в нуле строгий локальный минимум, но <span class="m">f(1.5, 0) = −1.125 &lt; 0</span>.</li>
+    </ul>
+  </section>
+  <section class="sec"><h4>Опирается на и нужно для</h4>
+    <p>Определения <a href="#d3">№ 3</a>, <a href="#d8">№ 8</a>, <a href="#d10">№ 10</a>. Тот же приём «оценка λmin в окрестности» — шаг 3 <a href="#t6">теоремы 6</a>.</p>
+  </section>
+  <section class="sec"><h4>В коде</h4>
+    <p>Радиус r из шага 2 в коде проверяют перебором по окружностям: минимум разности <span class="m">f(x⋆ + h) − f(x⋆) − (m/4)‖h‖²</span> по шару должен быть ≥ 0.</p>
+    <div class="codebox"><pre><code>import numpy as np
+
+m = 2.0
+worst = np.inf
+for r in np.linspace(0.001, 1 / 6, 50):
+    for t in np.linspace(0, 2 * np.pi, 200):
+        h = r * np.array([np.cos(t), np.sin(t)])
+        gain = h[0]**2 + 2 * h[1]**2 - h[0]**3
+        worst = min(worst, gain - m / 4 * r**2)
+print(worst)</code></pre><div class="out"># 5.0e-07   ← оценка шага 4 выполнена во всём шаре r = 1/6</div></div>
+  </section>
+  <section class="sec"><h4>Проверь на числах</h4>
+    <div class="task">
+      <p><span class="m">f(x, y) = x² + 2y² − x³</span>. Проверь, что (0, 0) стационарна, найди m, радиус r из шага 2 (с порогом m/2) и проверь оценку шага 4 при <span class="m">h = (0.1, 0)</span>.</p>
+      <details><summary>Решение</summary><div class="sol">
+        <p><span class="m">∇f = (2x − 3x², 4y) = (0, 0)</span> в нуле ✓. <span class="m">∇²f(x, y) = diag(2 − 6x, 4)</span>, в нуле <span class="m">diag(2, 4)</span> ⇒ m = 2.</p>
+        <p><span class="m">λmin(∇²f) = min(2 − 6x, 4) ≥ m/2 = 1 ⇔ x ≤ 1/6</span>. Худшие точки шара лежат на оси x, поэтому <span class="m">r = 1/6</span>.</p>
+        <p>h = (0.1, 0): <span class="m">f = 0.01 − 0.001 = 0.009 ≥ (m/4)‖h‖² = 0.5·0.01 = 0.005</span> ✓. Для сравнения, вне шара <span class="m">f(1.5, 0) = −1.125</span>: теорема только локальная.</p>
+      </div></details>
+    </div>
+  </section>
+  <div class="widget" data-w="pf3" id="wt3"><h4>Поиграй</h4><p class="how">Слева карта: синий круг — шар радиуса r из шага 2, оранжевая линия — где λmin(∇²f) падает до m/2, пунктир — где гессиан перестаёт быть ≻ 0. Задай направление u: справа срез f(x⋆ + su) − f(x⋆) и нижняя оценка (m/4)s². Внутри шара оценка держится, вне его может нарушаться. Вариант y² + x³ показывает, что ⪰ 0 недостаточно.</p></div>
+</article>

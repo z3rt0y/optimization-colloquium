@@ -1,0 +1,45 @@
+<article class="card" id="d15" data-d="15">
+  <div class="card-head">
+    <div class="num">№ 15</div>
+    <h3>Число обусловленности <span class="en">(condition number)</span></h3>
+    <div class="meta"><span class="lvl l1">Colab: напрямую</span><span class="tag">Лекция 2, сл. 32 · Лекция 3, сл. 16 · Лекция 4, сл. 2–7, 19</span><span class="tag tickets"></span><label class="chk known"><input type="checkbox" id="known-15"> знаю</label></div>
+  </div>
+  <div class="exam"><div class="lbl">На коллоквиуме · 0.5 балла <span class="hint">нажми, чтобы открыть</span></div><div class="body">
+    <p>Для µ-сильно выпуклой и L-гладкой функции число обусловленности (condition number)</p>
+    <div class="eq">κ = L / µ ≥ 1.</div>
+    <p>Для квадратичной <span class="m">f(x) = ½xᵀQx − bᵀx</span>, <span class="m">Q ≻ 0</span>: <span class="m">κ = λmax(Q)/λmin(Q)</span>. Для матрицы в линейной алгебре <span class="m">cond(A) = ‖A‖·‖A⁻¹‖</span>; у симметричной <span class="m">Q ≻ 0</span> это то же отношение собственных значений.</p>
+  </div></div>
+  <section class="sec"><h4>Интуиция</h4>
+    <p>Насколько вытянута «долина» функции. При <span class="m">κ = 1</span> чаша круглая, и антиградиент смотрит прямо в минимум. При <span class="m">κ = 1000</span> это узкий длинный овраг: антиградиент направлен почти поперёк, GD скачет от стенки к стенке (зигзаг) и медленно ползёт вдоль дна.</p>
+  </section>
+  <section class="sec"><h4>Подробнее</h4>
+    <ul>
+      <li>GD с <span class="m">α = 1/L</span> уменьшает ошибку с множителем <span class="m">1 − 1/κ</span> за шаг, нужно порядка <span class="m">O(κ log(1/ε))</span> итераций (лекция 3, сл. 16).</li>
+      <li>Лучший постоянный шаг для квадратичной: <span class="m">α* = 2/(L + µ)</span>, множитель <span class="m">(κ − 1)/(κ + 1)</span> (лекция 4, сл. 4).</li>
+      <li>Тяжёлый шар Поляка и сопряжённые градиенты (лекция 4, сл. 7, 15) дают <span class="m">(√κ − 1)/(√κ + 1)</span>: зависимость от <span class="m">√κ</span> вместо κ.</li>
+      <li>κ меняется при замене координат. Масштабирование признаков (feature scaling) и предобусловливание (preconditioning) уменьшают κ ещё до запуска оптимизатора (лекция 4, сл. 19). Метод Ньютона к κ нечувствителен (№ 20).</li>
+    </ul>
+  </section>
+  <section class="sec"><h4>В задачах и в коде</h4>
+    <p>Стандартизация признаков перед градиентным обучением, диагностика мультиколлинеарности в регрессии, точность решения линейных систем (при <span class="m">cond ≈ 10ᵏ</span> теряется около k знаков). В Colab — <code>np.linalg.cond</code> и оценка числа итераций:</p>
+    <div class="codebox"><pre><code>import numpy as np
+
+q = np.diag([1.0, 100.0])
+print(np.linalg.cond(q))
+kappa = 100
+for rho in [1 - 1 / kappa, (kappa - 1) / (kappa + 1)]:
+    print(rho, np.log(1e6) / -np.log(rho))</code></pre><div class="out"># 100.0
+# 0.99 1374.6     ← α = 1/L
+# 0.9802 690.8    ← α* = 2/(L + µ)</div></div>
+  </section>
+  <section class="sec"><h4>Посчитай руками</h4>
+    <div class="task">
+      <p><span class="m">Q = diag(1, 100)</span>. Найди κ и оцени, сколько итераций нужно, чтобы ошибка уменьшилась в <span class="m">10⁶</span> раз: а) GD с <span class="m">α = 1/L</span>; б) GD с <span class="m">α* = 2/(L + µ)</span>; в) тяжёлый шар.</p>
+      <details><summary>Решение</summary><div class="sol">
+        <p><span class="m">µ = 1, L = 100, κ = 100</span>. Из <span class="m">ρᵏ ≤ 10⁻⁶</span> получаем <span class="m">k ≥ ln 10⁶ / (−ln ρ)</span>, <span class="m">ln 10⁶ ≈ 13.82</span>.</p>
+        <p>а) <span class="m">ρ = 1 − 1/100 = 0.99</span> ⇒ <span class="m">k ≈ 13.82/0.01005 ≈ 1375</span>. б) <span class="m">ρ = 99/101 ≈ 0.9802</span> ⇒ <span class="m">k ≈ 691</span>. в) <span class="m">ρ = (10 − 1)/(10 + 1) = 9/11 ≈ 0.818</span> ⇒ <span class="m">k ≈ 69</span>, в 20 раз меньше, чем в а).</p>
+      </div></details>
+    </div>
+  </section>
+  <div class="widget" data-w="condition" id="w15"><h4>Поиграй</h4><p class="how">Для квадратичной функции каждая собственная компонента ошибки за шаг умножается на |1 − αλ|. Полоса — спектр [µ, L], худший множитель ρ(α) отмечен точкой. Подбирай α и κ: минимум ρ получается при α = 2/(L + µ), а при α ≥ 2/L метод расходится.</p></div>
+</article>

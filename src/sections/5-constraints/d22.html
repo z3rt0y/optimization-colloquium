@@ -1,0 +1,46 @@
+<article class="card" id="d22" data-d="22">
+  <div class="card-head">
+    <div class="num">№ 22</div>
+    <h3>Лагранжиан <span class="en">(Lagrangian)</span></h3>
+    <div class="meta"><span class="lvl l2">Colab: для проверки</span><span class="tag">Лекция 2 (вторая часть) · Boyd &amp; Vandenberghe §5.1</span><span class="tag tickets"></span><label class="chk known"><input type="checkbox" id="known-22"> знаю</label></div>
+  </div>
+  <div class="exam"><div class="lbl">На коллоквиуме · 0.5 балла <span class="hint">нажми, чтобы открыть</span></div><div class="body">
+    <p>Для задачи <span class="m">min f(x)</span> при <span class="m">gᵢ(x) ≤ 0</span> (i = 1..m), <span class="m">hⱼ(x) = 0</span> (j = 1..p) лагранжиан (Lagrangian) — функция</p>
+    <div class="eq">L(x, λ, ν) = f(x) + Σᵢ λᵢ gᵢ(x) + Σⱼ νⱼ hⱼ(x),</div>
+    <p>где <span class="m">λ ∈ ℝᵐ</span> и <span class="m">ν ∈ ℝᵖ</span> — множители Лагранжа (Lagrange multipliers), они же двойственные переменные (dual variables). Для неравенств берут <span class="m">λᵢ ≥ 0</span>, знак <span class="m">νⱼ</span> любой.</p>
+  </div></div>
+  <section class="sec"><h4>Интуиция</h4>
+    <p>Жёсткие ограничения заменяем штрафами-ценами: <span class="m">λᵢ</span> — цена за единицу нарушения i-го ограничения. Если x допустима и <span class="m">λ ≥ 0</span>, каждое слагаемое <span class="m">λᵢgᵢ(x) ≤ 0</span>, поэтому <span class="m">L(x, λ, ν) ≤ f(x)</span>: на допустимых точках лагранжиан — «оптимистичная» оценка цели.</p>
+  </section>
+  <section class="sec"><h4>Подробнее</h4>
+    <ul>
+      <li>Максимум по множителям возвращает исходную задачу: <span class="m">sup<sub>λ≥0, ν</sub> L(x, λ, ν) = f(x)</span>, если x допустима, и <span class="m">+∞</span> иначе. Поэтому <span class="m">p⋆ = inf<sub>x</sub> sup<sub>λ≥0, ν</sub> L</span>. Если поменять inf и sup местами, получится двойственная задача (№ 24).</li>
+      <li>Стационарность лагранжиана <span class="m">∇ₓL = 0</span> — первое из условий ККТ (№ 23). Для задачи только с равенствами это классический метод множителей Лагранжа: <span class="m">∇ₓL = 0</span>, <span class="m">h(x) = 0</span>.</li>
+      <li>Множители — чувствительности (sensitivity, лекция 2, сл. 2): если ограничение <span class="m">gᵢ(x) ≤ 0</span> ослабить до <span class="m">gᵢ(x) ≤ δ</span>, оптимальное значение изменится примерно на <span class="m">−λᵢ⋆δ</span>. В задаче P: <span class="m">p⋆(δ) = (2 − δ)²/2</span>, производная в нуле <span class="m">−2 = −λ₁⋆</span>. Экономисты называют это теневой ценой (shadow price).</li>
+      <li>Седловая точка лагранжиана <span class="m">(x⋆, λ⋆)</span>: x⋆ минимизирует <span class="m">L(·, λ⋆)</span>, λ⋆ максимизирует <span class="m">L(x⋆, ·)</span> по <span class="m">λ ≥ 0</span>. Не путай с седлом функции (№ 8).</li>
+    </ul>
+  </section>
+  <section class="sec"><h4>В задачах и в коде</h4>
+    <p>Регуляризация как ограничение: ridge <span class="m">min ‖Xw − y‖² + λ‖w‖²</span> — лагранжиан задачи с ограничением <span class="m">‖w‖² ≤ t</span>. Двойственная задача SVM, ограничения справедливости (fairness) в ML, теневые цены в экономике. Систему <span class="m">∇L = 0</span> можно решить символьно:</p>
+    <div class="codebox"><pre><code>import sympy as sp
+
+x1 = sp.symbols("x1")
+x2 = sp.symbols("x2")
+lam = sp.symbols("lam")
+f = (x1 - 3)**2 + (x2 - 2)**2
+g = x1 + x2 - 3
+lagr = f + lam * g
+eqs = [sp.diff(lagr, x1), sp.diff(lagr, x2), g]
+print(sp.solve(eqs, [x1, x2, lam], dict=True))</code></pre><div class="out"># [{lam: 2, x1: 2, x2: 1}]</div></div>
+  </section>
+  <section class="sec"><h4>Посчитай руками</h4>
+    <div class="task">
+      <p>1) <span class="m">min x² + y²</span> при <span class="m">x + y = 1</span> методом множителей Лагранжа. 2) Выпиши лагранжиан задачи P (№ 21) и найди его минимум по x при фиксированном <span class="m">λ₁</span> (<span class="m">λ₂ = λ₃ = 0</span>).</p>
+      <details><summary>Решение</summary><div class="sol">
+        <p>1) <span class="m">L = x² + y² + ν(x + y − 1)</span>. <span class="m">∂L/∂x = 2x + ν = 0</span>, <span class="m">∂L/∂y = 2y + ν = 0</span> ⇒ <span class="m">x = y = −ν/2</span>. Из <span class="m">x + y = 1</span>: <span class="m">ν = −1</span>, <span class="m">x = y = ½</span>, <span class="m">f⋆ = ½</span>. Отрицательный ν для равенства — норма.</p>
+        <p>2) <span class="m">L = (x₁ − 3)² + (x₂ − 2)² + λ₁(x₁ + x₂ − 3) − λ₂x₁ − λ₃x₂</span>. При <span class="m">λ₂ = λ₃ = 0</span>: <span class="m">∂L/∂x₁ = 2(x₁ − 3) + λ₁ = 0 ⇒ x₁ = 3 − λ₁/2</span>, аналогично <span class="m">x₂ = 2 − λ₁/2</span>. При <span class="m">λ₁ = 2</span> получаем <span class="m">(2, 1)</span> — решение задачи P.</p>
+      </div></details>
+    </div>
+  </section>
+  <div class="widget" data-w="lagrangian" id="w22"><h4>Поиграй</h4><p class="how">Задача min x² при x ≥ b. Серая парабола — f, синяя — лагранжиан L(x, λ) = x² + λ(b − x). На допустимой зоне (x ≥ b) синяя кривая всегда ниже серой. Подбирай λ: при λ = λ⋆ минимум лагранжиана попадает ровно в решение задачи.</p></div>
+</article>

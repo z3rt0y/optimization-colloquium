@@ -1,0 +1,46 @@
+<article class="card" id="d24" data-d="24">
+  <div class="card-head">
+    <div class="num">№ 24</div>
+    <h3>Двойственная функция и двойственная задача <span class="en">(dual function and dual problem)</span></h3>
+    <div class="meta"><span class="lvl l2">Colab: для проверки</span><span class="tag">Лекция 2 (вторая часть) · B&amp;V §5.1–5.2</span><span class="tag tickets"></span><label class="chk known"><input type="checkbox" id="known-24"> знаю</label></div>
+  </div>
+  <div class="exam"><div class="lbl">На коллоквиуме · 0.5 балла <span class="hint">нажми, чтобы открыть</span></div><div class="body">
+    <p>Двойственная функция (Lagrange dual function):</p>
+    <div class="eq">q(λ, ν) = inf<sub>x</sub> L(x, λ, ν) = inf<sub>x</sub> [ f(x) + Σᵢ λᵢgᵢ(x) + Σⱼ νⱼhⱼ(x) ].</div>
+    <p>Инфимум берётся по всей области определения, а не только по допустимым x, и может равняться <span class="m">−∞</span>. В Boyd &amp; Vandenberghe она обозначена <span class="m">g(λ, ν)</span>.</p>
+    <p>Двойственная задача (dual problem): <span class="m">max q(λ, ν)</span> при <span class="m">λ ≥ 0</span>. Её оптимум <span class="m">d⋆ ≤ p⋆</span> (слабая двойственность, weak duality).</p>
+  </div></div>
+  <section class="sec"><h4>Интуиция</h4>
+    <p>Каждый набор цен <span class="m">λ ≥ 0</span> даёт нижнюю оценку ответа исходной задачи. Двойственная задача ищет лучшую, то есть самую высокую нижнюю оценку. Если она совпала с найденным значением, решение доказанно оптимально.</p>
+  </section>
+  <section class="sec"><h4>Подробнее</h4>
+    <ul>
+      <li>q всегда вогнута (concave), даже если исходная задача невыпукла: это инфимум семейства аффинных по <span class="m">(λ, ν)</span> функций. Поэтому двойственная задача всегда выпуклая.</li>
+      <li>Слабая двойственность в одну строку: для допустимого x̃ и <span class="m">λ ≥ 0</span>: <span class="m">q(λ, ν) ≤ L(x̃, λ, ν) = f(x̃) + Σλᵢgᵢ(x̃) + 0 ≤ f(x̃)</span>; берём inf по допустимым x̃ ⇒ <span class="m">q ≤ p⋆</span>.</li>
+      <li>Зазор двойственности (duality gap) <span class="m">p⋆ − d⋆ ≥ 0</span>. Сильная двойственность <span class="m">d⋆ = p⋆</span> выполняется для выпуклых задач при условии Слейтера, а для LP — всегда, если оптимум конечен (двойственность LP есть в книге Korte &amp; Vygen).</li>
+      <li>В невыпуклых задачах зазор бывает: для <span class="m">min −x²</span> при <span class="m">−1 ≤ x ≤ 1</span> лагранжиан не ограничен снизу по x, <span class="m">q ≡ −∞</span>, а <span class="m">p⋆ = −1</span>.</li>
+    </ul>
+  </section>
+  <section class="sec"><h4>В задачах и в коде</h4>
+    <p>Двойственная задача SVM даёт kernel trick; лагранжева релаксация в комбинаторной оптимизации даёт нижние оценки (Korte &amp; Vygen); зазор двойственности — стандартный критерий остановки солверов, включая методы внутренней точки из Renegar. Двойственную функцию задачи P можно найти численно, минимизируя L по сетке:</p>
+    <div class="codebox"><pre><code>import numpy as np
+
+g1 = np.linspace(-2, 6, 401)
+grid = np.meshgrid(g1, g1)
+x1 = grid[0]
+x2 = grid[1]
+for lam in [0.0, 1.0, 2.0, 3.0]:
+    lagr = (x1 - 3)**2 + (x2 - 2)**2 + lam * (x1 + x2 - 3)
+    print(lam, lagr.min())</code></pre><div class="out"># 0.0 0.0   1.0 1.5   2.0 2.0   3.0 1.5   ← все ≤ p⋆ = 2, максимум при λ = 2</div></div>
+  </section>
+  <section class="sec"><h4>Посчитай руками</h4>
+    <div class="task">
+      <p>1) Найди <span class="m">q(λ)</span> и реши двойственную задачу для P, оставив только ограничение g₁ (остальные в оптимуме неактивны). 2) <span class="m">min x</span> при <span class="m">x ≥ 1</span>: найди <span class="m">q(λ)</span>.</p>
+      <details><summary>Решение</summary><div class="sol">
+        <p>1) Из № 22: <span class="m">x₁ = 3 − λ/2</span>, <span class="m">x₂ = 2 − λ/2</span>. Подставляем: <span class="m">q(λ) = λ²/4 + λ²/4 + λ(5 − λ − 3) = 2λ − λ²/2</span>. <span class="m">q′ = 2 − λ = 0 ⇒ λ⋆ = 2</span>, <span class="m">d⋆ = 4 − 2 = 2 = p⋆</span>: сильная двойственность (Слейтер: точка (0.5, 0.5) строго допустима). Слабая двойственность в числах: <span class="m">q(1) = 1.5 ≤ 2</span>, <span class="m">q(3) = 1.5 ≤ 2</span>, <span class="m">q(4) = 0 ≤ 2</span>.</p>
+        <p>2) <span class="m">L = x + λ(1 − x) = (1 − λ)x + λ</span>. Инфимум по <span class="m">x ∈ ℝ</span> равен <span class="m">−∞</span> при <span class="m">λ ≠ 1</span> и равен 1 при <span class="m">λ = 1</span>. Значит <span class="m">q(1) = 1</span>, иначе <span class="m">−∞</span>, и <span class="m">d⋆ = 1 = p⋆</span>. Так двойственная функция «прячет» ограничения в то, где она конечна.</p>
+      </div></details>
+    </div>
+  </section>
+  <div class="widget" data-w="dual" id="w24"><h4>Поиграй</h4><p class="how">Вогнутая кривая — двойственная функция q(λ), зелёная линия — p⋆. При любом λ кривая не выше линии (слабая двойственность), а её максимум касается линии (сильная двойственность для выпуклой задачи). Меняй параметр задачи и λ.</p></div>
+</article>

@@ -1,0 +1,24 @@
+<article class="card taskc" id="pW6" data-p="W6">
+  <div class="card-head">
+    <div class="num">П6, часть 1 · тетрадь, с. 7</div>
+    <h3>Направление Ньютона <span class="en">(Newton direction)</span></h3>
+    <div class="meta"><span class="srcb matveeva">Матвеева files</span><button class="tag photo" type="button" data-photo="1">фото с. 6–7</button><span class="lvl l1">Colab: напрямую</span><span class="tag">№ 20, теорема 6</span><label class="chk known"><input type="checkbox" id="solved-W6"> решено</label></div>
+  </div>
+  <div class="stmt"><div class="lbl">Условие</div>
+    <p class="eqc"><span class="m">f(x, y) = 2(x − 3)² + (y + 2)², &nbsp; x₀ = (5, 4)</span></p>
+    <p>Найди градиент и гессиан, реши систему для направления Ньютона и выполни один полный шаг. Объясни результат через квадратичную модель.</p>
+  </div>
+  <div class="qa" data-task="W6"></div>
+  <details class="hint"><summary>Подсказка</summary><p>Направление Ньютона — решение системы <span class="m">∇²f(x₀)·d = −∇f(x₀)</span>; полный шаг — <span class="m">x₁ = x₀ + d</span> (α = 1).</p></details>
+  <details class="solution"><summary>Решение</summary><div class="sol">
+    <ol class="steps">
+      <li><span class="sn">Градиент</span><div><p><span class="m">∇f = (4(x − 3), &nbsp;2(y + 2))</span>, <span class="m">∇f(5, 4) = (8, 12)</span>.</p></div></li>
+      <li><span class="sn">Гессиан</span><div><p><span class="m">∇²f = diag(4, 2)</span> в любой точке.</p></div></li>
+      <li><span class="sn">Система</span><div><p><span class="m">4d₁ = −8</span>, <span class="m">2d₂ = −12</span> ⇒ <span class="m">d = (−2, −6)</span>. Это и есть <span class="m">d = −[∇²f]⁻¹∇f</span> из определения № 20.</p></div></li>
+      <li><span class="sn">Новая точка</span><div><p><span class="m">x₁ = (5 − 2, 4 − 6) = (3, −2)</span>, <span class="m">f(x₁) = 0</span>, <span class="m">∇f(x₁) = (0, 0)</span>. Это точный минимум.</p></div></li>
+      <li><span class="sn">Почему так</span><div><p>Ньютон минимизирует квадратичную модель <span class="m">m(d) = f(x₀) + ∇f(x₀)ᵀd + ½dᵀ∇²f(x₀)d</span>. Для квадратичной f разложение Тейлора 2-го порядка точное, без остатка, то есть <span class="m">m(d) = f(x₀ + d)</span>. Минимум модели совпадает с минимумом f, поэтому хватает одного полного шага. Для сравнения GD с <span class="m">α = 1/L = 1/4</span>: <span class="m">(5 − 2, 4 − 3) = (3, 1)</span> — по x попал, по y нет, потому что кривизны разные. <span class="m">H⁻¹</span> делит каждое собственное направление на свою кривизну λ и выравнивает их.</p></div></li>
+    </ol>
+    <p><b>Ответ:</b> <span class="m">d = (−2, −6)</span>, <span class="m">x₁ = (3, −2) = x⋆</span>, <span class="m">f(x₁) = 0</span>.</p>
+  </div></details>
+  <div class="widget" data-w="newton2" id="wnw2"><h4>Поиграй</h4><p class="how">Сплошные линии — уровни f, фиолетовый пунктир — те же уровни квадратичной модели в текущей точке. Для квадратичной функции пунктир ложится ровно на сплошные линии, и один шаг приводит в звезду. Выбери неквадратичную функцию: модель отличается от f, и шагов нужно несколько. Начальную точку можно таскать.</p></div>
+</article>

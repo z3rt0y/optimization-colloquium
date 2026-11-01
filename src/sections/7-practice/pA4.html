@@ -1,0 +1,21 @@
+<article class="card taskc" id="pA4" data-p="A4">
+  <div class="card-head">
+    <div class="num">A4 · самостоятельно, 8 минут</div>
+    <h3>Квадратичная форма с большим числом обусловленности <span class="en">(a large condition number)</span></h3>
+    <div class="meta"><span class="srcb baulin">Баулин files</span><span class="tag">задача 3.1</span><button class="btn small" type="button" data-load="wq:A4">Открыть в калькуляторе</button><label class="chk known"><input type="checkbox" id="solved-A4"> решено</label></div>
+  </div>
+  <div class="stmt"><div class="lbl">Условие</div>
+    <p>Для <span class="m">f(x, y) = x² + 10y² − 2x − 20y</span> найди стационарную точку, её тип, µ, L и число обусловленности <span class="m">κ = L/µ</span>.</p>
+  </div>
+  <div class="qa" data-task="A4"></div>
+  <details class="hint"><summary>Подсказка</summary><p>Гессиан диагональный, его собственные значения стоят на диагонали.</p></details>
+  <details class="solution"><summary>Решение</summary><div class="sol">
+    <ol class="steps">
+      <li><span class="sn">1</span><div><p><span class="m">∇f = (2x − 2, 20y − 20)</span>, <span class="m">H = diag(2, 20)</span>, <span class="m">det = 40 &gt; 0</span>.</p></div></li>
+      <li><span class="sn">2</span><div><p><span class="m">x⋆ = (1, 1)</span>, <span class="m">f(x⋆) = 1 + 10 − 2 − 20 = −11</span>.</p></div></li>
+      <li><span class="sn">3</span><div><p><span class="m">λ = 2, 20 &gt; 0</span> ⇒ строгий минимум. <span class="m">µ = 2</span>, <span class="m">L = 20</span>, <span class="m">κ = 10</span>.</p></div></li>
+      <li><span class="sn">4</span><div><p>Что значит «большое κ»: линии уровня — эллипсы, вытянутые в <span class="m">√κ ≈ 3.16</span> раза (полуоси пропорциональны <span class="m">1/√λ</span>). GD с лучшим шагом сжимает ошибку в <span class="m">9/11 ≈ 0.8182</span> раза за шаг, с <span class="m">α = 1/L</span> — в <span class="m">1 − 1/κ = 0.9</span> раза (№ 15, 18).</p></div></li>
+    </ol>
+    <p><b>Ответ:</b> минимум в <span class="m">(1, 1)</span>; <span class="m">µ = 2</span>, <span class="m">L = 20</span>, <span class="m">κ = 10</span>.</p>
+  </div></details>
+</article>

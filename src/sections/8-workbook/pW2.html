@@ -1,0 +1,28 @@
+<article class="card taskc" id="pW2" data-p="W2">
+  <div class="card-head">
+    <div class="num">П2 · тетрадь, с. 4</div>
+    <h3>Когда гессиан не решает вопрос <span class="en">(degenerate Hessian, higher-order terms)</span></h3>
+    <div class="meta"><span class="srcb matveeva">Матвеева files</span><button class="tag photo" type="button" data-photo="0">фото с. 4–5</button><span class="lvl l2">Colab: для проверки</span><span class="tag">№ 8, № 10, теорема 3</span><label class="chk known"><input type="checkbox" id="solved-W2"> решено</label></div>
+  </div>
+  <div class="stmt"><div class="lbl">Условие</div>
+    <p>Для каждой функции исследуй начало координат. Сначала проверь стационарность и гессиан, затем обоснуй фактический тип точки.</p>
+    <div class="tbl-wrap"><table class="tbl"><tr><th>Функция</th><th>Гессиан в нуле</th><th>Тип точки и обоснование</th></tr>
+      <tr><td class="m">x² − y²</td><td>?</td><td>?</td></tr><tr><td class="m">−x² − y²</td><td>?</td><td>?</td></tr><tr><td class="m">x⁴ + y⁴</td><td>?</td><td>?</td></tr><tr><td class="m">x⁴ − y⁴</td><td>?</td><td>?</td></tr></table></div>
+    <p>Почему одинаковый гессиан в точке может соответствовать разному поведению функции?</p>
+  </div>
+  <div class="qa" data-task="W2"></div>
+  <details class="hint"><summary>Подсказка</summary><p>Формула Тейлора: <span class="m">f(h) = f(0) + ∇f(0)ᵀh + ½hᵀ∇²f(0)h + o(‖h‖²)</span>. Если квадратичный член в каком-то направлении равен нулю, знак <span class="m">f(h) − f(0)</span> задают члены старших порядков. Тогда смотри на саму функцию.</p></details>
+  <details class="solution"><summary>Решение</summary><div class="sol">
+    <p>У всех четырёх <span class="m">∇f(0) = (0, 0)</span>: в каждой частной производной остаётся множитель x или y. Значит, начало координат стационарно везде, и вопрос только в типе.</p>
+    <div class="tbl-wrap"><table class="tbl"><tr><th>Функция</th><th>H(0)</th><th>Тест 2-го порядка</th><th>Тип и обоснование</th></tr>
+      <tr><td class="m">x² − y²</td><td class="m">diag(2, −2)</td><td>решает: λ разных знаков</td><td><b>седло</b>: <span class="m">f(t, 0) = t² &gt; 0</span>, <span class="m">f(0, t) = −t² &lt; 0</span></td></tr>
+      <tr><td class="m">−x² − y²</td><td class="m">diag(−2, −2)</td><td>решает: <span class="m">H ≺ 0</span></td><td><b>строгий максимум</b>, причём глобальный: <span class="m">f ≤ 0 = f(0)</span></td></tr>
+      <tr><td class="m">x⁴ + y⁴</td><td class="m">0</td><td>не решает</td><td><b>строгий глобальный минимум</b>: <span class="m">f ≥ 0 = f(0)</span>, равенство только в 0</td></tr>
+      <tr><td class="m">x⁴ − y⁴</td><td class="m">0</td><td>не решает</td><td><b>седло</b>: <span class="m">f(t, 0) = t⁴ &gt; 0</span>, <span class="m">f(0, t) = −t⁴ &lt; 0</span> при любом малом t ≠ 0</td></tr>
+    </table></div>
+    <p><b>Почему одинаковый гессиан даёт разное поведение.</b> Гессиан описывает только квадратичную часть: <span class="m">f(h) − f(0) = ½hᵀHh + o(‖h‖²)</span>. Если <span class="m">H ≻ 0</span>, то <span class="m">½hᵀHh ≥ (λmin/2)‖h‖²</span>, и эта часть перебивает остаток — знак определён (теорема 3). Если у H есть нулевое собственное значение, вдоль соответствующего направления квадратичная часть равна нулю и знак задают члены 3-го, 4-го порядка. У <span class="m">x⁴ + y⁴</span> и <span class="m">x⁴ − y⁴</span> гессиан в нуле один и тот же (нулевой), а члены 4-го порядка разные — отсюда минимум в одном случае и седло в другом.</p>
+    <p><b>Что запомнить.</b> Необходимое условие минимума: <span class="m">∇f = 0</span> и <span class="m">H ⪰ 0</span> (necessary second-order condition). Достаточное: <span class="m">∇f = 0</span> и <span class="m">H ≻ 0</span> (sufficient). Между ними, при вырожденном <span class="m">H ⪰ 0</span>, тест молчит: может быть минимум (<span class="m">x² + y⁴</span>) или седло (<span class="m">x² − y⁴</span>) с одинаковым <span class="m">H = diag(2, 0)</span>.</p>
+    <div class="fixnote"><b>Ловушка.</b> Седло доказывают двумя направлениями: вдоль одного f выше f(0), вдоль другого ниже. А минимум проверкой по прямым не доказать. Функция <span class="m">f = (y − x²)(y − 3x²)</span> имеет минимум в 0 вдоль каждой прямой через начало координат, но на параболе <span class="m">y = 2x²</span> равна <span class="m">−x⁴ &lt; 0</span>, так что 0 — не минимум. Для минимума нужна оценка <span class="m">f(h) ≥ f(0)</span> для всех малых h, как у <span class="m">x⁴ + y⁴ ≥ 0</span>.</div>
+  </div></details>
+  <div class="widget" data-w="degen" id="wdeg"><h4>Поиграй</h4><p class="how">Слева карта знака <span class="m">f(h) − f(0)</span> вокруг нуля. Справа срез вдоль направления u и квадратичная модель Тейлора. Когда H(0) = 0, модель — горизонтальная прямая и ничего не говорит, а срез показывает настоящий знак. Крути направление и сравнивай пары функций с одинаковым гессианом.</p></div>
+</article>

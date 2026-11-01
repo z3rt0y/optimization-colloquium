@@ -1,0 +1,23 @@
+<article class="card taskc" id="pA3" data-p="A3">
+  <div class="card-head">
+    <div class="num">A3 · у доски</div>
+    <h3>Квадратичная форма с седловой точкой <span class="en">(a quadratic form with a saddle point)</span></h3>
+    <div class="meta"><span class="srcb baulin">Баулин files</span><span class="tag">задача 3.1</span><button class="btn small" type="button" data-load="wq:A3">Открыть в калькуляторе</button><label class="chk known"><input type="checkbox" id="solved-A3"> решено</label></div>
+  </div>
+  <div class="stmt"><div class="lbl">Условие</div>
+    <p>Для <span class="m">f(x, y) = x² − 4xy + y² − 6x + 6y</span> найди стационарную точку и покажи, что это седло. Чему здесь равны µ и L?</p>
+  </div>
+  <div class="qa" data-task="A3"></div>
+  <details class="hint"><summary>Подсказка</summary><p>Процедура как в A1; разница только в знаке <span class="m">det H</span>.</p></details>
+  <details class="solution"><summary>Решение</summary><div class="sol">
+    <ol class="steps">
+      <li><span class="sn">1</span><div><p><span class="m">∇f = (2x − 4y − 6, −4x + 2y + 6)</span>, <span class="m">H = [[2, −4], [−4, 2]]</span>.</p></div></li>
+      <li><span class="sn">2</span><div><p><span class="m">det H = 4 − 16 = −12 &lt; 0</span>: собственные значения разных знаков, так что уже ясно, что это седло. Система: <span class="m">2x − 4y = 6</span>, <span class="m">−4x + 2y = −6</span>. Из первого <span class="m">x = 3 + 2y</span> ⇒ <span class="m">−12 − 8y + 2y = −6 ⇒ y = −1, x = 1</span>. Проверка: <span class="m">∇f(1, −1) = (2 + 4 − 6, −4 − 2 + 6) = (0, 0)</span> ✓, <span class="m">f = −6</span>.</p></div></li>
+      <li><span class="sn">3</span><div><p><span class="m">λ² − 4λ − 12 = 0 ⇒ λ = −2</span> и <span class="m">6</span>. Знаки разные ⇒ седло. Вдоль собственного вектора <span class="m">(1, 1)</span> (λ = −2) f убывает, вдоль <span class="m">(1, −1)</span> (λ = 6) растёт: <span class="m">H(1, 1) = (−2, −2)</span>, <span class="m">H(1, −1) = (6, −6)</span>.</p></div></li>
+      <li><span class="sn">4</span><div><p>µ не определено: функция не сильно выпукла и даже не выпукла, поэтому нет и числа обусловленности κ.</p></div></li>
+    </ol>
+    <div class="fixnote"><b>Уточнение к сайту.</b> Там сказано, что f «не L-гладкая». Это неточно: для квадратичной функции <span class="m">‖∇f(x) − ∇f(y)‖ = ‖H(x − y)‖ ≤ 6‖x − y‖</span>, то есть f 6-гладкая (L = max|λ|, № 14). Не определены именно µ и κ, и пара (µ, L) из анализа GD здесь не работает. Безопасный ответ на коллоквиуме: «седло, λ = −2 и 6, функция невыпукла, µ и κ не определены».</div>
+    <p><b>Ответ:</b> седло в <span class="m">(1, −1)</span>; собственные значения −2 и 6.</p>
+    <p class="k-mut">Приём: отрицательный det доказывает седло ещё до вычисления λ.</p>
+  </div></details>
+</article>

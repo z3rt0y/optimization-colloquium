@@ -1,0 +1,68 @@
+<article class="card proof" id="t4" data-t="4">
+  <div class="card-head">
+    <div class="num">Теорема 4 · билеты 17, 19, 20</div>
+    <h3>Лемма о спуске и следствие для шага GD <span class="en">(descent lemma and its corollary)</span></h3>
+    <div class="meta"><span class="srcb baulin">Баулин files</span><span class="lvl l1">Colab: напрямую</span><span class="tag">Лекция 2, сл. 27–31 · Лекция 3, сл. 7–8 · Renegar Thm 1.5.1</span><label class="chk known"><input type="checkbox" id="known-t4"> знаю</label></div>
+  </div>
+  <div class="exam"><div class="lbl">Формулировка · часть 2, 3 балла <span class="hint">нажми, чтобы открыть</span></div><div class="body">
+    <p>Если ∇f является L-липшицевым, то</p>
+    <div class="eq">f(y) ≤ f(x) + ⟨∇f(x), y − x⟩ + (L/2)‖y − x‖².</div>
+    <p>Для шага GD <span class="m">x⁺ = x − α∇f(x)</span>: &nbsp;<span class="m">f(x⁺) ≤ f(x) − α(1 − Lα/2)‖∇f(x)‖²</span>.</p>
+  </div></div>
+  <section class="sec"><h4>Идея</h4>
+    <p>Функция лежит не выше параболы, касающейся её в x. Это верхняя оценка, «двойник» выпуклости, которая даёт нижнюю (теорема 1). Верхняя парабола — модель, которую GD честно минимизирует: её вершина — ровно шаг с <span class="m">α = 1/L</span>.</p>
+  </section>
+  <section class="sec"><h4>Доказательство</h4>
+    <div class="steps-wrap">
+      <ol class="steps">
+        <li class="part">Лемма</li>
+        <li><span class="sn">Шаг 1</span><div><p>Пусть <span class="m">d = y − x</span>, <span class="m">φ(t) = f(x + td)</span>. По формуле Ньютона–Лейбница (Renegar, Thm 1.5.1)</p><div class="eq">f(y) − f(x) = ∫₀¹ φ′(t) dt = ∫₀¹ ∇f(x + td)ᵀd dt.</div></div></li>
+        <li><span class="sn">Шаг 2</span><div><p>Добавим и вычтем ∇f(x) под интегралом:</p><div class="eq">f(y) − f(x) = ∇f(x)ᵀd + ∫₀¹ [∇f(x + td) − ∇f(x)]ᵀd dt.</div></div></li>
+        <li><span class="sn">Шаг 3</span><div><p>Оцениваем подынтегральное выражение: по Коши–Буняковскому <span class="m">[…]ᵀd ≤ ‖∇f(x + td) − ∇f(x)‖·‖d‖</span>; по липшицевости <span class="m">‖∇f(x + td) − ∇f(x)‖ ≤ L‖td‖ = Lt‖d‖</span>. Итого подынтегральное выражение не больше <span class="m">Lt‖d‖²</span>.</p></div></li>
+        <li><span class="sn">Шаг 4</span><div><p><span class="m">∫₀¹ Lt dt = L/2</span>, откуда <span class="m">f(y) − f(x) ≤ ∇f(x)ᵀd + (L/2)‖d‖²</span>. Лемма доказана.</p></div></li>
+        <li class="part">Следствие</li>
+        <li><span class="sn">Шаг 5</span><div><p>Подставим <span class="m">y = x − α∇f(x)</span>, то есть <span class="m">d = −α∇f(x)</span>: <span class="m">⟨∇f, d⟩ = −α‖∇f‖²</span>, <span class="m">‖d‖² = α²‖∇f‖²</span>.</p><div class="eq">f(x⁺) ≤ f(x) − α‖∇f(x)‖² + (Lα²/2)‖∇f(x)‖² = f(x) − α(1 − Lα/2)‖∇f(x)‖². &nbsp;■</div></div></li>
+      </ol>
+    </div>
+    <div class="bonus"><b>Выводы.</b> При <span class="m">0 &lt; α &lt; 2/L</span> скобка положительна, и f строго убывает, пока <span class="m">∇f ≠ 0</span>: отсюда безопасный шаг <span class="m">α &lt; 2/L</span> во всех задачах блока B. Множитель <span class="m">α(1 − Lα/2)</span> максимален при <span class="m">α = 1/L</span> (производная <span class="m">1 − Lα = 0</span>) и равен <span class="m">1/(2L)</span>: <span class="m">f(x⁺) ≤ f(x) − ‖∇f(x)‖²/(2L)</span>. Эта формула нужна в <a href="#t5">теореме 5</a>.</div>
+  </section>
+  <section class="sec"><h4>Что спрашивают на коллоквиуме</h4>
+    <ul>
+      <li><b>Где используется липшицевость?</b> Только в шаге 3. Выпуклость в лемме не нужна.</li>
+      <li><b>Откуда L/2?</b> Из <span class="m">∫₀¹ t dt = ½</span>: множитель t пришёл из <span class="m">‖td‖ = t‖d‖</span> (t ≥ 0).</li>
+      <li><b>Почему при α = 2/L нет гарантии?</b> Скобка <span class="m">1 − Lα/2 = 0</span>, оценка даёт только <span class="m">f(x⁺) ≤ f(x)</span>. На <span class="m">x² + y²</span> с α = 1 = 2/L так и происходит: колебания без убывания (задача B3).</li>
+    </ul>
+  </section>
+  <section class="sec"><h4>В коде</h4>
+    <p>Лемму удобно проверять на случайных парах точек: разность «парабола минус функция» должна быть ≥ 0. Для <span class="m">ln cosh x</span> имеем <span class="m">f″ = 1 − tanh² ≤ 1</span>, то есть L = 1.</p>
+    <div class="codebox"><pre><code>import numpy as np
+
+def f(x):
+    return np.log(np.cosh(x))
+
+def df(x):
+    return np.tanh(x)
+
+rng = np.random.default_rng(0)
+lip = 1.0
+worst = np.inf
+for i in range(100000):
+    x = rng.uniform(-5, 5)
+    y = rng.uniform(-5, 5)
+    upper = f(x) + df(x) * (y - x) + lip / 2 * (y - x)**2
+    worst = min(worst, upper - f(y))
+print(worst)</code></pre><div class="out"># 4.8e-11   ← ни одной пары, где функция выше параболы</div></div>
+  </section>
+  <section class="sec"><h4>Проверь на числах</h4>
+    <div class="task">
+      <p><span class="m">f = ln cosh x</span>, L = 1, x = 1, y = 2. (а) Проверь лемму. (б) Посчитай остаток <span class="m">f(y) − f(x) − f′(x)d</span> и сравни с <span class="m">(L/2)d²</span>. (в) Сделай шаг GD с α = 1/L и проверь следствие.</p>
+      <details><summary>Решение</summary><div class="sol">
+        <p><span class="m">f(1) ≈ 0.4338</span>, <span class="m">f(2) ≈ 1.3250</span>, <span class="m">f′(1) = tanh 1 ≈ 0.7616</span>, d = 1.</p>
+        <p>(а) <span class="m">0.4338 + 0.7616 + 0.5 = 1.6954 ≥ 1.3250</span> ✓.</p>
+        <p>(б) Остаток <span class="m">1.3250 − 0.4338 − 0.7616 ≈ 0.1296 ≤ 0.5</span> ✓; это и есть интеграл шага 2.</p>
+        <p>(в) <span class="m">x⁺ = 1 − 0.7616 = 0.2384</span>, <span class="m">f(x⁺) ≈ 0.0282</span>. Гарантия: <span class="m">f(1) − 0.7616²/2 ≈ 0.1438 ≥ 0.0282</span> ✓.</p>
+      </div></details>
+    </div>
+  </section>
+  <div class="widget" data-w="pf4" id="wt4"><h4>Поиграй</h4><p class="how">Слева подынтегральное выражение шага 2, g(t) = (f′(x + td) − f′(x))·d, и его оценка Ltd² из шага 3: площади под ними — остаток и (L/2)d². Справа следствие: реальное убывание за шаг GD, делённое на f′(x)², против гарантии α(1 − Lα/2). Уменьши L ниже настоящего — оценки начнут ломаться.</p></div>
+</article>

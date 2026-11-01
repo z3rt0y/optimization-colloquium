@@ -1,0 +1,54 @@
+<article class="card" id="d19" data-d="19">
+  <div class="card-head">
+    <div class="num">№ 19</div>
+    <h3>Условие Армихо (бэктрекинг) <span class="en">(Armijo condition, backtracking)</span></h3>
+    <div class="meta"><span class="lvl l1">Colab: напрямую</span><span class="tag">Лекция 3, сл. 10–11 · Лекция 5, сл. 10, 19</span><span class="tag tickets"></span><label class="chk known"><input type="checkbox" id="known-19"> знаю</label></div>
+  </div>
+  <div class="exam"><div class="lbl">На коллоквиуме · 0.5 балла <span class="hint">нажми, чтобы открыть</span></div><div class="body">
+    <p>Условие Армихо (Armijo condition, условие достаточного убывания, sufficient decrease) для направления спуска d:</p>
+    <div class="eq">f(x + αd) ≤ f(x) + c·α·∇f(x)ᵀd, &nbsp; c ∈ (0, 1).</div>
+    <p>Бэктрекинг (backtracking): выбрать <span class="m">α₀ &gt; 0</span>, <span class="m">β ∈ (0, 1)</span>; начиная с <span class="m">α = α₀</span>, повторять <span class="m">α ← βα</span>, пока условие не выполнится. Для GD (<span class="m">d = −∇f</span>): <span class="m">f(x − α∇f) ≤ f(x) − cα‖∇f(x)‖²</span>. Типично <span class="m">β = 1/2</span>, <span class="m">c = 10⁻⁴</span>.</p>
+  </div></div>
+  <section class="sec"><h4>Интуиция</h4>
+    <p>Касательная из точки <span class="m">(0, f(x))</span> — обещание линейной модели. Армихо требует получить хотя бы долю c от обещанного убывания. Начинаем с большого шага и укорачиваем его, пока функция не окажется под «пологой» прямой с наклоном <span class="m">c·φ′(0)</span>.</p>
+  </section>
+  <section class="sec"><h4>Подробнее</h4>
+    <ul>
+      <li>Бэктрекинг заканчивается (лекция 3, сл. 11): если ∇f L-липшицев и <span class="m">d = −∇f ≠ 0</span>, условие выполнено при всех <span class="m">α ≤ 2(1 − c)/L</span>, а <span class="m">βʲα₀ → 0</span>, так что за конечное число шагов α попадёт в этот интервал.</li>
+      <li>Зачем <span class="m">c &lt; 1</span>: при <span class="m">c = 1</span> пришлось бы лечь ниже касательной, а для выпуклой функции это невозможно. Маленькое c делает условие мягким.</li>
+      <li>Само условие допускает слишком короткие шаги; бэктрекинг борется с этим, начиная с большого <span class="m">α₀</span>. Квазиньютоновские методы добавляют условие кривизны Вольфе (Wolfe curvature condition, лекция 5, сл. 19).</li>
+      <li>В демпфированном методе Ньютона (лекция 5, сл. 10) пробуют <span class="m">α = 1, β, β², …</span>; вблизи решения принимается полный шаг <span class="m">α = 1</span>, и квадратичная сходимость сохраняется.</li>
+    </ul>
+  </section>
+  <section class="sec"><h4>В задачах и в коде</h4>
+    <p>Нужен, когда L неизвестна или сильно меняется по пространству, то есть почти всегда на практике. Линейный поиск с условием Армихо встроен в scipy.optimize и в большинство солверов. Свой бэктрекинг — несколько строк:</p>
+    <div class="codebox"><pre><code>import numpy as np
+
+def backtracking(f, grad_x, x, d, alpha0=1.0, beta=0.5, c=1e-4):
+    alpha = alpha0
+    fx = f(x)
+    slope = grad_x @ d
+    while f(x + alpha * d) &gt; fx + c * alpha * slope:
+        alpha = beta * alpha
+    return alpha
+
+def f(x):
+    return 0.5 * (x[0]**2 + 10 * x[1]**2)
+
+x = np.array([1.0, 1.0])
+g = np.array([x[0], 10 * x[1]])
+print(backtracking(f, g, x, -g))</code></pre><div class="out"># 0.125   ← первый шаг из 1, 0.5, 0.25, … не больше 2(1 − c)/L ≈ 0.2</div></div>
+  </section>
+  <section class="sec"><h4>Посчитай руками</h4>
+    <div class="task">
+      <p><span class="m">f(x) = x²</span>, <span class="m">x = 1</span>, <span class="m">d = −f′(1) = −2</span>, <span class="m">α₀ = 1</span>, <span class="m">β = ½</span>. Проведи бэктрекинг для <span class="m">c = ½</span> и <span class="m">c = 10⁻⁴</span>.</p>
+      <details><summary>Решение</summary><div class="sol">
+        <p><span class="m">φ(α) = f(1 − 2α) = (1 − 2α)²</span>, <span class="m">φ(0) = 1</span>, <span class="m">φ′(0) = f′(1)·d = −4</span>.</p>
+        <p><span class="m">c = ½</span>: правая часть <span class="m">1 − 2α</span>. <span class="m">α = 1</span>: <span class="m">φ = 1 &gt; −1</span> ✗. <span class="m">α = 0.5</span>: <span class="m">φ = 0 ≤ 0</span> ✓ ⇒ <span class="m">α = 0.5</span>, это и есть точный минимум, <span class="m">x⁺ = 0</span>.</p>
+        <p><span class="m">c = 10⁻⁴</span>: правая часть <span class="m">1 − 0.0004α</span>. <span class="m">α = 1</span>: <span class="m">φ = 1 &gt; 0.9996</span> ✗ (<span class="m">x⁺ = −1</span>, f не уменьшилась). <span class="m">α = 0.5</span>: <span class="m">0 ≤ 0.9998</span> ✓. Сверка с теорией: <span class="m">L = 2</span>, гарантированный интервал <span class="m">α ≤ 2(1 − 10⁻⁴)/2 = 0.9999</span>; шаг <span class="m">α = 1</span> лежит чуть за его границей.</p>
+      </div></details>
+    </div>
+  </section>
+  <div class="widget" data-w="armijo" id="w19"><h4>Поиграй</h4><p class="how">График функции вдоль антиградиента φ(α) = f(x − α∇f), касательная (пунктир) и прямая Армихо. Подсвеченный участок оси — шаги, проходящие проверку. «Запустить бэктрекинг» показывает пробы α₀, βα₀, β²α₀, …</p></div>
+  <div class="widget" data-w="armijo3d" id="w19b"><h4>Поиграй в 3D: бэктрекинг на поверхности</h4><p class="how">Поверхность <span class="m">z = f(x₁, x₂)</span> с линиями уровня под ней. Из <span class="m">x₀</span> идёт направление спуска (descent direction) <span class="m">d = −∇f(x₀)</span>; вертикальная плоскость вдоль d режет поверхность по кривой <span class="m">φ(α) = f(x₀ + αd)</span> — это та же кривая, что на 2D-графике выше. В плоскости лежат касательная и прямая Армихо, пробы бэктрекинга (backtracking) отмечены на кривой. Крути мышью или пальцем (страницу листай за пределами графика), масштаб — кнопками или Ctrl + колесо. Синий шар x₀ на плоскости линий уровня можно тащить. «Шаг GD» применяет принятый шаг и оставляет след.</p></div>
+</article>

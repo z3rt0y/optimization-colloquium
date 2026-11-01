@@ -1,0 +1,29 @@
+<article class="card taskc" id="pW1" data-p="W1">
+  <div class="card-head">
+    <div class="num">П1 · тетрадь, с. 4</div>
+    <h3>Стационарная точка, тип, µ, L, κ и шаг <span class="en">(stationary point, type, step size)</span></h3>
+    <div class="meta"><span class="srcb matveeva">Матвеева files</span><button class="tag photo" type="button" data-photo="0">фото с. 4–5</button><span class="lvl l1">Colab: напрямую</span><span class="tag">тип задачи 3.1</span><label class="chk known"><input type="checkbox" id="solved-W1"> решено</label></div>
+  </div>
+  <div class="stmt"><div class="lbl">Условие</div>
+    <p class="eqc"><span class="m">f(x, y) = 2x² + 2xy + 2y² − 6x</span></p>
+    <p>Найди все стационарные точки и определи их тип. Объясни, является ли минимум глобальным и единственным. Найди µ, L, κ, интервал безопасных постоянных шагов и стандартный шаг.</p>
+  </div>
+  <div class="qa" data-task="W1"></div>
+  <details class="hint"><summary>Подсказка</summary><p>Иди по строкам тетради: градиент → система → точка → гессиан → миноры или λ → тип → глобальность → f(x⋆) → µ, L, κ, шаг → проверка подстановкой. Для квадратичной функции гессиан постоянный.</p></details>
+  <details class="solution"><summary>Решение по строкам тетради</summary><div class="sol">
+    <ol class="steps">
+      <li><span class="sn">Градиент</span><div><p><span class="m">∇f = (4x + 2y − 6, &nbsp;2x + 4y)</span>.</p></div></li>
+      <li><span class="sn">Система</span><div><p><span class="m">4x + 2y = 6</span>, <span class="m">2x + 4y = 0</span>.</p></div></li>
+      <li><span class="sn">Точка</span><div><p>Из второго <span class="m">x = −2y</span> ⇒ <span class="m">−8y + 2y = 6</span> ⇒ <span class="m">y = −1</span>, <span class="m">x = 2</span>. <span class="m">x⋆ = (2, −1)</span>. Других нет: <span class="m">det H ≠ 0</span>, у линейной системы одно решение.</p></div></li>
+      <li><span class="sn">Гессиан</span><div><p><span class="m">H = [[4, 2], [2, 4]]</span>, одинаковый во всех точках.</p></div></li>
+      <li><span class="sn">Миноры, λ</span><div><p><span class="m">Δ₁ = 4 &gt; 0</span>, <span class="m">Δ₂ = 16 − 4 = 12 &gt; 0</span> ⇒ <span class="m">H ≻ 0</span> по критерию Сильвестра (Sylvester's criterion). Собственные значения: <span class="m">λ² − 8λ + 12 = 0</span> ⇒ <span class="m">λ = 2</span> (вектор <span class="m">(1, −1)</span>) и <span class="m">λ = 6</span> (вектор <span class="m">(1, 1)</span>).</p></div></li>
+      <li><span class="sn">Тип</span><div><p><span class="m">∇f(x⋆) = 0</span> и <span class="m">H ≻ 0</span> ⇒ строгий локальный минимум (теорема 3).</p></div></li>
+      <li><span class="sn">Глобаль­ность</span><div><p><span class="m">H ⪰ 2I</span> во всём ℝ² ⇒ f 2-сильно выпукла (№ 13) ⇒ локальный минимум глобальный, и он единственный: у строго выпуклой функции не больше одного минимизатора. Для квадратичной функции это видно и напрямую: <span class="m">f(x) = f(x⋆) + ½(x − x⋆)ᵀH(x − x⋆)</span> точно, а квадратичная форма с <span class="m">H ≻ 0</span> больше нуля везде, кроме <span class="m">x = x⋆</span>.</p></div></li>
+      <li><span class="sn">f(x⋆)</span><div><p><span class="m">2·4 + 2·2·(−1) + 2·1 − 6·2 = 8 − 4 + 2 − 12 = −6</span>.</p></div></li>
+      <li><span class="sn">µ, L, κ, шаг</span><div><p><span class="m">µ = λmin = 2</span>, <span class="m">L = λmax = 6</span>, <span class="m">κ = L/µ = 3</span>. Безопасные постоянные шаги: <span class="m">0 &lt; α &lt; 2/L = 1/3</span>; стандартный шаг <span class="m">α = 1/L = 1/6</span>. Лучший постоянный шаг для квадратичной функции — <span class="m">2/(L + µ) = 1/4</span>.</p></div></li>
+      <li><span class="sn">Проверка</span><div><p><span class="m">∇f(2, −1) = (8 − 2 − 6, &nbsp;4 − 4) = (0, 0)</span> ✓. Ещё одна проверка: <span class="m">f(0, 0) = 0</span>, а формула выше даёт <span class="m">−6 + ½(−2, 1)H(−2, 1)ᵀ = −6 + ½·12 = 0</span> ✓.</p></div></li>
+    </ol>
+    <p><b>Ответ:</b> единственная стационарная точка <span class="m">(2, −1)</span>, строгий глобальный минимум, <span class="m">f⋆ = −6</span>; <span class="m">µ = 2</span>, <span class="m">L = 6</span>, <span class="m">κ = 3</span>, шаги <span class="m">0 &lt; α &lt; 1/3</span>, стандартный <span class="m">α = 1/6</span>.</p>
+  </div></details>
+  <div class="widget" data-w="qform" data-set="wb" id="wq2"><h4>Калькулятор: П1 и задачи 1 пробных билетов</h4><p class="how">Коэффициенты <span class="m">f = ax² + bxy + cy² + dx + ey</span>. Калькулятор пишет решение по шагам, как в тетради, включая µ, L, κ и шаги. На карте: звезда — минимум, стрелки — собственные направления, пунктир — прямые ∂f/∂x = 0 и ∂f/∂y = 0 (их пересечение — x⋆). Синюю точку можно таскать.</p></div>
+</article>

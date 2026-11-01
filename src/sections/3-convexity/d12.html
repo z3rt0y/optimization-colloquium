@@ -1,0 +1,51 @@
+<article class="card" id="d12" data-d="12">
+  <div class="card-head">
+    <div class="num">№ 12</div>
+    <h3>Выпуклая функция <span class="en">(convex function)</span></h3>
+    <div class="meta"><span class="lvl l2">Colab: для проверки</span><span class="tag">Лекция 1, сл. 15 · Лекция 2, сл. 9–25 · Renegar §1.4</span><span class="tag tickets"></span><label class="chk known"><input type="checkbox" id="known-12"> знаю</label></div>
+  </div>
+  <div class="exam"><div class="lbl">На коллоквиуме · 0.5 балла <span class="hint">нажми, чтобы открыть</span></div><div class="body">
+    <p>Пусть <span class="m">C ⊆ ℝⁿ</span> выпукло. Функция <span class="m">f: C → ℝ</span> выпукла (convex function), если</p>
+    <div class="eq">f((1 − t)x + ty) ≤ (1 − t)f(x) + t f(y) для всех x, y ∈ C, t ∈ [0, 1].</div>
+  </div></div>
+  <section class="sec"><h4>Интуиция</h4>
+    <p>Хорда между любыми двумя точками графика лежит не ниже графика. Значение функции в среднем не больше среднего значений.</p>
+  </section>
+  <section class="sec"><h4>Подробнее</h4>
+    <ul>
+      <li>Критерий 1-го порядка (first-order characterization, теорема билетов 4, 11, 14; лекция 2, сл. 11–15): для дифференцируемой f на открытом выпуклом C: f выпукла ⇔ <span class="m">f(y) ≥ f(x) + ⟨∇f(x), y − x⟩</span> для всех x, y. Касательная плоскость всюду лежит под графиком.</li>
+      <li>Критерий 2-го порядка (second-order characterization, теорема билетов 2, 13, 18; лекция 2, сл. 16–20; Renegar, Prop. 1.4.1): для <span class="m">f ∈ C²</span>: f выпукла ⇔ <span class="m">∇²f(x) ⪰ 0</span> для всех <span class="m">x ∈ C</span>.</li>
+      <li>Неравенство Йенсена (Jensen's inequality, лекция 2, сл. 21): <span class="m">f(Σθᵢxᵢ) ≤ Σθᵢf(xᵢ)</span>; вероятностная форма <span class="m">f(EX) ≤ Ef(X)</span>.</li>
+      <li>Главное следствие (лекция 2, сл. 3): у дифференцируемой выпуклой f каждая стационарная точка — глобальный минимум.</li>
+      <li>Область определения обязана быть выпуклой: иначе точка <span class="m">(1 − t)x + ty</span> может из неё выпасть, и определение теряет смысл.</li>
+    </ul>
+  </section>
+  <section class="sec"><h4>В задачах и в коде</h4>
+    <p>Квадратичная ошибка (MSE), логистическая потеря (log-loss), hinge loss, нормы, L1- и L2-регуляризация выпуклы. Поэтому для линейных моделей градиентный спуск приходит к глобальному оптимуму. Численно выпуклость можно только опровергнуть (найти хорду под графиком), но не доказать:</p>
+    <div class="codebox"><pre><code>import numpy as np
+
+def f(x):
+    return np.log(1 + np.exp(x))
+
+rng = np.random.default_rng(1)
+worst = np.inf
+for i in range(10000):
+    x = rng.uniform(-5, 5)
+    y = rng.uniform(-5, 5)
+    t = rng.uniform(0, 1)
+    gap = (1 - t) * f(x) + t * f(y) - f((1 - t) * x + t * y)
+    worst = min(worst, gap)
+print(worst)</code></pre><div class="out"># 1.16e-10   ← ни одной хорды ниже графика: контрпримера к выпуклости нет</div></div>
+  </section>
+  <section class="sec"><h4>Посчитай руками</h4>
+    <div class="task">
+      <p>1) Проверь определение для <span class="m">f(x) = x²</span> при <span class="m">x = −1, y = 3, t = 0.25</span>. 2) Покажи, что <span class="m">sin x</span> на <span class="m">[0, π]</span> невыпукла. 3) Что даёт критерий 1-го порядка для <span class="m">eˣ</span> в точке 0?</p>
+      <details><summary>Решение</summary><div class="sol">
+        <p>1) <span class="m">(1 − t)x + ty = −0.75 + 0.75 = 0</span> ⇒ левая часть <span class="m">f(0) = 0</span>; правая <span class="m">0.75·1 + 0.25·9 = 3</span>; <span class="m">0 ≤ 3</span> ✓. Разница <span class="m">3 = t(1 − t)(x − y)² = 0.1875·16</span>; для <span class="m">x²</span> это тождество.</p>
+        <p>2) <span class="m">x = 0, y = π, t = 0.5</span>: <span class="m">sin(π/2) = 1</span>, а <span class="m">(sin 0 + sin π)/2 = 0</span>. Хорда ниже графика ⇒ невыпукла (на <span class="m">[0, π]</span> она вогнута).</p>
+        <p>3) Касательная к <span class="m">eʸ</span> в нуле: <span class="m">1 + y</span>. Критерий 1-го порядка даёт <span class="m">eʸ ≥ 1 + y</span> для всех y, и это верно, так как <span class="m">(eʸ)″ = eʸ &gt; 0</span>.</p>
+      </div></details>
+    </div>
+  </section>
+  <div class="widget" data-w="convexfn" id="w12"><h4>Поиграй</h4><p class="how">Тащи точки x и y (кружки на графике), ползунок t двигает точку по хорде. Зелёный зазор — определение выполнено, красный — нарушено. Включи касательную, чтобы проверить критерий 1-го порядка. Нижний график — f″ (критерий 2-го порядка).</p></div>
+</article>

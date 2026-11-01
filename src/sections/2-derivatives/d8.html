@@ -1,0 +1,45 @@
+<article class="card" id="d8" data-d="8">
+  <div class="card-head">
+    <div class="num">№ 8</div>
+    <h3>Стационарная и седловая точки <span class="en">(stationary point and saddle point)</span></h3>
+    <div class="meta"><span class="lvl l1">Colab: напрямую</span><span class="tag">Лекция 2, сл. 3 · Лекция 5, сл. 8–9</span><span class="tag tickets"></span><label class="chk known"><input type="checkbox" id="known-8"> знаю</label></div>
+  </div>
+  <div class="exam"><div class="lbl">На коллоквиуме · 0.5 балла <span class="hint">нажми, чтобы открыть</span></div><div class="body">
+    <p>Точка x* — стационарная (stationary point), если <span class="m">∇f(x*) = 0</span>.</p>
+    <p>Стационарная точка x* — седловая (saddle point), если она не является ни локальным минимумом, ни локальным максимумом: в любой её окрестности есть точки с <span class="m">f(x) &lt; f(x*)</span> и точки с <span class="m">f(x) &gt; f(x*)</span>. Достаточный признак: <span class="m">∇²f(x*)</span> знаконеопределён (есть собственные значения разных знаков).</p>
+  </div></div>
+  <section class="sec"><h4>Интуиция</h4>
+    <p>Перевал между двумя вершинами или чипс Pringles: вдоль одной оси это минимум, вдоль другой — максимум. Градиент в точке нулевой, поэтому градиентный спуск, попав точно в седло, там и останется, а рядом с ним сильно замедляется.</p>
+  </section>
+  <section class="sec"><h4>Подробнее</h4>
+    <ul>
+      <li>Классификация стационарной точки по гессиану: <span class="m">≻ 0</span> ⇒ строгий локальный минимум; <span class="m">≺ 0</span> ⇒ строгий локальный максимум; знаконеопределён ⇒ седло; вырожден (есть нулевое собственное значение) ⇒ тест 2-го порядка ничего не решает. Пример: у <span class="m">x⁴ + y⁴</span> (минимум) и у <span class="m">x³ − 3xy²</span> («обезьянье седло», monkey saddle) гессиан в нуле нулевой.</li>
+      <li>У выпуклой дифференцируемой f любая стационарная точка — глобальный минимум (лекция 2, сл. 3), сёдел нет.</li>
+      <li>Не путай с седловой точкой лагранжиана (№ 22, 24): там x минимизирует L, а λ максимизирует. Название то же, понятие другое.</li>
+    </ul>
+  </section>
+  <section class="sec"><h4>В задачах и в коде</h4>
+    <p>Ландшафты потерь нейросетей в больших размерностях содержат множество сёдел, и это одна из причин «застревания» обучения на плато. Чистый метод Ньютона притягивается к сёдлам и максимумам (лекция 5, сл. 8), поэтому на практике гессиан регуляризуют. Классификация по собственным значениям в Colab:</p>
+    <div class="codebox"><pre><code>import numpy as np
+
+def hess(p):
+    return np.array([[1.0, 0.0], [0.0, -2 + 3 * p[1]**2]])
+
+pts = [np.array([0.0, 0.0]), np.array([0.0, np.sqrt(2)]), np.array([0.0, -np.sqrt(2)])]
+for p in pts:
+    print(p, np.linalg.eigvalsh(hess(p)))</code></pre><div class="out"># [0. 0.] [-2.  1.]          ← разные знаки: седло
+# [0. 1.41421356] [1. 4.]    ← оба &gt; 0: минимум
+# [0. -1.41421356] [1. 4.]</div></div>
+  </section>
+  <section class="sec"><h4>Посчитай руками</h4>
+    <div class="task">
+      <p>Функция из лекции 5: <span class="m">f(x, y) = ½x² − y² + ¼y⁴</span>. Найди все стационарные точки и классифицируй их.</p>
+      <details><summary>Решение</summary><div class="sol">
+        <p><span class="m">∇f = (x, −2y + y³) = 0</span> ⇒ <span class="m">x = 0</span>, <span class="m">y(y² − 2) = 0</span> ⇒ <span class="m">y ∈ {0, ±√2}</span>. <span class="m">∇²f = diag(1, −2 + 3y²)</span>.</p>
+        <p>В <span class="m">(0, 0)</span>: <span class="m">diag(1, −2)</span> знаконеопределён ⇒ седло, <span class="m">f = 0</span>.</p>
+        <p>В <span class="m">(0, ±√2)</span>: <span class="m">diag(1, 4) ≻ 0</span> ⇒ строгие локальные минимумы, <span class="m">f = −2 + 1 = −1</span>. Они же глобальные: <span class="m">f = ½x² + ¼(y² − 2)² − 1 ≥ −1</span>.</p>
+      </div></details>
+    </div>
+  </section>
+  <div class="widget" data-w="saddle" id="w8"><h4>Поиграй</h4><p class="how">Слева карта со стационарными точками, справа поверхность (вращай мышкой или пальцем). Поставь точку куда угодно: виджет скажет, стационарна ли она и что говорит гессиан. Кнопка притягивает к ближайшей стационарной точке.</p></div>
+</article>

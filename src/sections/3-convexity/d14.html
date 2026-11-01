@@ -1,0 +1,50 @@
+<article class="card" id="d14" data-d="14">
+  <div class="card-head">
+    <div class="num">№ 14</div>
+    <h3>L-гладкость <span class="en">(L-smoothness, Lipschitz gradient)</span></h3>
+    <div class="meta"><span class="lvl l1">Colab: напрямую</span><span class="tag">Лекция 2, сл. 26–31 · Лекция 3, сл. 7–8</span><span class="tag tickets"></span><label class="chk known"><input type="checkbox" id="known-14"> знаю</label></div>
+  </div>
+  <div class="exam"><div class="lbl">На коллоквиуме · 0.5 балла <span class="hint">нажми, чтобы открыть</span></div><div class="body">
+    <p>Дифференцируемая f называется L-гладкой (L-smooth) на C, если её градиент L-липшицев (Lipschitz gradient):</p>
+    <div class="eq">‖∇f(x) − ∇f(y)‖ ≤ L‖x − y‖ для всех x, y ∈ C.</div>
+    <p>Для <span class="m">f ∈ C²</span> достаточно <span class="m">‖∇²f(x)‖₂ ≤ L</span>; для квадратичной <span class="m">½xᵀQx + bᵀx</span> можно взять <span class="m">L = λmax(Q)</span>.</p>
+  </div></div>
+  <section class="sec"><h4>Интуиция</h4>
+    <p>Градиент не может меняться слишком резко, то есть кривизна ограничена сверху. В каждой точке график лежит под параболой «раствора» L, касающейся его в этой точке. Эта парабола и говорит, какой шаг безопасен.</p>
+  </section>
+  <section class="sec"><h4>Подробнее</h4>
+    <ul>
+      <li>Лемма о спуске (descent lemma, теорема билетов 17, 19, 20; лекция 2, сл. 27–31): <span class="m">f(y) ≤ f(x) + ∇f(x)ᵀ(y − x) + (L/2)‖y − x‖²</span> — верхняя квадратичная модель.</li>
+      <li>Следствие для шага GD (лекция 3, сл. 8): <span class="m">f(x⁺) ≤ f(x) − α(1 − Lα/2)‖∇f(x)‖²</span>. Убывание гарантировано при <span class="m">0 &lt; α &lt; 2/L</span>; при <span class="m">α = 1/L</span>: <span class="m">f(x⁺) ≤ f(x) − ‖∇f(x)‖²/(2L)</span>, это минимум верхней модели.</li>
+      <li>Вместе с µ-сильной выпуклостью получается «сэндвич» <span class="m">µI ⪯ ∇²f ⪯ LI</span>: функция зажата между двумя параболами.</li>
+      <li>L-гладкость не требует выпуклости (<span class="m">sin x</span> 1-гладкая) и не следует из неё (<span class="m">x⁴</span> выпукла, но на ℝ не L-гладкая).</li>
+    </ul>
+  </section>
+  <section class="sec"><h4>В задачах и в коде</h4>
+    <p>L задаёт безопасный шаг обучения: learning rate около <span class="m">1/L</span>. Для МНК <span class="m">L = λmax(XᵀX/N)</span>, для логистической регрессии <span class="m">L ≤ λmax(XᵀX)/(4N)</span>, потому что <span class="m">σ′ ≤ 1/4</span>. Вот что происходит с шагом за границей <span class="m">2/L</span>:</p>
+    <div class="codebox"><pre><code>import numpy as np
+
+rng = np.random.default_rng(0)
+x = rng.normal(size=(200, 3)) * np.array([1.0, 3.0, 0.5])
+y = x @ np.array([1.0, -2.0, 0.5])
+h = x.T @ x / len(x)
+lip = np.linalg.eigvalsh(h).max()
+for alpha in [1 / lip, 2.1 / lip]:
+    w = np.zeros(3)
+    for i in range(100):
+        w = w - alpha * (h @ w - x.T @ y / len(x))
+    print(alpha * lip, np.linalg.norm(w))</code></pre><div class="out"># 1.0 2.28      ← сходится к ‖(1, −2, 0.5)‖ ≈ 2.29
+# 2.1 27666.9   ← шаг больше 2/L: разлёт</div></div>
+  </section>
+  <section class="sec"><h4>Посчитай руками</h4>
+    <div class="task">
+      <p>Найди L: 1) для <span class="m">f(x) = 2x²</span>; 2) для softplus <span class="m">f(x) = ln(1 + eˣ)</span>; 3) L-гладка ли <span class="m">x⁴</span> на ℝ? А на <span class="m">[−1, 1]</span>?</p>
+      <details><summary>Решение</summary><div class="sol">
+        <p>1) <span class="m">|f′(x) − f′(y)| = |4x − 4y| = 4|x − y|</span> ⇒ <span class="m">L = 4</span>.</p>
+        <p>2) <span class="m">f′ = σ(x) = 1/(1 + e⁻ˣ)</span>, <span class="m">f″ = σ(1 − σ) ≤ 1/4</span> (максимум при <span class="m">σ = 1/2</span>) ⇒ <span class="m">L = 1/4</span>.</p>
+        <p>3) <span class="m">f″ = 12x²</span> не ограничена на ℝ ⇒ не L-гладкая. На <span class="m">[−1, 1]</span>: <span class="m">|f″| ≤ 12</span> ⇒ <span class="m">L = 12</span>.</p>
+      </div></details>
+    </div>
+  </section>
+  <div class="widget" data-w="lsmooth" id="w14"><h4>Поиграй</h4><p class="how">Сверху f и верхняя парабола из леммы о спуске в точке x₀. Если L мало, f где-то вылезает над параболой (красное). Вершина параболы — шаг GD с α = 1/L; сравни гарантированное убывание с настоящим. Снизу |f″| и уровень L.</p></div>
+</article>

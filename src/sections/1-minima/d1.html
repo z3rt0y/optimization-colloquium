@@ -1,0 +1,53 @@
+<article class="card" id="d1" data-d="1">
+  <div class="card-head">
+    <div class="num">№ 1</div>
+    <h3>Задача оптимизации <span class="en">(optimization problem: decision variable, objective, feasible set)</span></h3>
+    <div class="meta"><span class="lvl l1">Colab: напрямую</span><span class="tag">Лекция 1, сл. 12</span><span class="tag tickets"></span><label class="chk known"><input type="checkbox" id="known-1"> знаю</label></div>
+  </div>
+  <div class="exam"><div class="lbl">На коллоквиуме · 0.5 балла <span class="hint">нажми, чтобы открыть</span></div><div class="body">
+    <p>Задача оптимизации: найти <span class="m">min f(x)</span> при условии <span class="m">x ∈ Ω</span>, где</p>
+    <ul>
+      <li><span class="m">x ∈ ℝⁿ</span> — переменная решения (decision variable): то, что мы выбираем;</li>
+      <li><span class="m">f: ℝⁿ → ℝ</span> — целевая функция (objective): то, что минимизируем;</li>
+      <li><span class="m">Ω ⊆ ℝⁿ</span> — допустимое множество (feasible set); точки <span class="m">x ∈ Ω</span> называются допустимыми (feasible).</li>
+    </ul>
+    <p>Обычно <span class="m">Ω = {x : gᵢ(x) ≤ 0, i = 1..m; hⱼ(x) = 0, j = 1..p}</span>. При <span class="m">Ω = ℝⁿ</span> задача безусловная (unconstrained). Решение <span class="m">x⋆</span> — минимизатор (minimizer), <span class="m">f⋆ = inf<sub>x∈Ω</sub> f(x)</span> — оптимальное значение (optimal value).</p>
+  </div></div>
+  <section class="sec"><h4>Интуиция</h4>
+    <p>Любую задачу раскладываем на три вопроса: что я могу менять, как я оцениваю результат и что мне запрещено. Переменная решения — ручки, которые ты крутишь, целевая функция — табло со счётом, допустимое множество — правила игры. Максимизация сводится к минимизации: <span class="m">max f = −min(−f)</span>, поэтому в курсе всё записывают через min.</p>
+  </section>
+  <section class="sec"><h4>Подробнее</h4>
+    <ul>
+      <li>Оптимальное значение может не достигаться: у <span class="m">f(x) = eˣ</span> на ℝ <span class="m">f⋆ = inf = 0</span>, но точки минимума нет. Поэтому различают значение <span class="m">f⋆</span> (infimum) и минимизатор <span class="m">x⋆</span> (argmin).</li>
+      <li>Если <span class="m">Ω = ∅</span>, задача недопустима (infeasible), принято <span class="m">f⋆ = +∞</span>. Если f не ограничена снизу на Ω, задача неограничена (unbounded), <span class="m">f⋆ = −∞</span>.</li>
+      <li>Ограничение-равенство иногда исключают подстановкой: задача становится безусловной и меньшей размерности (так решена задачка ниже).</li>
+      <li>Классы задач определяются видом f, gᵢ, hⱼ: линейное программирование (LP) — всё линейно; квадратичное (QP); выпуклое — f и gᵢ выпуклы, hⱼ аффинны. Для курса главный класс — выпуклый (№ 12, № 23).</li>
+    </ul>
+  </section>
+  <section class="sec"><h4>В задачах и в коде</h4>
+    <p>В Colab это первый шаг любой задачи: прежде чем звать оптимизатор, явно задаёшь x, f и Ω. Линейная регрессия: x = веса <span class="m">w ∈ ℝᵈ</span>, <span class="m">f(w) = (1/2N)‖Xw − y‖²</span>, <span class="m">Ω = ℝᵈ</span>. Портфель из задачки ниже: x — доли капитала в активах, <span class="m">f(x) = xᵀΣx</span> — дисперсия доходности (риск), Ω — вероятностный симплекс <span class="m">{x ≥ 0, x₁ + … + xₙ = 1}</span> (probability simplex, он есть в лекции 2).</p>
+    <div class="codebox"><pre><code>import numpy as np
+from scipy.optimize import minimize
+
+sigma = np.array([[0.04, 0.01], [0.01, 0.09]])
+
+def risk(x):
+    return x @ sigma @ x
+
+cons = [{"type": "eq", "fun": lambda x: x.sum() - 1}]
+bounds = [(0, None), (0, None)]
+res = minimize(risk, x0=np.array([0.5, 0.5]), bounds=bounds, constraints=cons)
+print(res.x, res.fun)</code></pre><div class="out"># [0.7273 0.2727] 0.0318</div></div>
+  </section>
+  <section class="sec"><h4>Посчитай руками</h4>
+    <div class="task">
+      <p>Два актива с ковариационной матрицей <span class="m">Σ = [[0.04, 0.01], [0.01, 0.09]]</span>. Найди доли <span class="m">x₁, x₂ ≥ 0</span>, <span class="m">x₁ + x₂ = 1</span>, при которых риск <span class="m">xᵀΣx</span> минимален. Назови переменную решения, целевую функцию и допустимое множество.</p>
+      <details><summary>Решение</summary><div class="sol">
+        <p>Переменная решения <span class="m">x = (x₁, x₂)</span>. Целевая функция <span class="m">f(x) = 0.04x₁² + 2·0.01·x₁x₂ + 0.09x₂²</span>. Допустимое множество <span class="m">Ω = {x₁, x₂ ≥ 0, x₁ + x₂ = 1}</span>.</p>
+        <p>Подставим <span class="m">x₁ = t</span>, <span class="m">x₂ = 1 − t</span>, <span class="m">t ∈ [0, 1]</span>: <span class="m">f = 0.04t² + 0.02t(1 − t) + 0.09(1 − t)² = 0.11t² − 0.16t + 0.09</span>.</p>
+        <p><span class="m">f′(t) = 0.22t − 0.16 = 0 ⇒ t = 0.16/0.22 ≈ 0.727</span>. Значит <span class="m">x⋆ ≈ (0.727, 0.273)</span>, <span class="m">f⋆ = 0.09 − 0.16²/(4·0.11) ≈ 0.0318</span>, стандартное отклонение <span class="m">√0.0318 ≈ 17.8 %</span>. Обе доли внутри [0, 1], так что ограничения <span class="m">x ≥ 0</span> не мешают.</p>
+      </div></details>
+    </div>
+  </section>
+  <div class="widget" data-w="problem" id="w1"><h4>Поиграй</h4><p class="how">Синяя точка — переменная решения x, цвет и линии уровня — значения целевой функции, треугольник — допустимое множество. Тащи x и смотри на значения ограничений. Оранжевый ромб — центр целевой функции, его тоже можно двигать.</p></div>
+</article>

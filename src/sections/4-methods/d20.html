@@ -1,0 +1,50 @@
+<article class="card" id="d20" data-d="20">
+  <div class="card-head">
+    <div class="num">№ 20</div>
+    <h3>Метод Ньютона (ньютоновское направление) <span class="en">(Newton's method, Newton direction)</span></h3>
+    <div class="meta"><span class="lvl l1">Colab: напрямую</span><span class="tag">Лекция 5, сл. 2–12 · Renegar §1.6</span><span class="tag tickets"></span><label class="chk known"><input type="checkbox" id="known-20"> знаю</label></div>
+  </div>
+  <div class="exam"><div class="lbl">На коллоквиуме · 0.5 балла <span class="hint">нажми, чтобы открыть</span></div><div class="body">
+    <p>Ньютоновское направление (Newton direction) <span class="m">p<sub>N</sub></span> в точке x — решение линейной системы (гессиан обратим)</p>
+    <div class="eq">∇²f(x) · p<sub>N</sub> = −∇f(x).</div>
+    <p>Метод Ньютона: <span class="m">xₖ₊₁ = xₖ + p<sub>N</sub>(xₖ) = xₖ − [∇²f(xₖ)]⁻¹∇f(xₖ)</span>. При <span class="m">∇²f(x) ≻ 0</span> точка <span class="m">x + p<sub>N</sub></span> — минимум квадратичной модели <span class="m">m(p) = f(x) + ∇f(x)ᵀp + ½pᵀ∇²f(x)p</span> (Renegar §1.6).</p>
+  </div></div>
+  <section class="sec"><h4>Интуиция</h4>
+    <p>В текущей точке строим параболу (квадратичную модель), касающуюся f до второго порядка, и прыгаем в её вершину. Для квадратичной функции модель совпадает с f, и хватает одного шага.</p>
+  </section>
+  <section class="sec"><h4>Подробнее</h4>
+    <ul>
+      <li>Один шаг на квадратичной (лекция 5, сл. 5): для <span class="m">f = ½xᵀQx − bᵀx + c</span>, <span class="m">Q ≻ 0</span>, из любой точки <span class="m">x + p<sub>N</sub> = Q⁻¹b = x⋆</span>.</li>
+      <li>Локальная квадратичная сходимость (теорема билетов 5, 10; лекция 5, сл. 6–7): если <span class="m">∇f(x⋆) = 0</span>, <span class="m">∇²f(x⋆) ≻ 0</span>, гессиан M-липшицев и рядом с x⋆ <span class="m">‖∇²f(x)⁻¹‖ ≤ 1/m</span>, то <span class="m">‖x⁺ − x⋆‖ ≤ (M/2m)‖x − x⋆‖²</span>. Число верных знаков примерно удваивается каждую итерацию.</li>
+      <li>Геометрия (лекция 5, сл. 4; Renegar §1.6): GD использует «круглую» метрику, Ньютон — метрику гессиана. Ньютоновский шаг не зависит от выбора скалярного произведения, поэтому метод нечувствителен к числу обусловленности.</li>
+      <li>Где ломается (лекция 5, сл. 8–9): знаконеопределённый H — шаг может вести вверх или к седлу; вырожденный H; старт далеко — шаг выходит из области, где модель верна. Лечат демпфированием по Армихо (damped Newton, сл. 10) и регуляризацией <span class="m">(H + λI)p = −g</span> (сл. 11).</li>
+      <li>Цена (сл. 12): факторизация гессиана <span class="m">O(n³)</span>, память <span class="m">O(n²)</span>. Матрицу <span class="m">H⁻¹</span> явно не считают, решают систему.</li>
+    </ul>
+  </section>
+  <section class="sec"><h4>В задачах и в коде</h4>
+    <p>Логистическая регрессия и обобщённые линейные модели (IRLS — это метод Ньютона), <code>solver="newton-cg"</code> в sklearn, финальное уточнение решения в задачах умеренной размерности. Для больших моделей — квазиньютоновские BFGS и L-BFGS (лекция 5).</p>
+    <div class="codebox"><pre><code>import numpy as np
+
+x = 0.0
+for i in range(6):
+    g = np.exp(x) - 2
+    h = np.exp(x)
+    x = x - g / h
+    print(i + 1, x, abs(x - np.log(2)))</code></pre><div class="out"># 1 1.0       0.307
+# 2 0.735759  0.0426
+# 3 0.694042  0.000895
+# 4 0.693148  4.0e-07
+# 5 0.693147  8.0e-14   ← число верных знаков удваивается</div></div>
+  </section>
+  <section class="sec"><h4>Посчитай руками</h4>
+    <div class="task">
+      <p>1) Метод Ньютона для <span class="m">f(x) = eˣ − 2x</span> из <span class="m">x₀ = 0</span>. 2) Шаг Ньютона для <span class="m">f(x, y) = x² + xy + y² − 3x</span> из <span class="m">(0, 0)</span>. 3) Пример лекции 5: <span class="m">f = ½x² − y² + ¼y⁴</span> в точке <span class="m">(0, 0.5)</span>. Найди <span class="m">p<sub>N</sub></span> и проверь, спуск ли это.</p>
+      <details><summary>Решение</summary><div class="sol">
+        <p>1) <span class="m">f′ = eˣ − 2</span>, <span class="m">f″ = eˣ</span>, <span class="m">xₖ₊₁ = xₖ − (e^{xₖ} − 2)/e^{xₖ} = xₖ − 1 + 2e^{−xₖ}</span>. <span class="m">x₁ = 1</span>, <span class="m">x₂ = 2/e ≈ 0.7358</span>, <span class="m">x₃ ≈ 0.69404</span>, <span class="m">x₄ ≈ 0.6931476</span>; <span class="m">x⋆ = ln 2 ≈ 0.6931472</span>. Ошибки: 0.31 → 0.043 → 9·10⁻⁴ → 4·10⁻⁷ → 8·10⁻¹⁴.</p>
+        <p>2) <span class="m">∇f(0, 0) = (−3, 0)</span>, <span class="m">H = [[2, 1], [1, 2]]</span>. Решаем <span class="m">Hp = (3, 0)</span>: <span class="m">p = (2, −1)</span> ⇒ <span class="m">x₁ = (2, −1) = x⋆</span> (№ 3) за один шаг, потому что функция квадратичная.</p>
+        <p>3) <span class="m">g = (0, −2·0.5 + 0.125) = (0, −0.875)</span>, <span class="m">H = diag(1, −1.25)</span>. <span class="m">p<sub>N</sub> = −H⁻¹g = (0, −0.7)</span>. <span class="m">gᵀp<sub>N</sub> = 0.6125 &gt; 0</span> — это направление подъёма: гессиан знаконеопределён.</p>
+      </div></details>
+    </div>
+  </section>
+  <div class="widget" data-w="newton" id="w20"><h4>Поиграй</h4><p class="how">Оранжевая парабола — квадратичная модель в текущей точке, её вершина — следующая итерация. Попробуй √(1 + x²): из x₀ = 0.9 метод сходится, из 1.1 разлетается (x⁺ = −x³). На x⁴ − 3x² + x модель может смотреть вниз; включи демпфирование и регуляризацию.</p></div>
+</article>

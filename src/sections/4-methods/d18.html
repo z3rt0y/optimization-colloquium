@@ -1,0 +1,51 @@
+<article class="card" id="d18" data-d="18">
+  <div class="card-head">
+    <div class="num">№ 18</div>
+    <h3>Градиентный спуск с постоянным шагом <span class="en">(gradient descent with a constant step)</span></h3>
+    <div class="meta"><span class="lvl l1">Colab: напрямую</span><span class="tag">Лекция 3, сл. 6–16 · Лекция 4, сл. 2–4</span><span class="tag tickets"></span><label class="chk known"><input type="checkbox" id="known-18"> знаю</label></div>
+  </div>
+  <div class="exam"><div class="lbl">На коллоквиуме · 0.5 балла <span class="hint">нажми, чтобы открыть</span></div><div class="body">
+    <p>Градиентный спуск с постоянным шагом (gradient descent with a constant step): при фиксированном <span class="m">α &gt; 0</span> строим итерации</p>
+    <div class="eq">xₖ₊₁ = xₖ − α ∇f(xₖ), &nbsp; k = 0, 1, 2, …</div>
+    <p>Одна итерация стоит одного вычисления градиента. Для L-гладкой f при <span class="m">0 &lt; α &lt; 2/L</span> каждый шаг уменьшает f, пока <span class="m">∇f ≠ 0</span>.</p>
+  </div></div>
+  <section class="sec"><h4>Интуиция</h4>
+    <p>Идёшь вниз по склону, и длина шага пропорциональна крутизне. Слишком маленький α — ползёшь; слишком большой — перепрыгиваешь дно и раскачиваешься; больше <span class="m">2/L</span> — разлетаешься.</p>
+  </section>
+  <section class="sec"><h4>Подробнее</h4>
+    <ul>
+      <li>Безопасный шаг из леммы о спуске (лекция 3, сл. 8): <span class="m">f(x⁺) ≤ f(x) − α(1 − Lα/2)‖∇f‖²</span>; при <span class="m">α ≤ 1/L</span>: <span class="m">f(x⁺) ≤ f(x) − (α/2)‖∇f‖²</span>.</li>
+      <li>Квадратичная функция (лекция 3, сл. 9): ошибка <span class="m">eₖ = xₖ − x⋆</span> меняется как <span class="m">eₖ₊₁ = (I − αQ)eₖ</span>, каждая собственная компонента умножается на <span class="m">1 − αλᵢ</span>. Сходимость ⇔ <span class="m">0 &lt; α &lt; 2/λmax(Q)</span>. При <span class="m">1 − αλ &lt; 0</span> компонента меняет знак каждый шаг (колебания).</li>
+      <li>Скорости (лекция 3, сл. 13–15): выпуклая L-гладкая f — <span class="m">f(xₖ) − f⋆ ≤ L‖x₀ − x⋆‖²/(2k)</span>, сублинейно <span class="m">O(1/k)</span>; µ-сильно выпуклая или PL — <span class="m">(1 − µ/L)ᵏ</span>, линейно (теорема билетов 1, 12, 16).</li>
+      <li>Остановка (лекция 3, сл. 12): <span class="m">‖∇f(xₖ)‖ ≤ ε</span>, плюс лимит итераций и проверка на NaN.</li>
+    </ul>
+  </section>
+  <section class="sec"><h4>В задачах и в коде</h4>
+    <p>Базовый алгоритм обучения моделей; SGD (лекция 4) — тот же спуск со стохастической оценкой градиента по мини-батчу. Полная реализация для МНК:</p>
+    <div class="codebox"><pre><code>import numpy as np
+
+rng = np.random.default_rng(0)
+x = rng.normal(size=(200, 3))
+w_true = np.array([1.0, -2.0, 0.5])
+y = x @ w_true + 0.1 * rng.normal(size=200)
+
+h = x.T @ x / len(x)
+lip = np.linalg.eigvalsh(h).max()
+alpha = 1 / lip
+w = np.zeros(3)
+for i in range(200):
+    grad = h @ w - x.T @ y / len(x)
+    w = w - alpha * grad
+print(w)</code></pre><div class="out"># [ 0.9912 -2.0098  0.5055]</div></div>
+  </section>
+  <section class="sec"><h4>Посчитай руками</h4>
+    <div class="task">
+      <p>1) <span class="m">f(x) = 2x²</span> (<span class="m">L = 4</span>), <span class="m">x₀ = 1</span>. Сделай два шага при <span class="m">α = 0.1, 0.25, 0.5, 0.6</span>. 2) <span class="m">f = ½(x² + 10y²)</span>, <span class="m">x₀ = (10, 1)</span>, <span class="m">α = 1/L = 0.1</span>. Найди <span class="m">x₁</span> и сравни <span class="m">f(x₁)</span> с гарантией теоремы.</p>
+      <details><summary>Решение</summary><div class="sol">
+        <p>1) <span class="m">xₖ₊₁ = xₖ − α·4xₖ = (1 − 4α)xₖ</span>. <span class="m">α = 0.1</span>: множитель 0.6 ⇒ 0.6, 0.36, сходимость. <span class="m">α = 0.25 = 1/L</span>: множитель 0 ⇒ сразу 0. <span class="m">α = 0.5 = 2/L</span>: множитель −1 ⇒ −1, 1, −1, … — вечные колебания на границе. <span class="m">α = 0.6</span>: множитель −1.4 ⇒ −1.4, 1.96 — расходимость.</p>
+        <p>2) <span class="m">∇f = (x, 10y) = (10, 10)</span> ⇒ <span class="m">x₁ = (10 − 1, 1 − 1) = (9, 0)</span>. <span class="m">f(x₀) = ½(100 + 10) = 55</span>, <span class="m">f(x₁) = 40.5</span>. Гарантия <span class="m">(1 − µ/L)·55 = 0.9·55 = 49.5 ≥ 40.5</span> ✓. Дальше x убывает всего в 0.9 раза за шаг: это цена <span class="m">κ = 10</span>.</p>
+      </div></details>
+    </div>
+  </section>
+  <div class="widget" data-w="gd" id="w18"><h4>Поиграй</h4><p class="how">Нажми на карту, чтобы поставить старт, и запусти «Пуск». Меняй κ, поворот долины и шаг α (кнопки ставят 1/L, 2/(L + µ) и 2/L). Справа f(xₖ) − f⋆ в логарифмической шкале: прямая линия означает линейную сходимость, пунктир — гарантия теоремы.</p></div>
+</article>

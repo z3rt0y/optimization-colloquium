@@ -1,0 +1,21 @@
+<article class="card taskc" id="pB4" data-p="B4">
+  <div class="card-head">
+    <div class="num">B4 · самостоятельно, 8 минут</div>
+    <h3>Три шага при α &gt; 2/L <span class="en">(above the border)</span></h3>
+    <div class="meta"><span class="srcb baulin">Баулин files</span><span class="tag">задача 3.2</span><button class="btn small" type="button" data-load="wg:B4">Открыть в калькуляторе</button><label class="chk known"><input type="checkbox" id="solved-B4"> решено</label></div>
+  </div>
+  <div class="stmt"><div class="lbl">Условие</div>
+    <p>Снова <span class="m">f(x, y) = x² + y²</span>. Из <span class="m">x₀ = (1, −1)</span> сделай три шага градиентного спуска с <span class="m">α = 2</span> (это больше 2/L). Найди <span class="m">f(x₁)</span>, <span class="m">f(x₃)</span> и множитель роста <span class="m">|1 − αL|</span> на каждой координате.</p>
+  </div>
+  <div class="qa" data-task="B4"></div>
+  <details class="hint"><summary>Подсказка</summary><p><span class="m">Q = 2I</span>, как в B3, изменилось только α. На каждой координате множитель <span class="m">1 − 2α</span>.</p></details>
+  <details class="solution"><summary>Решение</summary><div class="sol">
+    <ol class="steps">
+      <li><span class="sn">1</span><div><p><span class="m">L = 2</span>, <span class="m">2/L = 1 &lt; α = 2</span>. Множитель <span class="m">1 − 2·2 = −3</span>, <span class="m">|1 − αL| = 3 &gt; 1</span>.</p></div></li>
+      <li><span class="sn">2</span><div><p><span class="m">∇f(x₀) = (2, −2)</span>, <span class="m">x₁ = (−3, 3)</span>, <span class="m">f = 18</span>. <span class="m">x₂ = (9, −9)</span>, <span class="m">f = 162</span>. <span class="m">x₃ = (−27, 27)</span>, <span class="m">f = 1458</span>.</p></div></li>
+      <li><span class="sn">3</span><div><p>Координаты меняют знак и растут в 3 раза за шаг, f — в 9 раз. <span class="m">‖x₃‖/‖x₀‖ = 27 = 3³</span> ⇒ расходимость. Множитель зависит только от α и L, а не от старта.</p></div></li>
+    </ol>
+    <div class="fixnote"><b>Исправление к сайту.</b> Там написано, что координаты «удвоились» и что они «растут в 2 раза, f в 4». На самом деле ×3 и ×9, что видно и по ответу: 2 → 18 → 162 → 1458.</div>
+    <p><b>Ответ:</b> <span class="m">f(x₁) = 18</span>, <span class="m">f(x₃) = 1458</span>; <span class="m">|1 − αL| = 3</span> на каждой координате за шаг, метод расходится.</p>
+  </div></details>
+</article>

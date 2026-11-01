@@ -1,0 +1,50 @@
+<article class="card" id="d13" data-d="13">
+  <div class="card-head">
+    <div class="num">№ 13</div>
+    <h3>Строго выпуклая и µ-сильно выпуклая функция <span class="en">(strictly convex and µ-strongly convex function)</span></h3>
+    <div class="meta"><span class="lvl l2">Colab: для проверки</span><span class="tag">Лекция 2, сл. 9–10, 16, 32 · Renegar §1.4</span><span class="tag tickets"></span><label class="chk known"><input type="checkbox" id="known-13"> знаю</label></div>
+  </div>
+  <div class="exam"><div class="lbl">На коллоквиуме · 0.5 балла <span class="hint">нажми, чтобы открыть</span></div><div class="body">
+    <p>Пусть C выпукло, <span class="m">f: C → ℝ</span>.</p>
+    <ul>
+      <li>f строго выпукла (strictly convex), если <span class="m">f((1 − t)x + ty) &lt; (1 − t)f(x) + t f(y)</span> для всех <span class="m">x ≠ y</span> из C и <span class="m">t ∈ (0, 1)</span>.</li>
+      <li>f µ-сильно выпукла (µ-strongly convex), <span class="m">µ &gt; 0</span>, если для всех <span class="m">x, y ∈ C</span>, <span class="m">t ∈ [0, 1]</span>:</li>
+    </ul>
+    <div class="eq">f((1 − t)x + ty) ≤ (1 − t)f(x) + t f(y) − (µ/2)·t(1 − t)·‖x − y‖².</div>
+    <p>Сильная выпуклость ⇒ строгая ⇒ обычная; обратные импликации неверны.</p>
+  </div></div>
+  <section class="sec"><h4>Интуиция</h4>
+    <p>Строгая: хорда лежит строго выше графика, нигде нет прямолинейных кусков. Сильная: график изогнут не слабее параболы <span class="m">(µ/2)x²</span>. Хорду можно опустить на «запас» <span class="m">(µ/2)t(1 − t)‖x − y‖²</span>, и она всё равно останется над графиком.</p>
+  </section>
+  <section class="sec"><h4>Подробнее</h4>
+    <ul>
+      <li>Эквивалентные формы для дифференцируемой f (лекция 2, сл. 32): <span class="m">f(y) ≥ f(x) + ∇f(x)ᵀ(y − x) + (µ/2)‖y − x‖²</span> — нижняя квадратичная модель. Для <span class="m">f ∈ C²</span>: <span class="m">∇²f(x) ⪰ µI</span> всюду (лекция 2, теорема 10). Ещё одна: функция <span class="m">f − (µ/2)‖x‖²</span> выпукла.</li>
+      <li>Следствия: не более одного минимизатора; квадратичный рост <span class="m">f(x) − f⋆ ≥ (µ/2)‖x − x⋆‖²</span>; выполнено условие PL с тем же µ (№ 16); определено число обусловленности <span class="m">κ = L/µ</span> (№ 15).</li>
+      <li>Таблица из лекции 2, сл. 10: <span class="m">|x|</span> выпукла, но не строго; <span class="m">x⁴</span> строго, но не сильно на ℝ (<span class="m">f″ = 12x² → 0</span> у нуля); <span class="m">½x²</span> 1-сильно выпукла; <span class="m">eˣ</span> строго, но не сильно на ℝ (<span class="m">f″ = eˣ → 0</span> при <span class="m">x → −∞</span>); константа только выпукла.</li>
+      <li><span class="m">∇²f ≻ 0</span> всюду ⇒ строгая выпуклость (Renegar, Prop. 1.4.1), обратное неверно: у <span class="m">x⁴</span> в нуле <span class="m">f″ = 0</span>.</li>
+    </ul>
+  </section>
+  <section class="sec"><h4>В задачах и в коде</h4>
+    <p>L2-регуляризация делает задачу сильно выпуклой: <span class="m">f(w) + (λ/2)‖w‖²</span> сильно выпукла с <span class="m">µ ≥ λ</span>. Отсюда единственность решения ridge-регрессии и линейная сходимость GD (теорема билетов 1, 12, 16). Для квадратичной задачи µ — минимальное собственное значение гессиана:</p>
+    <div class="codebox"><pre><code>import numpy as np
+
+rng = np.random.default_rng(0)
+x = rng.normal(size=(50, 80))
+h = x.T @ x / len(x)
+print(np.linalg.eigvalsh(h).min())
+lam = 0.5
+print(np.linalg.eigvalsh(h + lam * np.eye(80)).min())</code></pre><div class="out"># -9.8e-16   ← 80 признаков на 50 объектов: µ = 0, сильной выпуклости нет
+# 0.5        ← после ridge µ = λ</div></div>
+  </section>
+  <section class="sec"><h4>Посчитай руками</h4>
+    <div class="task">
+      <p>1) Найди наибольшее µ для <span class="m">f(x) = 2x² + 3x</span>. 2) Сильно выпукла ли <span class="m">x⁴</span> на ℝ? А на <span class="m">[1, 2]</span>? 3) Для <span class="m">f(x, y) = x² + 3y² + xy</span> найди µ и L.</p>
+      <details><summary>Решение</summary><div class="sol">
+        <p>1) <span class="m">f″ = 4</span> ⇒ <span class="m">f″ ≥ 4</span>, наибольшее <span class="m">µ = 4</span>.</p>
+        <p>2) На ℝ нет: <span class="m">inf 12x² = 0</span>, ни одно <span class="m">µ &gt; 0</span> не подходит. На <span class="m">[1, 2]</span>: <span class="m">f″ = 12x² ≥ 12</span> ⇒ 12-сильно выпукла.</p>
+        <p>3) <span class="m">∇²f = [[2, 1], [1, 6]]</span>, след 8, определитель 11, собственные значения <span class="m">4 ± √5 ≈ 1.76</span> и <span class="m">6.24</span>. Значит <span class="m">µ = 4 − √5 ≈ 1.76</span>, <span class="m">L = 4 + √5 ≈ 6.24</span>, <span class="m">κ ≈ 3.54</span>.</p>
+      </div></details>
+    </div>
+  </section>
+  <div class="widget" data-w="strongcvx" id="w13"><h4>Поиграй</h4><p class="how">Сверху f и нижняя квадратичная модель в точке x₀ с параметром µ: если модель где-то выше графика (красное), такое µ не годится. Снизу f″ и уровень µ. Сузь окно, чтобы увидеть, что x⁴ сильно выпукла на [1, 2].</p></div>
+</article>

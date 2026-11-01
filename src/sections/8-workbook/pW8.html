@@ -1,0 +1,31 @@
+<article class="card taskc" id="pW8" data-p="W8">
+  <div class="card-head">
+    <div class="num">П8 · тетрадь, с. 9</div>
+    <h3>Найди и исправь ошибку <span class="en">(spot the mistake)</span></h3>
+    <div class="meta"><span class="srcb matveeva">Матвеева files</span><button class="tag photo" type="button" data-photo="2">фото с. 8–9</button><span class="lvl l2">Colab: для проверки</span><span class="tag">самопроверка</span><label class="chk known"><input type="checkbox" id="solved-W8"> решено</label></div>
+  </div>
+  <div class="stmt"><div class="lbl">Условие</div>
+    <p>В каждой записи укажи ошибку и напиши корректный вариант. Где возможно, приведи контрпример. В конце ответь себе: какая из этих ошибок была ближе всего к твоей?</p>
+  </div>
+  <div class="qa" data-task="W8"></div>
+  <div class="wbq"><p><b>1. Производная смешанного члена.</b> <span class="quote">«У <span class="m">f = 3x² + 4xy + 2y²</span> градиент равен <span class="m">(6x + 4x, 4x + 4y)</span>».</span></p>
+    <details><summary>Разбор</summary><p><b>Ошибка:</b> производная члена 4xy по x равна 4y, а не 4x. <b>Верно:</b> <span class="m">∇f = (6x + 4y, &nbsp;4x + 4y)</span>, <span class="m">H = [[6, 4], [4, 4]]</span>. <b>Проверка:</b> в точке (0, 1) неверная формула даёт (0, 4), верная — (4, 4); разностное отношение <span class="m">(f(h, 1) − f(0, 1))/h = 3h + 4 → 4</span>.</p></details></div>
+  <div class="wbq"><p><b>2. Тип стационарной точки.</b> <span class="quote">«Определитель гессиана положителен, поэтому точка — минимум».</span></p>
+    <details><summary>Разбор</summary><p><b>Ошибка:</b> для 2×2 <span class="m">det H &gt; 0</span> значит только, что оба λ одного знака: оба положительны или оба отрицательны. <b>Верно:</b> нужны ещё <span class="m">H₁₁ &gt; 0</span> (критерий Сильвестра) и, конечно, <span class="m">∇f = 0</span>. <b>Контрпример:</b> <span class="m">f = −x² − y²</span>: <span class="m">H = −2I</span>, <span class="m">det = 4 &gt; 0</span>, а в нуле максимум. В размерности 3 знак det ещё слабее: <span class="m">diag(−1, −1, 1)</span> имеет <span class="m">det = 1 &gt; 0</span> и знаконеопределена.</p></details></div>
+  <div class="wbq"><p><b>3. Обновление координат.</b> <span class="quote">«Для <span class="m">f = x² − xy + y²</span> из (2, 0) с шагом 1/2 сначала получаем новое x = 0, затем с ним считаем градиент по y и получаем новую точку (0, 0)».</span></p>
+    <details><summary>Разбор</summary><p><b>Ошибка:</b> в GD все компоненты градиента берутся в одной старой точке. Так, как в записи, работает покоординатный спуск (Гаусса–Зейделя) — это другой метод. <b>Верно:</b> <span class="m">∇f = (2x − y, &nbsp;−x + 2y)</span>, <span class="m">∇f(2, 0) = (4, −2)</span> ⇒ <span class="m">x₁ = (2 − 2, 0 + 1) = (0, 1)</span>, <span class="m">f(x₁) = 1</span>.</p>
+      <p><button class="btn small" type="button" data-load="wg2:W83">Открыть в калькуляторе</button></p></details></div>
+  <div class="wbq"><p><b>4. Множители ККТ.</b> <span class="quote">«Ограничение активно, значит его множитель строго положителен».</span></p>
+    <details><summary>Разбор</summary><p><b>Ошибка:</b> активность <span class="m">g(x⋆) = 0</span> разрешает любое <span class="m">λ ≥ 0</span>, включая 0: дополняющая нежёсткость требует только <span class="m">λg = 0</span>. <b>Верно обратное:</b> если <span class="m">λ⋆ &gt; 0</span>, то ограничение активно. <b>Контрпример:</b> <span class="m">min (x − 1)²</span> при <span class="m">x ≤ 1</span>: активно, <span class="m">λ⋆ = 0</span> (см. П7).</p></details></div>
+  <div class="wbq"><p><b>5. Константа гладкости.</b> <span class="quote">«У <span class="m">f = −5x² + y²</span> собственные значения гессиана равны −10 и 2. Значит, L = 2».</span></p>
+    <details><summary>Разбор</summary><p><b>Ошибка:</b> L-гладкость — это <span class="m">‖∇f(x) − ∇f(y)‖ ≤ L‖x − y‖</span>. Для квадратичной f это <span class="m">‖H(x − y)‖ ≤ L‖x − y‖</span>, то есть <span class="m">L = max|λ| = 10</span>, а не наибольшее λ. <b>Контрпример к L = 2:</b> <span class="m">x = (1, 0)</span>, <span class="m">y = 0</span>: <span class="m">‖∇f(x) − ∇f(y)‖ = ‖(−10, 0)‖ = 10 &gt; 2·1</span>. Заодно: f невыпукла (λ = −10 &lt; 0), µ и κ не определены.</p></details></div>
+  <div class="wbq"><p><b>6. Убывание и сходимость.</b> <span class="quote">«Функция на каждом шаге уменьшается, поэтому точки обязательно сойдутся к глобальному минимуму».</span></p>
+    <details><summary>Разбор</summary><p><b>Ошибка:</b> монотонное убывание f не гарантирует ни сходимости точек, ни глобальности. <b>Контрпримеры:</b></p>
+      <ul>
+        <li><span class="m">f = x² − y²</span> из <span class="m">(1, 0)</span> с <span class="m">α = 1/4</span>: <span class="m">f = 1, 0.25, 0.0625, …</span> убывает, точки идут в <span class="m">(0, 0)</span> — а это седло. Глобального минимума нет вообще: f не ограничена снизу.</li>
+        <li><span class="m">f(x) = x⁴ − 4x² + x</span> из <span class="m">x₀ = 1.5</span> с <span class="m">α = 0.02</span>: f убывает, <span class="m">xₖ → 1.347</span> — локальный минимум (<span class="m">f ≈ −2.62</span>), а глобальный в <span class="m">x ≈ −1.473</span> (<span class="m">f ≈ −5.44</span>).</li>
+        <li><span class="m">f = eˣ</span>: f убывает к 0, точки уходят в −∞, минимизатора нет.</li>
+      </ul>
+      <p><b>Верно:</b> для выпуклой L-гладкой f с минимумом при <span class="m">0 &lt; α &lt; 2/L</span> значения сходятся к <span class="m">f⋆</span>; для сильно выпуклой сходятся и точки, линейно (теорема 5).</p>
+      <p><button class="btn small" type="button" data-load="wg2:W86">Первый контрпример в калькуляторе</button></p></details></div>
+</article>
